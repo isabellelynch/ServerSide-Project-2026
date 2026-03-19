@@ -7,22 +7,15 @@ $pdo = MakeConnection();
 $errors = [];
 $success = "";
  
-$style = "none"; 
 
 $firstName = $surname = $email = $phone = "";
 
-if(isset($_POST['CloseForm']) && $_SERVER['REQUEST_METHOD'] === 'POST')
-{
-    $style = "none";
-}
-
 function AddStudent()
 {
-    if(isset($_POST['SubmitAddStudent']) && $_SERVER['REQUEST_METHOD'] === 'POST')
+    if(isset($_POST['AddStudent']) && $_SERVER['REQUEST_METHOD'] === 'POST')
         {
             global $pdo;
             
-            $style = "block";
             
             $firstName = (isset($_POST['FirstName']))?htmlspecialchars(trim($_POST['FirstName'])):"";
             $surname = (isset($_POST['Surname']))?htmlspecialchars(trim($_POST['Surname'])):"";
@@ -61,10 +54,8 @@ function AddStudent()
                 
                 $success = "$firstName $surname successfully added to the system.";
                 
-                 
                 $firstName = $surname = $email = $phone = "";
                 $errors = [];
-                
             }
      
             
@@ -92,15 +83,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive')
 
 if(isset($_GET['Operation']))
 {   
-    $style = 'block';
-    
-    
-    
     $operation =  $_GET['Operation'];
     
     if($operation === 'Update')
     {
-        $id = trim($_GET['id']);
+        /*$id = trim($_GET['id']);
 
         if(Exists("Student", $id))
         {
@@ -111,9 +98,7 @@ if(isset($_GET['Operation']))
             $surname = $row['Surname'];
             $email = $row['Email'];
             $phone = $row['PhoneNo'];
-
-        
-        }
+        }*/
         
         
             

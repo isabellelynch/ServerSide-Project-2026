@@ -2,35 +2,53 @@
 
 window.addEventListener("DOMContentLoaded", () => 
 {
-    let AddForm = document.getElementById("studentForm");
+    let AddStudentForm = document.getElementById("StudentFormContainer");
     let Overlay = document.getElementById("overlay");
+    
+    let RemovalButton = document.getElementById("PermanentRemoval");
+    
+
     let CloseFormButton = document.getElementById("closeForm");
-    let OpenFormButton = document.getElementById("openForm");
-    let AddStudentSubmit = document.getElementById("SubmitAddStudent");
+
+    let UpdateStudentButton = document.getElementById("UpdateStudent");
     let AddStudentFormButton = document.getElementById("ShowForm");
 
     function openModal() {
         Overlay.style.display = "block";
-        AddForm.style.display = "block";
+        AddStudentForm.style.display = "block";
     }
 
     function closeModal() {
         Overlay.style.display = "none";
-        AddForm.style.display = "none";
+        AddStudentForm.style.display = "none";
     }
+
+    function showForm(operation)
+    {
+        if(operation == "Update"){
+            RemovalButton.style.display = 'block';
+        }
+        window.location.href = "?Operation=" + operation;
+        document.getElementById("StudentOperationButton").innerText = operation + "Student";
+
+        
+        openModal();
+        
+    }
+
     if(CloseFormButton)
     {
         CloseFormButton.addEventListener("click", closeModal);
     }    
-    function showForm(operation)
-    {
-        window.location.href = "?Operation=" + operation;
-    }
     
     if(AddStudentFormButton)
     {
         AddStudentFormButton.addEventListener("click", () => showForm("Add"));
     }
+
+    
+    
+    
     
     let editButtons = document.querySelectorAll(".edit");
 
@@ -39,7 +57,7 @@ window.addEventListener("DOMContentLoaded", () =>
     function EditButtonClick()
     {
         let id = this.dataset.id;
-        showForm("Update&id="+id); 
+        showForm("Update"); 
     }
     
     

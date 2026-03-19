@@ -156,14 +156,12 @@ main h1 {
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.5);
-    display: none;
     z-index: 1;
 }
 
 
 
-#studentForm {
-    display: none;
+#StudentFormContainer {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -177,20 +175,20 @@ main h1 {
 }
 
 
-#studentForm h3 {
+#StudentFormContainer h3 {
     text-align: center;
     color: #5a2f21;
     margin-bottom: 15px;
 }
 
 
-#studentForm label {
+#StudentFormContainer label {
     font-weight: bold;
     color: #5a2f21;
     margin-top: 10px;
 }
 
-#studentForm input {
+#StudentFormContainer input {
     width: 100%;
     padding: 7px;
     border: 1px solid #d88ea6; 
@@ -203,7 +201,7 @@ main h1 {
 
 
 
-#studentForm button {
+#StudentFormContainer button {
     padding: 8px 16px;
     margin-top: 15px;
     border: none;
@@ -212,7 +210,9 @@ main h1 {
     font-weight: bold;
 }
 
-
+#StudentFormContainer button:hover {
+    opacity: 0.9;
+}
 
 
 
@@ -222,8 +222,8 @@ main h1 {
     margin-left: 10px;
 }
 
-#studentForm button:hover {
-    opacity: 0.9;
-}
 
+#PermanentRemoval{
+    display:none;
+}
 
