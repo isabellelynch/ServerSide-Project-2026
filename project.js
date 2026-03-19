@@ -35,10 +35,6 @@ window.addEventListener("DOMContentLoaded", () =>
         openModal();
     }
 
-    function setOperationButtonText(operation)
-    {
-        document.getElementById("StudentOperationButton").innerText = operation + "Student";
-    }
 
     function getOperationButtonText(){
         return document.getElementById("StudentOperationButton").innerText;
@@ -53,7 +49,6 @@ window.addEventListener("DOMContentLoaded", () =>
     {
         AddStudentFormButton.addEventListener("click", () => {
             showForm("Add");
-            setOperationButtonText("Add");
             document.getElementById("PermanentRemoval").style.display = "none";
         }
         );
@@ -67,10 +62,8 @@ window.addEventListener("DOMContentLoaded", () =>
 
     editButtons.forEach(button => button.addEventListener("click", () => { 
         let id = button.dataset.id;
-        
         showForm("Update&id=" + id);
         document.getElementById("PermanentRemoval").style.display = "block";
-        setOperationButtonText("Update");
     })
     );
     

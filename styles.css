@@ -166,7 +166,8 @@ main h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 420px;
+    width: 30%;
+    height:50%;
     padding: 20px 25px;
     background: #fff0f5;
     border: 2px solid #6b3e2e;
@@ -175,17 +176,19 @@ main h1 {
 }
 
 
-#StudentFormContainer h3 {
+#StudentFormContainer > h3 {
     text-align: center;
     color: #5a2f21;
-    margin-bottom: 15px;
+    margin-bottom: 1em;
+    font-size: 1.8em;
 }
 
 
-#StudentFormContainer label {
+#StudentFormContainer form label {
     font-weight: bold;
     color: #5a2f21;
-    margin-top: 10px;
+    width:60%;
+    margin: 0 auto 1.5em auto;
 }
 
 #StudentFormContainer input {
@@ -193,8 +196,9 @@ main h1 {
     padding: 7px;
     border: 1px solid #d88ea6; 
     border-radius: 5px;
-    margin-top: 3px;
+    margin: 0 auto 1.5em auto;
     box-sizing: border-box;
+    width:60%;
 }
 
 
