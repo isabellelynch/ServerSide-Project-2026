@@ -28,7 +28,7 @@
         <div id = 'ButtonContainer'>
             <button type="submit" name = '' id = 'StudentOperationButton'><?php echo htmlspecialchars($operation); ?> Student</button>
 
-            <button type="submit" name = 'PermanentRemoval' id = 'PermanentRemoval'>Permanently Remove Student</button>
+            <button type="submit" name = 'PermanentRemoval' id = 'PermanentRemoval'>Remove Student</button>
 
             <button type="submit" name = 'CloseForm' id = 'CloseForm'>Close</button>
         </div>

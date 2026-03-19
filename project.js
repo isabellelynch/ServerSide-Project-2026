@@ -4,8 +4,14 @@ window.addEventListener("DOMContentLoaded", () =>
 {
     let AddStudentForm = document.getElementById("StudentFormContainer");
     let Overlay = document.getElementById("overlay");
-    
-    let RemovalButton = document.getElementById("PermanentRemoval");
+    let Removal = document.getElementById("PermanentRemoval");
+
+    if(Removal && getOperationButtonText() == "Update Student"){
+        Removal.style.display = "block";
+    }
+    else if(Removal){
+        Removal.style.display = "none";
+    }
     
 
     let CloseFormButton = document.getElementById("closeForm");
@@ -25,15 +31,17 @@ window.addEventListener("DOMContentLoaded", () =>
 
     function showForm(operation)
     {
-        if(operation == "Update"){
-            RemovalButton.style.display = 'block';
-        }
         window.location.href = "?Operation=" + operation;
-        document.getElementById("StudentOperationButton").innerText = operation + "Student";
-
-        
         openModal();
-        
+    }
+
+    function setOperationButtonText(operation)
+    {
+        document.getElementById("StudentOperationButton").innerText = operation + "Student";
+    }
+
+    function getOperationButtonText(){
+        return document.getElementById("StudentOperationButton").innerText;
     }
 
     if(CloseFormButton)
@@ -43,7 +51,12 @@ window.addEventListener("DOMContentLoaded", () =>
     
     if(AddStudentFormButton)
     {
-        AddStudentFormButton.addEventListener("click", () => showForm("Add"));
+        AddStudentFormButton.addEventListener("click", () => {
+            showForm("Add");
+            setOperationButtonText("Add");
+            document.getElementById("PermanentRemoval").style.display = "none";
+        }
+        );
     }
 
     
@@ -52,13 +65,14 @@ window.addEventListener("DOMContentLoaded", () =>
     
     let editButtons = document.querySelectorAll(".edit");
 
-    editButtons.forEach(button => button.addEventListener("click", EditButtonClick));
-    
-    function EditButtonClick()
-    {
-        let id = this.dataset.id;
-        showForm("Update"); 
-    }
+    editButtons.forEach(button => button.addEventListener("click", () => { 
+        let id = button.dataset.id;
+        
+        showForm("Update&id=" + id);
+        document.getElementById("PermanentRemoval").style.display = "block";
+        setOperationButtonText("Update");
+    })
+    );
     
     
     let rows = document.querySelectorAll("#table tr");
