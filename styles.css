@@ -1,0 +1,229 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #E8E1DA;
+    display: flex;
+    min-height: 100vh;
+}
+
+aside {
+    width: 260px;
+    background: linear-gradient(to bottom, #5B1B18, #4A1614);
+    color: #ffffff;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+#logo div{
+    flex:4;
+}
+#logo img{
+    width:30%;
+    height:50%;
+    background: #E7A1AD;
+    border-radius: 8px;
+    flex:1;
+    padding:6px;
+}
+
+#logo h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#logo p {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #F3C7CE;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+nav a:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+nav a.active {
+    background: #E7A1AD;
+    color: #4A1614;
+    font-weight: 600;
+}
+
+#sidebar-footer {
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+main {
+    flex: 1;
+    padding: 40px;
+}
+
+main h1 {
+    font-size: 28px;
+    margin-bottom: 6px;
+    color: #1F2937;
+}
+
+
+
+.filter-bar {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filter-bar label {
+    font-weight: 500;
+    color: #1F2937;
+}
+
+.filter-bar select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #E9B8C0;
+    background: white;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+}
+
+
+#table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    background-color: #fff8f9; 
+    border: 2px solid #4A1614;
+    color:#4A1614;
+}
+
+#table thead {
+    background-color: #4A1614;
+    color: #ffffff;
+}
+
+#table th,
+#table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e6c7cc; 
+}
+
+#table tbody tr:nth-child(even) {
+    background-color: #f9e4e7; 
+}
+
+#table tbody tr:hover {
+    background-color: #d8a7b1;
+    color: #3e2723;
+}
+
+#table tr.selected td{
+    background-color: #d8a7b1;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 1;
+}
+
+
+
+#studentForm {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    padding: 20px 25px;
+    background: #fff0f5;
+    border: 2px solid #6b3e2e;
+    border-radius: 10px;
+    z-index: 2;
+}
+
+
+#studentForm h3 {
+    text-align: center;
+    color: #5a2f21;
+    margin-bottom: 15px;
+}
+
+
+#studentForm label {
+    font-weight: bold;
+    color: #5a2f21;
+    margin-top: 10px;
+}
+
+#studentForm input {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #d88ea6; 
+    border-radius: 5px;
+    margin-top: 3px;
+    box-sizing: border-box;
+}
+
+
+
+
+
+#studentForm button {
+    padding: 8px 16px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+
+
+
+#closeForm {
+    background: #6b3e2e;
+    color: white;
+    margin-left: 10px;
+}
+
+#studentForm button:hover {
+    opacity: 0.9;
+}
+
+
