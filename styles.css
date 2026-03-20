@@ -15,7 +15,7 @@ body {
 aside {
     width: 260px;
     background: linear-gradient(to bottom, #5B1B18, #4A1614);
-    color: #ffffff;
+    color: #E8E1DA;
     padding: 30px 20px;
     display: flex;
     flex-direction: column;
@@ -59,14 +59,14 @@ nav {
 
 nav a {
     text-decoration: none;
-    color: #F3C7CE;
+    color: #E8E1DA;
     padding: 10px 14px;
     border-radius: 8px;
     transition: 0.2s ease;
 }
 
 nav a:hover {
-    background: rgba(255,255,255,0.08);
+    opacity: 0.5;
 }
 
 nav a.active {
@@ -85,68 +85,54 @@ main {
     padding: 40px;
 }
 
-main h1 {
-    font-size: 28px;
-    margin-bottom: 6px;
-    color: #1F2937;
-}
 
 
 
-.filter-bar {
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.filter-bar label {
-    font-weight: 500;
-    color: #1F2937;
-}
-
-.filter-bar select {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #E9B8C0;
-    background: white;
-    font-family: 'Inter', sans-serif;
-    cursor: pointer;
-}
 
 
 #table {
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
-    background-color: #fff8f9; 
+    background-color: #f3c2ca; 
     border: 2px solid #4A1614;
     color:#4A1614;
 }
 
 #table thead {
     background-color: #4A1614;
-    color: #ffffff;
+    color: #E8E1DA;
 }
 
 #table th,
 #table td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #e6c7cc; 
+    border-bottom: 1px solid #E8E1DA; 
 }
 
 #table tbody tr:nth-child(even) {
-    background-color: #f9e4e7; 
+    background-color: #f3d6db; 
 }
 
 #table tbody tr:hover {
-    background-color: #d8a7b1;
-    color: #3e2723;
+    background-color: #E7A1AD;
+    color: #4A1614;
 }
 
 #table tr.selected td{
-    background-color: #d8a7b1;
+    background-color: #E7A1AD;
+}
+#table a:link{
+    text-decoration:underline;
+    color: #4A1614;
+}
+
+#table a:visited{
+    color:#4A1614;
+}
+#table a:hover{
+    color: #E8E1DA;
 }
 
 #overlay {
@@ -166,39 +152,49 @@ main h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30%;
-    height:50%;
+    width: 45%;
+    height:80%;
     padding: 20px 25px;
-    background: #fff0f5;
-    border: 2px solid #6b3e2e;
+    background: #f9dfe4;
+    border: 2px solid #4A1614;
     border-radius: 10px;
     z-index: 2;
+}
+
+#StudentFormContainer form{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
 #StudentFormContainer > h3 {
     text-align: center;
-    color: #5a2f21;
+    color: #4A1614;
     margin-bottom: 1em;
-    font-size: 1.8em;
+    font-size: 1.5em;
 }
 
 
 #StudentFormContainer form label {
     font-weight: bold;
-    color: #5a2f21;
-    width:60%;
-    margin: 0 auto 1.5em auto;
+    color: #4A1614;
+
 }
 
 #StudentFormContainer input {
     width: 100%;
     padding: 7px;
-    border: 1px solid #d88ea6; 
+    border: 1px solid #E7A1AD; 
     border-radius: 5px;
-    margin: 0 auto 1.5em auto;
-    box-sizing: border-box;
-    width:60%;
+    margin:0 auto 1.5em auto;
+  
+    
+}
+
+#InputContainer {
+    width:70%;
+    height:60%;
 }
 
 
@@ -208,10 +204,12 @@ main h1 {
 #StudentFormContainer button {
     padding: 8px 16px;
     margin-top: 15px;
-    border: none;
+    border: 1px solid #4A1614;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    background-color: #4A1614;
+    color: #E8E1DA;
 }
 
 #StudentFormContainer button:hover {
@@ -221,28 +219,50 @@ main h1 {
 
 
 #closeForm {
-    background: #6b3e2e;
-    color: white;
+    background: #4A1614;
+    color: #E8E1DA;
     margin-left: 10px;
 }
 
 
-#ButtonContainer{
+.ButtonContainer{
     display:flex;
-    width:100%;
-    margin:auto;
-    height:100%;
-    justify-content:space-around;
-    align-items:centre;
+    width:80%;
+    justify-content: space-between;
+    gap:5%;
+    
+
 
 
 }
 
-#ButtonContainer button{
+.ButtonContainer button{
     flex:1;
-    max-width:30%;
+
 
 }
 
 
+.edit{
+    padding: 8px 16px;
+    border: 1px solid #E8E1DA;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #4A1614;
+    color: #E8E1DA;
+}
 
+.nav-item .dropdown {
+  display: none;
+  padding-left: 5%;
+}
+
+.nav-item .dropdown a {
+  display: block;
+  font-size: 0.9em;
+}
+
+.nav-item .dropdown.open {
+  display: block;
+}

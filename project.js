@@ -78,5 +78,19 @@ window.addEventListener("DOMContentLoaded", () =>
         this.classList.add("selected");
     }
 
+
+    document.querySelectorAll('.toggle').forEach(item => {
+    item.addEventListener('click', function(e) {
+        const parent = this.parentElement;
+        const dropdown = parent.querySelector('.dropdown');
+
+        if (dropdown) {
+        e.preventDefault();
+        dropdown.classList.toggle('open');
+        }
+    });
+    });
+
+
 });
 

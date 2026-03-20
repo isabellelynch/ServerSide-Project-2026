@@ -10,7 +10,7 @@
     <?php require_once 'Include/SideBar.php'; ?>
     <main>
         <?php include_once("FormHandling.php"); ?>
-        <div>
+        <div class = 'ButtonContainer'>
             <button id = "ShowForm">Add Student</button>
         </div>
         <?php include_once 'Include/GenerateTable.php'; ?>

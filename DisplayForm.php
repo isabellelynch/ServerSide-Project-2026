@@ -5,26 +5,26 @@
 
     <h3>Add New Student</h3>
     <form method = 'POST' action = "" id = "AddStudentForm">
+        <div id='InputContainer'>
+            <label>First Name :</label><br>
+                <input type = 'text' name = 'FirstName' value = "<?php echo (isset($firstName))?htmlspecialchars($firstName):""; ?>">
+                <br>
 
-        <label>First Name :</label><br>
-            <input type = 'text' name = 'FirstName' value = "<?php echo (isset($firstName))?htmlspecialchars($firstName):""; ?>">
-            <br>
+            <label>Surname :</label><br>
+                <input type = 'text' name = 'Surname' value = "<?php echo (isset($surname))?htmlspecialchars($surname):""; ?>">
+                <br>
 
-        <label>Surname :</label><br>
-            <input type = 'text' name = 'Surname' value = "<?php echo (isset($surname))?htmlspecialchars($surname):""; ?>">
-            <br>
+            <label>Email :</label><br>
+                <input type = 'text' name = 'Email' placeholder = 'example@example.com' value = "<?php echo (isset($email))?htmlspecialchars($email):""; ?>">
+                <br>
 
-        <label>Email :</label><br>
-            <input type = 'text' name = 'Email' placeholder = 'example@example.com' value = "<?php echo (isset($email))?htmlspecialchars($email):""; ?>">
-            <br>
-
-        <label>Phone Number :</label><br>
-            <input type = 'text' name = 'PhoneNo' placeholder = '086-0000000' value = "<?php echo (isset($phone))?htmlspecialchars($phone):""; ?>">
-            <br>
-            <br>
-
+            <label>Phone Number :</label><br>
+                <input type = 'text' name = 'PhoneNo' placeholder = '086-0000000' value = "<?php echo (isset($phone))?htmlspecialchars($phone):""; ?>">
+                <br>
+                <br>
+        </div>
         <p><?php echo $success; ?></p>
-        <div id = 'ButtonContainer'>
+        <div class = 'ButtonContainer'>
             <button type="submit" name = 'StudentOperationButton' id = 'StudentOperationButton'><?php echo (isset($operation))?htmlspecialchars($operation):""; ?> Student</button>
 
             <button type="submit" name = 'PermanentRemoval' id = 'PermanentRemoval'>Remove Student</button>
