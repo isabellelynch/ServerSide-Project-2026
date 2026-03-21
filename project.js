@@ -37,15 +37,27 @@ window.addEventListener("DOMContentLoaded", () => {
     const editButtons = document.querySelectorAll(".edit");
     editButtons.forEach(button => {
         button.addEventListener("click", () => {
-            const id = button.dataset.id;
+            const mode = button.dataset.mode;
             openModal();
-            if (Removal) Removal.style.display = "block";
-            if (operationButton) {
-                    operationButton.innerHTML = "Update Student";
-                }
+
             if(FormHeader){
-                    FormHeader.innerHTML = "Update Student Form";
-                }
+                FormHeader.innerHTML = mode === 'edit' ? "Update Student Form" : "New Student Form";
+            }
+
+            if (operationButton) {
+                operationButton.innerHTML = mode === 'edit' ? "Update Student" : "Add Student";
+            }
+
+            if (Removal) {
+                Removal.style.display = mode === 'edit' ? "block" : "none";
+            }
+
+            if(mode === 'edit') {
+                document.querySelector("input[name='FirstName']").value = button.dataset.firstname;
+                document.querySelector("input[name='Surname']").value = button.dataset.surname;
+                document.querySelector("input[name='Email']").value = button.dataset.email;
+                document.querySelector("input[name='PhoneNo']").value = button.dataset.phone;
+            }
         });
     });
 

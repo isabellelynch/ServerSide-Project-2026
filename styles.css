@@ -204,6 +204,9 @@ main {
 #StudentFormContainer h3 {
     text-align: center;
     background-color: #4A1614;
+    padding: 2%;
+    border-radius: 5px;
+    color: #E8E1DA;
     margin-bottom: 1em;
     font-size: 1.5em;
 }

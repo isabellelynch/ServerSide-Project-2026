@@ -50,6 +50,13 @@ function AddStudent()
     }     
 }
 
+function UpdateStudent($id){
+    global $firstName, $surname, $email, $phone;
+    if(Exists("Student", $id)){
+        echo "Hello";
+    }
+}
+
 
 
     
@@ -68,36 +75,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive')
     }
     
 }
-/*
-$operation = "";
 
-if(isset($_GET['Operation']))
-{   
-    $operation =  $_GET['Operation'];
-    require_once("DisplayForm.php");
-}
-if($operation === 'Update')
-{
-    $id = trim($_GET['id']);
-
-    if(Exists("Student", $id))
-    {
-        $sql = "SELECT * FROM Students WHERE StudentID = $id";
-        $result = QueryDatabase($sql);
-        $row = $result->fetch();
-        $firstName = $row['FirstName'];
-        $surname = $row['Surname'];
-        $email = $row['Email'];
-        $phone = $row['PhoneNo'];
+if(isset($_POST['StudentOperationButton'])) {
+    if($_POST['StudentOperationButton'] === 'Add Student'){
+        AddStudent();
     }
-    
-    
-        
-
-}*/
-if(isset($_POST['StudentOperationButton']) && $_SERVER['REQUEST_METHOD'] === 'POST')
-{
-    AddStudent();
+    else if($_POST['StudentOperationButton'] === 'Update Student' && isset($_POST['StudentID'])){
+        $id = $_POST['StudentID'];
+        UpdateStudent($id);
+    }
 }
 if(isset($_POST['CloseForm']) && $_SERVER['REQUEST_METHOD'] === 'POST')
 {
