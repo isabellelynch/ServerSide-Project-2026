@@ -17,4 +17,5 @@
          <?php include 'Include/GenerateTable.php'; ?>
     </main>
   </body>
+  <script src="project.js"></script>
 </html>

@@ -15,7 +15,7 @@ body {
 aside {
     background-color: #4A1614;
     color: #E8E1DA;
-    padding: 30px 20px;
+    padding: 2%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -61,7 +61,10 @@ aside {
 .nav-item .dropdown a {
   display: block;
   font-size: 0.9em;
-  margin:5% auto 0% auto;
+  margin:5% 0 5% 10%;
+  font-weight: 600;
+  width:80%;
+  border-bottom: 2px solid #4A1614;
 }
 
 .nav-item .dropdown.open {
@@ -72,31 +75,39 @@ aside {
     width: 100%;
     margin:5% auto 0% 0%;
 }
-nav {
-    height:10vh;
 
-}
 
 nav a {
     text-decoration: none;
     color: #E8E1DA;
-    border-radius: 8px;
+    
+    width: 100%;
 
+
+}
+
+div:has(>a.active) {
+    background-color: rgba(231, 161, 173, 0.4);
+    padding:2%;
+    border-radius: 8px;
+    
+}
+
+a.active{
+    font-weight: bold;
 }
 
 nav a:hover {
     opacity: 0.5;
 }
 
-nav a.active {
-    background: #E7A1AD;
-    color: #4A1614;
-    font-weight: 600;
-}
+
 
 #sidebar-footer {
-    font-size: 13px;
+    font-size: .8em;
     opacity: 0.6;
+    position:fixed;
+    bottom:5%;
 }
 
 main {
@@ -163,6 +174,7 @@ main {
     height: 100%;
     background: rgba(0,0,0,0.5);
     z-index: 1;
+    display: none;
 }
 
 
@@ -172,13 +184,14 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 45%;
-    height:80%;
+    width: 30%;
+    height:70%;
     padding: 20px 25px;
     background: #f9dfe4;
     border: 2px solid #4A1614;
     border-radius: 10px;
     z-index: 2;
+    display:none;
 }
 
 #StudentFormContainer form{
@@ -188,9 +201,9 @@ main {
 }
 
 
-#StudentFormContainer > h3 {
+#StudentFormContainer h3 {
     text-align: center;
-    color: #4A1614;
+    background-color: #4A1614;
     margin-bottom: 1em;
     font-size: 1.5em;
 }
@@ -207,13 +220,13 @@ main {
     padding: 7px;
     border: 1px solid #E7A1AD; 
     border-radius: 5px;
-    margin:0 auto 1.5em auto;
+    margin:0 auto 1em auto;
   
     
 }
 
 #InputContainer {
-    width:70%;
+    width:50%;
     height:60%;
 }
 
@@ -221,18 +234,8 @@ main {
 
 
 
-#StudentFormContainer button {
-    padding: 8px 16px;
-    margin-top: 15px;
-    border: 1px solid #4A1614;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    background-color: #4A1614;
-    color: #E8E1DA;
-}
 
-#StudentFormContainer button:hover {
+.ButtonContainer button:hover {
     opacity: 0.9;
 }
 
@@ -247,21 +250,24 @@ main {
 
 .ButtonContainer{
     display:flex;
-    width:80%;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    width:100%;
+    justify-content: center;
     gap:5%;
     
-
-
-
 }
 
 .ButtonContainer button{
-    flex:1;
-
-
+    min-width:30%;
+    padding: 8px 16px;
+    border: 1px solid #4A1614;
+    border-radius: 6px;
+    background-color: #4A1614;
+    color: #E8E1DA;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 2%;
 }
-
 
 .edit{
     padding: 8px 16px;

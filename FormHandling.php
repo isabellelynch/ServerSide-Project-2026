@@ -68,7 +68,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive')
     }
     
 }
-
+/*
 $operation = "";
 
 if(isset($_GET['Operation']))
@@ -78,7 +78,7 @@ if(isset($_GET['Operation']))
 }
 if($operation === 'Update')
 {
-    /*$id = trim($_GET['id']);
+    $id = trim($_GET['id']);
 
     if(Exists("Student", $id))
     {
@@ -89,13 +89,13 @@ if($operation === 'Update')
         $surname = $row['Surname'];
         $email = $row['Email'];
         $phone = $row['PhoneNo'];
-    }*/
+    }
     
     
         
 
-}
-if($operation === 'Add' && isset($_POST['StudentOperationButton']) && $_SERVER['REQUEST_METHOD'] === 'POST')
+}*/
+if(isset($_POST['StudentOperationButton']) && $_SERVER['REQUEST_METHOD'] === 'POST')
 {
     AddStudent();
 }

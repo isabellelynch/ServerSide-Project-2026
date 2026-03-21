@@ -3,7 +3,7 @@
 
 <div id="StudentFormContainer">
 
-    <h3>Add New Student</h3>
+    <h3 id = 'FormHeader'></h3>
     <form method = 'POST' action = "" id = "AddStudentForm">
         <div id='InputContainer'>
             <label>First Name :</label><br>
@@ -25,7 +25,7 @@
         </div>
         <p><?php echo $success; ?></p>
         <div class = 'ButtonContainer'>
-            <button type="submit" name = 'StudentOperationButton' id = 'StudentOperationButton'><?php echo (isset($operation))?htmlspecialchars($operation):""; ?> Student</button>
+            <button type="submit" name = 'StudentOperationButton' id = 'StudentOperationButton'>Student</button>
 
             <button type="submit" name = 'PermanentRemoval' id = 'PermanentRemoval'>Remove Student</button>
 
