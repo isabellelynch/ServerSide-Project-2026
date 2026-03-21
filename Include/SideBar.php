@@ -40,14 +40,14 @@
                 }
         ?>
 
-                <div class="nav-item">
+                <div class = "nav-item">
                 
                 <a href="<?php echo $p['file'] ?>" 
-                class="'<?php echo ($isActive ? 'active' : '') ?> toggle">
+                class="<?php echo ($isActive ? 'active' : '') ?> toggle">
                 <?php echo $p['label'] ?></a>
 
                 <?php
-                if (!empty($subPages)):
+                if (!empty($p['children'])):
                     ?>
                     <div class="dropdown">
                     
