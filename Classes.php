@@ -11,7 +11,7 @@
   <body>
     <?php require_once 'Include/SideBar.php'; ?>
     <main>
-        <?php include_once 'Include/GenerateSchedule.php'; ?>
+        <?php require_once 'Include/GenerateSchedule.php'; ?>
     </main>
   </body>
   <script src="project.js"></script>

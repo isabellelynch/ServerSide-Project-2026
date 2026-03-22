@@ -4,7 +4,7 @@
     $ID = (basename($_SERVER['PHP_SELF']) === 'Students.php')?'StudentID':'TutorID';
     
 ?>
-    <table id = 'table'>
+    <table id = 'ViewAllTable'>
     <thead>
         <tr>
             <th><?php echo $ID; ?></th>

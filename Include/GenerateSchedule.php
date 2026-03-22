@@ -26,7 +26,7 @@ $times = [
 ];
 ?>
 
-<table id="table">
+<table id = "ScheduleTable">
     <thead>
         <tr>
             <th>Time</th>
@@ -39,7 +39,7 @@ $times = [
 
     <?php foreach ($times as $time): ?>
         <tr>
-            <td><?php echo $time; ?></td>
+            <td class = "time"><?php echo $time; ?></td>
 
             <?php foreach ($days as $day): ?>
                 <td>
