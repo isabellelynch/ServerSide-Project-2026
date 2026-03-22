@@ -12,7 +12,9 @@ body {
 
 }
 
-aside {
+
+
+body aside {
     background-color: #4A1614;
     color: #E8E1DA;
     padding: 2%;
@@ -175,6 +177,7 @@ main {
     background: rgba(0,0,0,0.5);
     z-index: 1;
     display: none;
+    pointer-events: all;
 }
 
 
@@ -272,6 +275,10 @@ main {
     margin-top: 2%;
 }
 
+.ButtonContainer #PermanentRemoval{
+    display: none;
+}
+
 .edit{
     padding: 8px 16px;
     border: 1px solid #E8E1DA;
@@ -282,3 +289,18 @@ main {
     color: #E8E1DA;
 }
 
+main #scheduleTable {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+}
+
+main #scheduleTable th, 
+main #scheduleTable td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+main #scheduleTable th {
+    background: #f4f4f4;
+}

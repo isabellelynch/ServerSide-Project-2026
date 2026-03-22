@@ -22,6 +22,7 @@
                 <input type = 'text' name = 'PhoneNo' placeholder = '086-0000000' value = "<?php echo (isset($phone))?htmlspecialchars($phone):""; ?>">
                 <br>
                 <br>
+            <input type = 'hidden' name = 'id' value = "<?php echo (isset($id))?htmlspecialchars($id):""; ?>">
         </div>
         <p><?php echo $success; ?></p>
         <div class = 'ButtonContainer'>

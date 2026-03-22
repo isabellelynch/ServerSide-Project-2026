@@ -12,32 +12,47 @@ window.addEventListener("DOMContentLoaded", () => {
     function openModal() {
         if (Overlay) Overlay.style.display = "block";
         if (AddStudentForm) AddStudentForm.style.display = "block";
+        updateScrollState()
     }
 
     function closeModal() {
         if (Overlay) Overlay.style.display = "none";
         if (AddStudentForm) AddStudentForm.style.display = "none";
+        updateScrollState()
     }
 
-    function getOperationButtonText() {
-        return operationButton ? operationButton.innerText : "";
+
+    if (Overlay) Overlay.addEventListener("click", closeModal);
+
+    
+    function isVisible(x) {
+        if(x.style.display === 'none'){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
-    // Page-specific logic for removal button
-    if (Removal) {
-        Removal.style.display = getOperationButtonText() === "Update Student" ? "block" : "none";
+    function updateScrollState() {
+        if (isVisible(AddStudentForm)) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
     }
-
     // Close modal button
     if (CloseFormButton) {
         CloseFormButton.addEventListener("click", closeModal);
     }
 
     // Edit buttons
-    const editButtons = document.querySelectorAll(".edit");
+    let editButtons = document.querySelectorAll(".edit");
+
     editButtons.forEach(button => {
         button.addEventListener("click", () => {
-            const mode = button.dataset.mode;
+            let mode = button.dataset.mode;
+
             openModal();
 
             if(FormHeader){
@@ -57,12 +72,13 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.querySelector("input[name='Surname']").value = button.dataset.surname;
                 document.querySelector("input[name='Email']").value = button.dataset.email;
                 document.querySelector("input[name='PhoneNo']").value = button.dataset.phone;
+                document.querySelector("input[name='id']").value = button.dataset.id;
             }
         });
     });
 
     // Table row selection
-    const rows = document.querySelectorAll("#table tr");
+    let rows = document.querySelectorAll("#table tr");
     rows.forEach(row => row.addEventListener("click", () => {
         rows.forEach(r => r.classList.remove("selected"));
         row.classList.add("selected");

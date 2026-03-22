@@ -52,7 +52,7 @@ function AddStudent()
 
 function UpdateStudent($id){
     global $firstName, $surname, $email, $phone;
-    if(Exists("Student", $id)){
+    if(Exists("Student", $id) === 1){
         echo "Hello";
     }
 }
@@ -80,8 +80,8 @@ if(isset($_POST['StudentOperationButton'])) {
     if($_POST['StudentOperationButton'] === 'Add Student'){
         AddStudent();
     }
-    else if($_POST['StudentOperationButton'] === 'Update Student' && isset($_POST['StudentID'])){
-        $id = $_POST['StudentID'];
+    else if($_POST['StudentOperationButton'] === 'Update Student' && isset($_POST['id'])){
+        $id = $_POST['id'];
         UpdateStudent($id);
     }
 }
