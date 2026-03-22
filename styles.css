@@ -186,6 +186,7 @@ main {
 }
 #ScheduleTable th{
     border: 1px solid #E8E1DA; 
+    color: #E8E1DA;
     padding: 12px;
     text-align: left;
 }
