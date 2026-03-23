@@ -1,20 +1,23 @@
 <?php 
     $page = basename($_SERVER['PHP_SELF']);
     $pages = [
-        ['file' => 'Dashboard.php', 'label' => 'Dashboard', 'children' => []],
+        ['name' =>'Dashboard', 'children' => []],
 
-        ['file' => 'Tutors.php', 'label' => 'Tutors', 'children' => [
+        ['name' =>'Tutors', 'children' => [
             ['file' => 'AddTutor.php', 'label' => 'Add Tutor'],
             ['file' => 'ViewTutors.php', 'label' => 'View Tutors']
         ]],
 
-        ['file' => 'Students.php', 'label' => 'Students', 'children' => [
+        ['name' =>'Students', 'children' => [
+            ['file' => 'Students.php', 'label' => 'Students Home'],
             ['file' => 'AddStudent.php', 'label' => 'Add Student'],
             ['file' => 'ViewStudents.php', 'label' => 'View Students']
         ]],
 
-        ['file' => 'Classes.php', 'label' => 'Classes', 'children' => []],
-        ['file' => 'Schedule.php', 'label' => 'Schedule', 'children' => []]
+        ['name' =>'Classes', 'children' => [
+            ['file' => 'Classes.php', 'label' => 'Classes Home']
+        ]],
+        ['name' =>'Schedule', 'children' => []]
     ];
 
 ?>
@@ -29,22 +32,11 @@
             </div>
 
     <nav>
-        <?php 
-            foreach ($pages as $p):
-                $isActive = ($page == $p['file']);
-
-                foreach ($p['children'] as $child) {
-                    if ($page == $child['file']) {
-                        $isActive = true;
-                    }
-                }
-        ?>
+        <?php foreach ($pages as $p): ?>
 
                 <div class = "nav-item">
                 
-                <a href="<?php echo $p['file'] ?>" 
-                class="<?php echo ($isActive ? 'active ' : '') ?>toggle">
-                <?php echo $p['label'] ?></a>
+                <a href = "" class = "toggle"><?php echo $p['name']; ?></a>
 
                 <?php
                 if (!empty($p['children'])):
@@ -52,8 +44,7 @@
                     <div class="dropdown">
                     
                     <?php foreach ($p['children'] as $child): ?>
-                        <a href="<?php echo $child['file']; ?>" 
-                        class="<?php echo ($page == $child['file']) ? 'active' : ''; ?>">
+                        <a href="<?php echo $child['file']; ?>" class="">
                             <?php echo $child['label']; ?>
                         </a>
                     <?php endforeach; ?>

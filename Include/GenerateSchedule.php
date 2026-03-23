@@ -1,10 +1,9 @@
 <?php
 
 include_once("DatabaseActions.php");
-// Fetch all classes
+
 $result = SelectAll();
 
-// Build a structured array: $schedule[day][time] = class info
 $schedule = [];
 
 while ($row = $result->fetch()) {

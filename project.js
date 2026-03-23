@@ -8,7 +8,6 @@ window.addEventListener("DOMContentLoaded", () => {
     let CloseFormButton = document.getElementById("closeForm");
     let FormHeader = document.getElementById("FormHeader");
 
-    // Utility functions (safe)
     function openModal() {
         if (Overlay) Overlay.style.display = "block";
         if (AddStudentForm) AddStudentForm.style.display = "block";
@@ -87,21 +86,29 @@ window.addEventListener("DOMContentLoaded", () => {
     // Dropdown menu toggles
     document.querySelectorAll('.toggle').forEach(item => {
         item.addEventListener('click', function(e) {
-            const parent = this.parentElement;
-            const dropdown = parent.querySelector('.dropdown');
+            let parent = this.parentElement;
+            let dropdown = parent.querySelector('.dropdown');
 
-            if (dropdown && this.classList.contains('active')) {
+            if (dropdown) {
                 e.preventDefault();
 
-                document.querySelectorAll('.dropdown').forEach(d => {
-                    if (d !== dropdown) d.classList.remove('open');
+                // close others + remove highlights
+                document.querySelectorAll('.nav-item').forEach(i => {
+                    i.classList.remove('active-parent');
+                    let d = i.querySelector('.dropdown');
+                    if (d) d.classList.remove('active-dropdown', 'open');
                 });
 
+                // toggle current
                 dropdown.classList.toggle('open');
+                parent.classList.toggle('active-parent');
+
+                if (dropdown.classList.contains('open')) {
+                    dropdown.classList.add('active-dropdown');
+                }
             }
         });
     });
-
 
 
     // Add Student link
