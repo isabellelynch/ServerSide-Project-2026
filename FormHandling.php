@@ -5,8 +5,7 @@ require_once("MakeConnection.php");
 
 $pdo = MakeConnection();
 
-$errors = [];
-$success = "";
+$msg = "";
 
 $firstName = (isset($_POST['FirstName']))?htmlspecialchars(trim($_POST['FirstName'])):"";
 $surname = (isset($_POST['Surname']))?htmlspecialchars(trim($_POST['Surname'])):"";
@@ -15,46 +14,60 @@ $phone = (isset($_POST['PhoneNo']))?htmlspecialchars(trim($_POST['PhoneNo'])):""
 
 function AddStudent()
 {
-    global $pdo, $firstName, $surname, $email, $phone, $success, $errors;
-
+    global $pdo, $firstName, $surname, $email, $phone, $msg;
+    
     if(ValidName($firstName, "First Name") !== "Valid")
     {
-        $errors[] = ValidName($firstName, "First Name");
+        $msg = ValidName($firstName, "First Name");
+        return;
     }
     else if(ValidName($surname, "Surname") !== "Valid")
     {
-        $errors[] = ValidName($surname, "Surname");
+        $msg = ValidName($surname, "Surname");
+        return;
     }
     else if(ValidEmail($email) !== "Valid")
     {
-        $errors[] = ValidEmail($email);
+        $msg = ValidEmail($email);
+        return;
     }
     else if(ValidPhoneNumber($phone) !== "Valid")
     {
-        $errors[] = ValidPhoneNumber($phone);
+        $msg = ValidPhoneNumber($phone);
+        return;
     } 
-    else if(empty($errors))
-    {
-        $stmt = $pdo->prepare("INSERT INTO Students 
-                        (FirstName, Surname, Email, PhoneNo,Status) 
-                        VALUES (:name, :surname, :email, :phone, 'A')");
-                                
-        $stmt->bindValue(':name', $firstName);
-        $stmt->bindValue(':surname', $surname);
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':phone', $phone);  
+
+    $stmt = $pdo->prepare("INSERT INTO Students 
+                    (FirstName, Surname, Email, PhoneNo,Status) 
+                    VALUES (:name, :surname, :email, :phone, 'A')");
+                            
+    $stmt->bindValue(':name', $firstName);
+    $stmt->bindValue(':surname', $surname);
+    $stmt->bindValue(':email', $email);
+    $stmt->bindValue(':phone', $phone);  
+
+    $stmt->execute();
     
-        $stmt->execute();
-        
-        $success = "$firstName $surname successfully added to the system.";
-    }     
+    $msg = "$firstName $surname successfully added to the system.";
+
+    $firstName = $surname = $phone = $email = "";
+    
 }
 
 function UpdateStudent($id){
-    global $firstName, $surname, $email, $phone;
-    if(Exists("Student", $id) === 1){
-        echo "Hello";
-    }
+    global $firstName, $surname, $email, $phone, $pdo;
+
+    $stmt = $pdo->prepare("UPDATE Students SET 
+                            FirstName = :name AND 
+                            Surname = :surname AND 
+                            Email = :email AND 
+                            PhoneNo = :phone 
+                            WHERE StudentID = $id");
+
+    $stmt->execute([$firstName, $surname, $email, $phone]);
+
+    $firstName = $surname = $phone = $email = "";
+
 }
 
 
@@ -77,10 +90,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive')
 }
 
 if(isset($_POST['StudentOperationButton'])) {
-    if($_POST['StudentOperationButton'] === 'Add Student'){
-        AddStudent();
-    }
-    else if($_POST['StudentOperationButton'] === 'Update Student' && isset($_POST['id'])){
+
+    echo "Hello";
+    AddStudent();
+    
+    if($_POST['StudentOperationButton'] === 'Update Student' && isset($_POST['id'])){
         $id = $_POST['id'];
         UpdateStudent($id);
     }

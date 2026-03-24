@@ -1,6 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
 
-    // Get modal elements if they exist
     let AddStudentForm = document.getElementById("StudentFormContainer");
     let Overlay = document.getElementById("overlay");
     let Removal = document.getElementById("PermanentRemoval");
@@ -11,13 +10,15 @@ window.addEventListener("DOMContentLoaded", () => {
     function openModal() {
         if (Overlay) Overlay.style.display = "block";
         if (AddStudentForm) AddStudentForm.style.display = "block";
-        updateScrollState()
+        updateScrollState();
     }
 
     function closeModal() {
         if (Overlay) Overlay.style.display = "none";
         if (AddStudentForm) AddStudentForm.style.display = "none";
-        updateScrollState()
+        updateScrollState();
+        
+
     }
 
 
@@ -77,7 +78,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     // Table row selection
-    let rows = document.querySelectorAll("#table tr");
+    let rows = document.querySelectorAll("#ViewAllTable tr");
     rows.forEach(row => row.addEventListener("click", () => {
         rows.forEach(r => r.classList.remove("selected"));
         row.classList.add("selected");
@@ -115,10 +116,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const nav = document.querySelector('nav');
     if (nav) {
         nav.addEventListener('click', function(e) {
+
             const link = e.target.closest('a');
+
             if (!link) return;
 
             if (link.getAttribute('href') === 'AddStudent.php') {
+
                 e.preventDefault();
 
                 openModal();
@@ -131,11 +135,9 @@ window.addEventListener("DOMContentLoaded", () => {
                     operationButton.innerHTML = "Add Student";
                 }
             }
-
-            
-
-
         });
     }
+
+
 
 });

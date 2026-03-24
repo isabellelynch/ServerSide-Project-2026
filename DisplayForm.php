@@ -24,8 +24,9 @@
                 <br>
             <input type = 'hidden' name = 'id' value = "<?php echo (isset($id))?htmlspecialchars($id):""; ?>">
         </div>
-        <p><?php echo $success; ?></p>
+        <p><?php echo isset($msg[0])?htmlspecialchars($msg[0]):""; ?></p>
         <div class = 'ButtonContainer'>
+
             <button type="submit" name = 'StudentOperationButton' id = 'StudentOperationButton'>Student</button>
 
             <button type="submit" name = 'PermanentRemoval' id = 'PermanentRemoval'>Remove Student</button>
@@ -33,4 +34,5 @@
             <button type="submit" name = 'CloseForm' id = 'CloseForm'>Close</button>
         </div>
     </form>
+
 </div>
