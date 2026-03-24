@@ -4,17 +4,16 @@ require_once('Validation.php');
 require_once("MakeConnection.php");
 
 $pdo = MakeConnection();
-
-$msg = "";
-
-$firstName = (isset($_POST['FirstName']))?htmlspecialchars(trim($_POST['FirstName'])):"";
-$surname = (isset($_POST['Surname']))?htmlspecialchars(trim($_POST['Surname'])):"";
-$email = (isset($_POST['Email']))?htmlspecialchars(trim($_POST['Email'])):"";
-$phone = (isset($_POST['PhoneNo']))?htmlspecialchars(trim($_POST['PhoneNo'])):"";
+$formTitle = $btnLabel = $msg = "";
+$showModal = false;
 
 function AddStudent()
 {
-    global $pdo, $firstName, $surname, $email, $phone, $msg;
+    $firstName = (isset($_POST['FirstName']))?htmlspecialchars(trim($_POST['FirstName'])):"";
+    $surname = (isset($_POST['Surname']))?htmlspecialchars(trim($_POST['Surname'])):"";
+    $email = (isset($_POST['Email']))?htmlspecialchars(trim($_POST['Email'])):"";
+    $phone = (isset($_POST['PhoneNo']))?htmlspecialchars(trim($_POST['PhoneNo'])):"";
+    global $pdo, $msg;
     
     if(ValidName($firstName, "First Name") !== "Valid")
     {
@@ -50,22 +49,27 @@ function AddStudent()
     
     $msg = "$firstName $surname successfully added to the system.";
 
-    $firstName = $surname = $phone = $email = "";
     
 }
 
 function UpdateStudent($id){
-    global $firstName, $surname, $email, $phone, $pdo;
+    global $pdo;
+
+    $firstName = (isset($_POST['FirstName']))?htmlspecialchars(trim($_POST['FirstName'])):"";
+    $surname = (isset($_POST['Surname']))?htmlspecialchars(trim($_POST['Surname'])):"";
+    $email = (isset($_POST['Email']))?htmlspecialchars(trim($_POST['Email'])):"";
+    $phone = (isset($_POST['PhoneNo']))?htmlspecialchars(trim($_POST['PhoneNo'])):"";
 
     $stmt = $pdo->prepare("UPDATE Students SET 
-                            FirstName = :name AND 
-                            Surname = :surname AND 
-                            Email = :email AND 
+                            FirstName = :firstname, 
+                            Surname = :surname, 
+                            Email = :email, 
                             PhoneNo = :phone 
-                            WHERE StudentID = $id");
+                            WHERE StudentID = :id");
 
-    $stmt->execute([$firstName, $surname, $email, $phone]);
+    $stmt->execute([$firstName, $surname, $email, $phone, $id]);
 
+    $msg = "Student sucessfully updated";
     $firstName = $surname = $phone = $email = "";
 
 }
@@ -86,24 +90,21 @@ if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive')
     { 
         $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(); 
     }
-    
 }
+
+if (isset($_GET['action']) && $_GET['action'] === 'UpdateStudent'){
+    $showModal = true;
+    header("Location:Students.php");
+} 
+
 
 if(isset($_POST['StudentOperationButton'])) {
-
-    echo "Hello";
-    AddStudent();
+    echo "hello";
     
-    if($_POST['StudentOperationButton'] === 'Update Student' && isset($_POST['id'])){
-        $id = $_POST['id'];
-        UpdateStudent($id);
-    }
+    $showModal = true;
 }
-if(isset($_POST['CloseForm']) && $_SERVER['REQUEST_METHOD'] === 'POST')
-{
-    header("Location:Students.php");
-    exit;
-}
+
+
 
 
 

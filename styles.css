@@ -271,10 +271,7 @@ main {
   
     
 }
-#InputContainer {
-    width:50%;
-    height:60%;
-}
+
 .ButtonContainer button:hover {
     opacity: 0.9;
 }
@@ -320,3 +317,7 @@ main {
     color: var(--color-dark-brown);
 }
 
+#AddStudentBtn,
+#UpdateStudentBtn{
+    display: none;
+}

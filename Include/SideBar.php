@@ -10,7 +10,7 @@
 
         ['name' =>'Students', 'children' => [
             ['file' => 'Students.php', 'label' => 'Students Home'],
-            ['file' => 'AddStudent.php', 'label' => 'Add Student'],
+            ['file' => 'AddStudent', 'label' => 'Add Student'],
             ['file' => 'ViewStudents.php', 'label' => 'View Students']
         ]],
 
@@ -44,7 +44,7 @@
                     <div class="dropdown">
                     
                     <?php foreach ($p['children'] as $child): ?>
-                        <a href="<?php echo $child['file']; ?>" class="">
+                        <a href="<?php echo $child['file']; ?>" class ="">
                             <?php echo $child['label']; ?>
                         </a>
                     <?php endforeach; ?>

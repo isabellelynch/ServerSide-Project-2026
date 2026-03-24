@@ -34,17 +34,7 @@
         <td> <?php echo $row["Email"]; ?></td>
         <td> <?php echo $row["PhoneNo"]; ?></td>
         <td><a href = "FormHandling.php?action=SetToInactive&id=<?php echo $currentID; ?>"><?php echo $status; ?></a></td>
-        <td>
-            <button class="edit" 
-                data-mode="edit" 
-                data-id="<?php echo $currentID; ?>"
-                data-firstname="<?php echo htmlspecialchars($row['FirstName']); ?>"
-                data-surname="<?php echo htmlspecialchars($row['Surname']); ?>"
-                data-email="<?php echo htmlspecialchars($row['Email']); ?>"
-                data-phone="<?php echo htmlspecialchars($row['PhoneNo']); ?>">
-                Edit
-            </button>
-        </td>
+        <td><a href = "FormHandling.php?action=UpdateStudent&id=<?php echo $currentID; ?>" class = "edit">Edit</a></td>
         </tr>
         
     <?php } ?>
