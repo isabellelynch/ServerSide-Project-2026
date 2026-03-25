@@ -26,7 +26,7 @@ body aside {
     flex-direction: column;
     justify-content: space-between;
     height:100VH;
-    width:20%;
+    width:15%;
     position:fixed;
     top:0;
 }
@@ -117,7 +117,8 @@ nav a:hover {
 main {
     flex: 5;
     padding: 40px;
-    margin:auto auto auto 25%;
+    position: relative;
+    left:20%;
 }
 
 
@@ -126,13 +127,13 @@ main {
 
 
 #ViewAllTable {
-    width: 100%;
     border-collapse: collapse;
-    font-family: Arial, sans-serif;
     background-color: var(--color-pale-pink); 
     border: 2px solid var(--color-dark-brown);
     color:var(--color-dark-brown);
 }
+
+
 
 #ViewAllTable thead {
     background-color: var(--color-dark-brown);
@@ -217,7 +218,6 @@ main {
     height: 100%;
     background: rgba(0,0,0,0.5);
     z-index: 1;
-    display: none;
     pointer-events: all;
 }
 
@@ -235,7 +235,6 @@ main {
     border: 2px solid var(--color-dark-brown);
     border-radius: 10px;
     z-index: 2;
-    display:none;
 }
 
 #StudentFormContainer form{
@@ -280,6 +279,13 @@ main {
     color: var(--color-off-white);
     margin-left: 10px;
 }
+
+#PermanentRemoval{
+    display: none;
+}
+#UpdateStudentBtn{
+    display: none;
+}
 .ButtonContainer{
     display:flex;
     flex-wrap: wrap;
@@ -299,9 +305,7 @@ main {
     font-weight: bold;
     margin-top: 2%;
 }
-.ButtonContainer #PermanentRemoval{
-    display: none;
-}
+
 .edit{
     padding: 8px 16px;
     border: 1px solid var(--color-off-white);
@@ -317,7 +321,14 @@ main {
     color: var(--color-dark-brown);
 }
 
-#AddStudentBtn,
-#UpdateStudentBtn{
+#popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #e74c3c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
     display: none;
+    z-index: 11111111111111;
 }

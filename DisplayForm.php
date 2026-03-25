@@ -1,27 +1,28 @@
-<div id="overlay">
+
+<div id="overlay"  style="display: <?php echo $showForm ? 'block' : 'none'; ?>">
 </div>
 
-<div id="StudentFormContainer">
+<div id="StudentFormContainer"  style="display: <?php echo $showForm ? 'block' : 'none'; ?>">
 
-    <h3 id = 'FormHeader' ></h3>
+    <h3 id = 'FormHeader' ><?php echo (isset($header))?htmlspecialchars($header):""; ?></h3>
     <form method = 'POST' action = "" id = "AddStudentForm">
 
             <label>First Name :</label><br>
-                <input type = 'text' name = 'FirstName' value = "<?php echo (isset($firstName))?htmlspecialchars($firstName):""; ?>">
+                <input type = 'text' name = 'FirstName' value = "<?php echo (isset($student['name']))?htmlspecialchars($student['name']):""; ?>">
 
             <label>Surname :</label><br>
-                <input type = 'text' name = 'Surname' value = "<?php echo (isset($surname))?htmlspecialchars($surname):""; ?>">
+                <input type = 'text' name = 'Surname' value = "<?php echo (isset($student['surname']))?htmlspecialchars($student['surname']):""; ?>">
 
             <label>Email :</label><br>
-                <input type = 'text' name = 'Email' placeholder = 'example@example.com' value = "<?php echo (isset($email))?htmlspecialchars($email):""; ?>">
+                <input type = 'text' name = 'Email' placeholder = 'example@example.com' value = "<?php echo (isset($student['email']))?htmlspecialchars($student['email']):""; ?>">
 
             <label>Phone Number :</label><br>
-                <input type = 'text' name = 'PhoneNo' placeholder = '086-0000000' value = "<?php echo (isset($phone))?htmlspecialchars($phone):""; ?>">
+                <input type = 'text' name = 'PhoneNo' placeholder = '086-0000000' value = "<?php echo (isset($student['phone']))?htmlspecialchars($student['phone']):""; ?>">
 
-            <input type = 'hidden' name = 'id' value = "<?php echo (isset($id))?htmlspecialchars($id):""; ?>">
-            <input type="hidden" id="showModalFlag" value="<?php echo $showModal ? '1' : '0'; ?>">
+            <input type = 'hidden' name = 'id' value = "">
 
 
+            <p><?php echo $msg; ?></p>
         <div class = 'ButtonContainer'>
             <button 
                 type="submit" 
@@ -45,7 +46,7 @@
             </button>
 
             <button 
-                type="submit" 
+                type="button" 
                 name = 'CloseForm' 
                 id = 'CloseForm'>
                 Close

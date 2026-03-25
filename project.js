@@ -1,22 +1,23 @@
 window.addEventListener("DOMContentLoaded", () => {
 
     let AddStudentForm = document.getElementById("StudentFormContainer");
-    let Overlay = document.getElementById("overlay");
-    let CloseFormButton = document.getElementById("closeForm");
+    const Overlay = document.getElementById("overlay");
+    let CloseFormButton = document.getElementById("CloseForm");
 
     function openModal() {
         if (Overlay) Overlay.style.display = "block";
         if (AddStudentForm) AddStudentForm.style.display = "block";
+
         updateScrollState();
     }
 
     function closeModal() {
         if (Overlay) Overlay.style.display = "none";
         if (AddStudentForm) AddStudentForm.style.display = "none";
+        form.reset();
         updateScrollState();
     }
 
-    if (Overlay) Overlay.addEventListener("click", closeModal);
 
     function isVisible(x) {
         if(x.style.display === 'none'){
@@ -46,10 +47,25 @@ window.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             document.getElementById("PermanentRemoval").style.display = "block";
             document.getElementById("UpdateStudentBtn").style.display = "block";
+            document.getElementById("AddStudentBtn").style.display = "none";
             document.getElementById("FormHeader").innerHTML = "Update Student Form";
+            document.querySelector('[name="id"]').value = b.dataset.id;
+            document.querySelector('[name="FirstName"]').value = b.dataset.firstname;
+            document.querySelector('[name="Surname"]').value = b.dataset.surname;
+            document.querySelector('[name="Email"]').value = b.dataset.email;
+            document.querySelector('[name="PhoneNo"]').value = b.dataset.phone;
             openModal();
         });
     });
+
+    //Update Student Button
+    let updateBtn = document.getElementById("UpdateStudentBtn");
+    if(updateBtn){
+        updateBtn.addEventListener("click", (e) => {
+            document.getElementById("PermanentRemoval").style.display = "block";
+            document.getElementById("UpdateStudentBtn").style.display = "block";
+        })
+    }
 
     // Table row selection
     let rows = document.querySelectorAll("#ViewAllTable tr");
@@ -89,21 +105,52 @@ window.addEventListener("DOMContentLoaded", () => {
             if (link.getAttribute('href') === 'AddStudent') {
                 e.preventDefault();
                 document.getElementById("PermanentRemoval").style.display = "none";
+                document.getElementById("UpdateStudentBtn").style.display = "none";
                 document.getElementById("AddStudentBtn").style.display = "block";
                 document.getElementById("FormHeader").innerHTML = "Add Student Form";
+
                 openModal();
             }
         });
     }
 
-    let addStudentBtn = document.getElementById("AddStudentBtn");
-    addStudentBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-    })
 
-   
+    let form = document.getElementById("AddStudentForm");
+    let AddStudentBtn = document.getElementById("AddStudentButton");
+    if(form && AddStudentBtn){
+        AddStudentBtn.addEventListener("submit", e => {
+            e.preventDefault(); // stop normal submission
 
+            fetch("FormHandling.php", {
+                method: "POST",
+                body: new FormData(form)
+            })
+            .then(res => res.json()) // expect JSON
+            .then(data => {
+                if (!data.success) {
+                    showPopup(data.message);
+                } else {
+                    // success: optionally reset form
+                    form.reset();
+                }
+            })
+            .catch(err => console.error("Fetch error:", err));
+        });
+    }
     
 
 
+
+    function showPopup(message) {
+        const div = document.createElement('div');
+        div.textContent = message; 
+        div.id = "popup";
+        div.style.display = "block";
+
+        document.body.appendChild(div); 
+
+        setTimeout(() => {
+            div.remove();
+        }, 3000);
+    }
 });
