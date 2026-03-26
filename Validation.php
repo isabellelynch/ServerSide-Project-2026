@@ -49,4 +49,24 @@ function ValidEmail(string $email):string
     return ($email === false)?"Invalid! Valid email must be entered.":"Valid";
 }
 
+function ValidateStudent($student):string{
+    if(ValidName($student['name'], "First Name") !== "Valid")
+    {
+        return ValidName($student['name'], "First Name");
+    }
+    else if(ValidName($student['surname'], "Surname") !== "Valid")
+    {
+        return ValidName($student['surname'], "Surname");
+    }
+    else if(ValidEmail($student['email']) !== "Valid")
+    {
+        return ValidEmail($student['email']);
+    }
+    else if(ValidPhoneNumber($student['phone']) !== "Valid")
+    {
+        return ValidPhoneNumber($student['phone']);
+    } 
+    return "";
+}
+
 ?>

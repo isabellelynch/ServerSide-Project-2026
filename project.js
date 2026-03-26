@@ -3,18 +3,25 @@ window.addEventListener("DOMContentLoaded", () => {
     let AddStudentForm = document.getElementById("StudentFormContainer");
     const Overlay = document.getElementById("overlay");
     let CloseFormButton = document.getElementById("CloseForm");
+    let popup = document.getElementById("popup");
+    let updateBtn = document.getElementById("UpdateStudentBtn");
+    let addBtn = document.getElementById("AddStudentBtn");
+    let removeBtn = document.getElementById("PermanentRemoval");
+    let header = document.getElementById("FormHeader");
+    let editButtons = document.querySelectorAll(".edit");
+    let rows = document.querySelectorAll("#ViewAllTable tr");
+    const nav = document.querySelector('nav');
 
     function openModal() {
         if (Overlay) Overlay.style.display = "block";
         if (AddStudentForm) AddStudentForm.style.display = "block";
-
         updateScrollState();
     }
 
     function closeModal() {
         if (Overlay) Overlay.style.display = "none";
         if (AddStudentForm) AddStudentForm.style.display = "none";
-        form.reset();
+        if (popup) popup.style.display = "none";
         updateScrollState();
     }
 
@@ -41,14 +48,14 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     // Edit buttons
-    let editButtons = document.querySelectorAll(".edit");
+    
     editButtons.forEach(b => {
         b.addEventListener("click", (e) => {
             e.preventDefault();
-            document.getElementById("PermanentRemoval").style.display = "block";
-            document.getElementById("UpdateStudentBtn").style.display = "block";
-            document.getElementById("AddStudentBtn").style.display = "none";
-            document.getElementById("FormHeader").innerHTML = "Update Student Form";
+            updateBtn.style.display = "block";
+            removeBtn.style.display = "block";
+            addBtn.style.display = "none";
+            header.innerHTML = "Update Student Form";
             document.querySelector('[name="id"]').value = b.dataset.id;
             document.querySelector('[name="FirstName"]').value = b.dataset.firstname;
             document.querySelector('[name="Surname"]').value = b.dataset.surname;
@@ -59,9 +66,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
 
-
     // Table row selection
-    let rows = document.querySelectorAll("#ViewAllTable tr");
     rows.forEach(row => row.addEventListener("click", () => {
         rows.forEach(r => r.classList.remove("selected"));
         row.classList.add("selected");
@@ -91,66 +96,19 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
     // Add Student link
-    const nav = document.querySelector('nav');
     if (nav) {
         nav.addEventListener('click', function(e) {
             const link = e.target.closest('a');
             if (link.getAttribute('href') === 'AddStudent') {
                 e.preventDefault();
-                document.getElementById("PermanentRemoval").style.display = "none";
-                document.getElementById("UpdateStudentBtn").style.display = "none";
-                document.getElementById("AddStudentBtn").style.display = "block";
-                document.getElementById("FormHeader").innerHTML = "Add Student Form";
-
+                updateBtn.style.display = "none";
+                removeBtn.style.display = "none";
+                addBtn.style.display = "block";
+                header.innerHTML = "New Student Form";
                 openModal();
             }
         });
     }
 
 
-    let form = document.getElementById("AddStudentForm");
-    let AddStudentBtn = document.getElementById("AddStudentBtn");
-    if(form && AddStudentBtn){
-        AddStudentBtn.addEventListener("click", e => {
-            const formData = new FormData(form);
-            formData.append("action", "addStudent");
-            fetch("FormHandling.php", {
-                method: "POST",
-                body: formData
-            })
-            .then(res => res.json()) // expect JSON
-            .then(data => {
-                if (!data.success) {
-                    showPopup(data.message);
-                } else {
-                    // success: optionally reset form
-                    form.reset();
-                }
-            });
-            
-        });
-    }
-    
-
-    //Update Student Button
-    let updateBtn = document.getElementById("UpdateStudentBtn");
-    if(form && updateBtn){
-        updateBtn.addEventListener("click", (e) => {
-            document.getElementById("PermanentRemoval").style.display = "block";
-            document.getElementById("UpdateStudentBtn").style.display = "block";
-        })
-    }
-
-    function showPopup(message) {
-        const div = document.createElement('div');
-        div.textContent = message; 
-        div.id = "popup";
-        div.style.display = "block";
-
-        document.body.appendChild(div); 
-
-        setTimeout(() => {
-            div.remove();
-        }, 3000);
-    }
 });

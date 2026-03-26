@@ -1,10 +1,17 @@
-
+<?php 
+    if($msg != ""){
+        $showForm = true;
+    }
+    else{
+        $showForm = false;
+    }
+?>
 <div id="overlay"  style="display: <?php echo $showForm ? 'block' : 'none'; ?>">
 </div>
 
-<div id="StudentFormContainer"  style="display: <?php echo $showForm ? 'block' : 'none'; ?>">
+<div id="StudentFormContainer" style="display: <?php echo $showForm ? 'block' : 'none'; ?>">
 
-    <h3 id = 'FormHeader' ><?php echo (isset($header))?htmlspecialchars($header):""; ?></h3>
+    <h3 id = 'FormHeader' ><?php if($header) echo $header; ?></h3>
     <form method = 'POST' action = "" id = "AddStudentForm">
 
             <label>First Name :</label><br>
@@ -21,10 +28,9 @@
 
             <input type = 'hidden' name = 'id' value = "">
 
-
-            <p><?php echo $msg; ?></p>
         <div class = 'ButtonContainer'>
             <button 
+                style="display: <?php echo $add ? 'block' : 'none'; ?>"
                 type="submit" 
                 name = 'AddStudentBtn' 
                 id = 'AddStudentBtn'>
@@ -32,6 +38,7 @@
             </button>
 
             <button 
+                style="display: <?php echo $update ? 'block' : 'none'; ?>"
                 type="submit" 
                 name = 'UpdateStudentBtn' 
                 id = 'UpdateStudentBtn'>
@@ -39,6 +46,7 @@
             </button>
 
             <button 
+                style="display: <?php echo $update ? 'block' : 'none'; ?>"
                 type="submit" 
                 name = 'PermanentRemoval' 
                 id = 'PermanentRemoval'>
@@ -55,3 +63,11 @@
     </form>
 
 </div>
+<div id = 'popup' 
+    style="display: <?php echo $showForm ? 'block' : 'none'; ?>">
+    <p>
+        <?php if($msg != "") echo $msg; ?>
+    </p>
+</div>
+
+    

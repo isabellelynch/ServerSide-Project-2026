@@ -1,14 +1,9 @@
 <?php
 require_once("DatabaseActions.php");
-require_once('Validation.php');
-require_once("MakeConnection.php");
+require_once("Validation.php");
 
-$pdo = MakeConnection();
 $msg = "";
 
-if(!isset($_POST['AddStudentBtn'])){
-    $showForm = false;
-}
 $student = [
     'name' => (isset($_POST['FirstName']))?trim($_POST['FirstName']):"",
     'surname' => (isset($_POST['Surname']))?trim($_POST['Surname']):"",
@@ -17,62 +12,6 @@ $student = [
     'id' => (isset($_POST['id']))?trim($_POST['id']):""
 ];
 
-function AddStudent()
-{
-    global $pdo, $msg, $student, $showForm;
-
-    $stmt = $pdo->prepare("INSERT INTO Students 
-                    (FirstName, Surname, Email, PhoneNo,Status) 
-                    VALUES (:name, :surname, :email, :phone, 'A')");
-                            
-    $stmt->bindValue(':name', $student['name']);
-    $stmt->bindValue(':surname', $student['surname']);
-    $stmt->bindValue(':email', $student['email']);
-    $stmt->bindValue(':phone', $student['phone']);  
-
-    $stmt->execute();
-
-    $student = [];
-    
-}
-
-function UpdateStudent(){
-    global $pdo, $student;
-
-    $stmt = $pdo->prepare("UPDATE Students SET 
-                            FirstName = :firstname, 
-                            Surname = :surname, 
-                            Email = :email, 
-                            PhoneNo = :phone 
-                            WHERE StudentID = :id");
-
-    $stmt->bindValue(':firstname', $student['name']);
-    $stmt->bindValue(':surname', $student['surname']);
-    $stmt->bindValue(':email', $student['email']);
-    $stmt->bindValue(':phone', $student['phone']);  
-    $stmt->bindValue(':id', $student['id']); 
-
-    $stmt->execute();
-
-    $student = [];
-}
-
-function PermanentlyRemoveStudent(){
-    global $pdo, $student;
-
-    $stmt = $pdo->prepare("DELETE FROM Students 
-                           WHERE StudentID = :id");
-
-    $stmt->bindValue(':id', $student['id']); 
-
-    $stmt->execute();
-
-    $student = [];
-}
-
-
-
-    
 //link in Students table to go from active to inactive
 if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive') 
 {
@@ -88,67 +27,42 @@ if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive')
     }
 }
 
-if (isset($_POST['UpdateStudentBtn'])){
-    if(ValidateStudent() === ""){
-        UpdateStudent();
-    }
-    else{
-        $msg = ValidateStudent();
-        echo json_encode([
-            "success" => false,
-            "message" => $msg
-            ]);
-    }
-    
-} 
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if (isset($_POST['UpdateStudentBtn'])){
+        $update = true;
+        $add = false;
+        $header = "Update Student Form";
 
-if (isset($_POST['PermanentRemoval'])){
-    PermanentlyRemoveStudent();
-} 
-
-
-
-if(isset($_POST['AddStudentBtn'])){
-    global $showForm;
-    
-    $msg = ValidateStudent();
-    if($msg === ""){
-        AddStudent();
-    }
-    else{
-        echo "<div id = 'popup'>$msg</div>";
-    }
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    $showForm = true;
-    exit;
-}
-
-if(isset($_POST['CloseForm'])){
-    $student = [];
-}
-
-
-function ValidateStudent():string{
-    global $student;
-    if(ValidName($student['name'], "First Name") !== "Valid")
-    {
-        return ValidName($student['name'], "First Name");
-    }
-    else if(ValidName($student['surname'], "Surname") !== "Valid")
-    {
-        return ValidName($student['surname'], "Surname");
-    }
-    else if(ValidEmail($student['email']) !== "Valid")
-    {
-        return ValidEmail($student['email']);
-    }
-    else if(ValidPhoneNumber($student['phone']) !== "Valid")
-    {
-        return ValidPhoneNumber($student['phone']);
+        $msg = ValidateStudent($student);
+        
+        if($msg === ""){
+            UpdateStudent($student);
+        }   
     } 
-    return "";
+
+    if (isset($_POST['PermanentRemoval'])){
+        PermanentlyRemoveStudent($student);
+    } 
+
+    if(isset($_POST['AddStudentBtn'])){
+        $update = false;
+        $add = true;
+        $header = "New Student Form";
+
+        $msg = ValidateStudent($student);
+
+        if($msg === ""){
+            AddStudent($student);
+        }
+    }
+    if(isset($_POST['CloseForm'])){
+        $student = [];
+    }
 }
+
+
+
+
 
 
 ?>
