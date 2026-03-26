@@ -58,14 +58,7 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    //Update Student Button
-    let updateBtn = document.getElementById("UpdateStudentBtn");
-    if(updateBtn){
-        updateBtn.addEventListener("click", (e) => {
-            document.getElementById("PermanentRemoval").style.display = "block";
-            document.getElementById("UpdateStudentBtn").style.display = "block";
-        })
-    }
+
 
     // Table row selection
     let rows = document.querySelectorAll("#ViewAllTable tr");
@@ -116,14 +109,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
     let form = document.getElementById("AddStudentForm");
-    let AddStudentBtn = document.getElementById("AddStudentButton");
+    let AddStudentBtn = document.getElementById("AddStudentBtn");
     if(form && AddStudentBtn){
-        AddStudentBtn.addEventListener("submit", e => {
+        AddStudentBtn.addEventListener("click", e => {
             e.preventDefault(); // stop normal submission
-
+            const formData = new FormData(form);
+            formData.append("action", "addStudent");
             fetch("FormHandling.php", {
                 method: "POST",
-                body: new FormData(form)
+                body: formData
             })
             .then(res => res.json()) // expect JSON
             .then(data => {
@@ -139,7 +133,14 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     
 
-
+    //Update Student Button
+    let updateBtn = document.getElementById("UpdateStudentBtn");
+    if(form && updateBtn){
+        updateBtn.addEventListener("click", (e) => {
+            document.getElementById("PermanentRemoval").style.display = "block";
+            document.getElementById("UpdateStudentBtn").style.display = "block";
+        })
+    }
 
     function showPopup(message) {
         const div = document.createElement('div');

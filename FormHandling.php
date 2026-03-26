@@ -93,6 +93,12 @@ if (isset($_POST['UpdateStudentBtn'])){
     }
     else{
         $msg = ValidateStudent();
+        $showForm = true;
+        
+        echo json_encode([
+            "success" => false,
+            "message" => $msg
+            ]);
     }
     
 } 
@@ -101,28 +107,9 @@ if (isset($_POST['PermanentRemoval'])){
     PermanentlyRemoveStudent();
 } 
 
-if (isset($_POST['AddStudentBtn'])){
 
-    if(ValidateStudent() === ""){
-        AddStudent();
-        echo json_encode([
-            "success" => true,
-            "message" => "Student added successfully"
-        ]);
-    }
-    else{
-        $msg = ValidateStudent();
-        echo json_encode([
-            "success" => false,
-            "message" => $msg
-            ]);
 
-    }
-    exit;
-
-} 
-
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AddStudentBtn'])){
+if(isset($_POST['action']) && $_POST['action'] === 'addStudent'){
     if(ValidateStudent() === ""){
         AddStudent();
         echo json_encode([

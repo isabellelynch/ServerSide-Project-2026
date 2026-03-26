@@ -10,7 +10,6 @@
   <body>
     <?php require_once 'Include/SideBar.php'; ?>
     <main>
-        
         <?php include_once 'Include/GenerateTable.php'; ?>
     </main>
   </body>
