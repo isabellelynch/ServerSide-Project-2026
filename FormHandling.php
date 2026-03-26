@@ -5,7 +5,10 @@ require_once("MakeConnection.php");
 
 $pdo = MakeConnection();
 $msg = "";
-$showForm = false;
+
+if(!isset($_POST['AddStudentBtn'])){
+    $showForm = false;
+}
 $student = [
     'name' => (isset($_POST['FirstName']))?trim($_POST['FirstName']):"",
     'surname' => (isset($_POST['Surname']))?trim($_POST['Surname']):"",
@@ -16,9 +19,8 @@ $student = [
 
 function AddStudent()
 {
-    global $pdo, $msg, $student;
+    global $pdo, $msg, $student, $showForm;
 
-    
     $stmt = $pdo->prepare("INSERT INTO Students 
                     (FirstName, Surname, Email, PhoneNo,Status) 
                     VALUES (:name, :surname, :email, :phone, 'A')");
@@ -29,10 +31,9 @@ function AddStudent()
     $stmt->bindValue(':phone', $student['phone']);  
 
     $stmt->execute();
-    
-    $msg = $student['name'] . " " .  $student['surname'] . "successfully added to the system.";
 
     $student = [];
+    
 }
 
 function UpdateStudent(){
@@ -74,7 +75,7 @@ function PermanentlyRemoveStudent(){
     
 //link in Students table to go from active to inactive
 if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive') 
-{ 
+{
     $id = $_GET['id'];
     try 
     {
@@ -93,8 +94,6 @@ if (isset($_POST['UpdateStudentBtn'])){
     }
     else{
         $msg = ValidateStudent();
-        $showForm = true;
-        
         echo json_encode([
             "success" => false,
             "message" => $msg
@@ -109,22 +108,19 @@ if (isset($_POST['PermanentRemoval'])){
 
 
 
-if(isset($_POST['action']) && $_POST['action'] === 'addStudent'){
-    if(ValidateStudent() === ""){
+if(isset($_POST['AddStudentBtn'])){
+    global $showForm;
+    
+    $msg = ValidateStudent();
+    if($msg === ""){
         AddStudent();
-        echo json_encode([
-            "success" => true,
-            "message" => "Student added successfully"
-        ]);
     }
     else{
-        $msg = ValidateStudent();
-        echo json_encode([
-            "success" => false,
-            "message" => $msg
-            ]);
-
+        echo "<div id = 'popup'>$msg</div>";
     }
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    $showForm = true;
     exit;
 }
 
@@ -153,5 +149,6 @@ function ValidateStudent():string{
     } 
     return "";
 }
-   
+
+
 ?>

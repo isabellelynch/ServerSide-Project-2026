@@ -2,22 +2,24 @@
 
 include_once("DatabaseActions.php");
 
-$result = SelectAll();
-
 $schedule = [];
 
-while ($row = $result->fetch()) {
-    $day = $row['Day'];
-    $time = $row['Time'];
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rooms'])){
+    $room = $_POST['rooms'];
 
-    $schedule[$day][$time] = [
-        'class' => $row['ClassID'],
-        'tutor' => $row['TutorID'],
-        'room'  => $row['RoomNo']
-    ];
+    $result = SelectAllClasses($room);
+
+    while ($row = $result->fetch()) {
+        $day = $row['Day'];
+        $time = $row['Time'];
+
+        $schedule[$day][$time] = [
+            'class' => $row['Description'],
+            'tutor' => $row['FirstName'] . " " . $row['Surname']
+        ];
+    }
+
 }
-
-
 $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 $times = [
     '9:00','10:00','11:00','12:00',
@@ -51,11 +53,8 @@ $times = [
                         if ($class) {
                             echo "<strong>" . htmlspecialchars($class['class']) . "</strong><br>";
                             echo htmlspecialchars($class['tutor']) . "<br>";
-                            echo "Room: " . htmlspecialchars($class['room']);
                         } 
-                        else {
-                            echo "-";
-                        }?>
+                        ?>
 
                 </td>
             <?php endforeach; ?>
@@ -66,7 +65,7 @@ $times = [
     </tbody>
 </table>
 
-<?php 
+<?php  
 
 function GetDay($day){
     return match ($day) {

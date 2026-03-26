@@ -11,7 +11,19 @@
   <body>
     <?php require_once 'Include/SideBar.php'; ?>
     <main>
-        <?php require_once 'Include/GenerateSchedule.php'; ?>
+      <form id = 'checkBoxContainer' method = 'POST' action = ''>
+          <label>Room 1</label>
+          <input type = 'radio' name = 'rooms' value = '1'>
+
+          <label>Room 2</label>
+          <input type = 'radio' name = 'rooms' value = '2'>
+
+          <label>Room 3</label>
+          <input type = 'radio' name = 'rooms' value = '3'>
+
+          <button type = 'submit'>Show Classes</button>
+      </form>
+        <?php require_once 'Include/GenerateSchedule.php'; ?> 
     </main>
   </body>
   <script src="project.js"></script>

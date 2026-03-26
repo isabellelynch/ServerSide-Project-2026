@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => {
-
+    
     let AddStudentForm = document.getElementById("StudentFormContainer");
     const Overlay = document.getElementById("overlay");
     let CloseFormButton = document.getElementById("CloseForm");
@@ -112,7 +112,6 @@ window.addEventListener("DOMContentLoaded", () => {
     let AddStudentBtn = document.getElementById("AddStudentBtn");
     if(form && AddStudentBtn){
         AddStudentBtn.addEventListener("click", e => {
-            e.preventDefault(); // stop normal submission
             const formData = new FormData(form);
             formData.append("action", "addStudent");
             fetch("FormHandling.php", {
@@ -127,8 +126,8 @@ window.addEventListener("DOMContentLoaded", () => {
                     // success: optionally reset form
                     form.reset();
                 }
-            })
-            .catch(err => console.error("Fetch error:", err));
+            });
+            
         });
     }
     

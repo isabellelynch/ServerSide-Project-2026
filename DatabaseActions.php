@@ -26,7 +26,14 @@ function QueryDatabase(string $sql)
     }
 }
     
-    
+function SelectAllClasses($room){
+    $sql = "SELECT t.FirstName, t.Surname, s.Description, c.Day, c.Time
+            FROM Classes c
+            JOIN Tutors t ON c.TutorID = t.TutorID 
+            JOIN Subjects s ON t.SubjectCode = s.SubjectCode
+            WHERE RoomNo = $room";
+    return QueryDatabase($sql);
+}
 function SelectAll()
 {
     $sql = "SELECT * FROM " . getCurrentPage();
