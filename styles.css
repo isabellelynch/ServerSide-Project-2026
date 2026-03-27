@@ -209,22 +209,42 @@ nav{
 
 
 #check-boxes-rooms button{
-    width:30%;
-
-
+    width:40%;
+    background:var(--pk-bold);
+    margin:1.2rem;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:0.5rem 1.2rem;
+    font-size:0.85rem;
+    font-weight:700;
+    cursor:pointer;
 }
 
-#check-boxes-rooms label{
-    width:30%;
-
-
+#check-boxes-rooms button:hover{
+    background:#a83059;
+    transform:translateY(-1px);
 }
+
 
 #check-boxes-rooms{
-    width:60%;
+    width:30%;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;    
+    align-items: center;
 
+    background-color: var(--br-pale);
+
+    padding: 1.2rem;
+    border-radius: 8px;
+
+}
+
+#check-boxes-rooms div{
+    display: flex;
+    flex-direction: row;
+    gap:1.2rem;
 }
 
 #ScheduleTable tbody td , 

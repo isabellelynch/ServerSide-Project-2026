@@ -19,6 +19,7 @@
       ?>
       
       <form id = 'check-boxes-rooms' method = 'POST' action = ''>
+          <div>
           <label>Room 1
           <input type = 'radio' name = 'rooms' value = '1' <?php echo (isset($_POST['rooms']) && $_POST['rooms'] === '1')?"checked":""; ?>>
           </label>
@@ -26,11 +27,11 @@
           <label>Room 2
           <input type = 'radio' name = 'rooms' value = '2' <?php echo (isset($_POST['rooms']) && $_POST['rooms'] === '2')?"checked":""; ?>>
           </label>
-          
+
           <label>Room 3
           <input type = 'radio' name = 'rooms' value = '3' <?php echo (isset($_POST['rooms']) && $_POST['rooms'] === '3')?"checked":""; ?>>
           </label>
-          
+          </div>
           <br>
           <button type = 'submit'>Show Classes</button>
       </form>
