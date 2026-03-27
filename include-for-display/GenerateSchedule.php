@@ -16,7 +16,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rooms'])){
 
         $schedule[$day][$time] = [
             'class' => $row['Description'],
-            'tutor' => $row['FirstName'] . " " . $row['Surname']
+            'tutor' => $row['FirstName'] . " " . $row['Surname'],
+            'enrollment' => $row['CurrentEnrollment'],
+            'capacity' => $row['Capacity']
         ];
     }
 
@@ -56,7 +58,8 @@ $times = [
                             <td class = 'class-slot' >
                             <strong><?php echo htmlspecialchars($class['class']); ?></strong>
                             <br>
-                            <?php echo htmlspecialchars($class['tutor']); ?>
+                            <p><?php echo htmlspecialchars($class['tutor']); ?></p>
+                            <p style = "text-align:right"><?php echo htmlspecialchars($class['enrollment']) . "/" . htmlspecialchars($class['capacity']); ?></p>
                             <br>
                         <?php
                         else:

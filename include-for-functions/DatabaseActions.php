@@ -27,11 +27,12 @@ function QueryDatabase(string $sql)
 }
     
 function SelectAllClasses($room){
-    $sql = "SELECT t.FirstName, t.Surname, s.Description, c.Day, c.Time
+    $sql = "SELECT t.FirstName, t.Surname, s.Description, c.Day, c.Time, c.CurrentEnrollment, r.Capacity 
             FROM Classes c
             JOIN Tutors t ON c.TutorID = t.TutorID 
-            JOIN Subjects s ON t.SubjectCode = s.SubjectCode
-            WHERE RoomNo = $room";
+            JOIN Subjects s ON t.SubjectCode = s.SubjectCode 
+            JOIN Rooms r ON r.RoomNo = c.RoomNo 
+            WHERE c.RoomNo = $room";
     return QueryDatabase($sql);
 }
 function SelectAll()

@@ -208,11 +208,24 @@ nav{
 }
 
 
+#check-boxes-rooms button{
+    width:30%;
 
 
+}
+
+#check-boxes-rooms label{
+    width:30%;
 
 
+}
 
+#check-boxes-rooms{
+    width:60%;
+    display: flex;
+    flex-wrap: wrap;    
+
+}
 
 #ScheduleTable tbody td , 
 #ScheduleTable th{
@@ -259,16 +272,16 @@ nav{
         rgba(238,170,187,0.15)
     );
     border-radius: 10px;
-    padding: 0.8rem;
+    padding: 0.6rem;
     transition: all 0.2s ease;
     overflow: hidden;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     color: #555;
 }
 #ScheduleTable .class-slot strong {
     display: block;
     font-size: 1rem;
-    color: #333;
+    color: var(--pk-bold);
 }
 #schedule-table-container {
     width: 60%;

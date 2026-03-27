@@ -8,13 +8,13 @@
 
   </head>
   <body>
-    <?php include 'Include/SideBar.php'; ?>
+    <?php include_once("include-for-display/SideBar.php"); ?>
 
     <div>
 
     </div>
     <main>
-         <?php include 'Include/GenerateTable.php'; ?>
+         <?php include_once("include-for-display/GenerateTable.php"); ?>
     </main>
   </body>
   <script src="project.js"></script>
