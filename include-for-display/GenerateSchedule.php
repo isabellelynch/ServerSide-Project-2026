@@ -1,6 +1,7 @@
 <?php
 
-include_once("DatabaseActions.php");
+include_once("include-for-functions/DatabaseActions.php");
+include_once("include-for-functions/DayMapper.php");
 
 $schedule = [];
 
@@ -22,11 +23,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rooms'])){
 }
 $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 $times = [
-    '9:00','10:00','11:00','12:00',
+    '09:00','10:00','11:00','12:00',
     '13:00','14:00','15:00','16:00', '17:00'
 ];
 ?>
-
+<div id = 'schedule-table-container'>
 <table id = "ScheduleTable">
     <thead>
         <tr>
@@ -43,17 +44,26 @@ $times = [
             <td class = "time"><?php echo $time; ?></td>
 
             <?php foreach ($days as $day): ?>
-                <td>
+                
                     
                         <?php 
                             $dayNum = GetDayNum($day);
                             $timeNum = substr($time, 0, strpos($time, ':'));
                             $class = $schedule[$dayNum][$timeNum]??null; 
                     
-                        if ($class) {
-                            echo "<strong>" . htmlspecialchars($class['class']) . "</strong><br>";
-                            echo htmlspecialchars($class['tutor']) . "<br>";
-                        } 
+                        if ($class) :
+                        ?> 
+                            <td class = 'class-slot' >
+                            <strong><?php echo htmlspecialchars($class['class']); ?></strong>
+                            <br>
+                            <?php echo htmlspecialchars($class['tutor']); ?>
+                            <br>
+                        <?php
+                        else:
+                        ?>
+                            <td>
+                        <?php
+                            endif;
                         ?>
 
                 </td>
@@ -64,26 +74,4 @@ $times = [
 
     </tbody>
 </table>
-
-<?php  
-
-function GetDay($day){
-    return match ($day) {
-                    1 => 'Monday',
-                    2 => 'Tuesday',
-                    3 => 'Wednesday',
-                    4 => 'Thursday',
-                    5 => 'Friday',
-                    default => 'Invalid'
-                };
-}
-
-function GetDayNum($day){
-    return match ($day) {
-                    'Monday' => 1,
-                    'Tuesday' => 2,
-                    'Wednesday' => 3,
-                    'Thursday' => 4, 
-                    'Friday' => 5
-                };
-}
+                        </div>

@@ -5,44 +5,33 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
-    <?php 
-      include_once("FormHandling.php"); 
-      include_once("DisplayForm.php");  
-      include_once("DatabaseActions.php");
-    ?>
+
   </head>
   <body>
     
     <?php 
-      include_once("Header.php");
-      require_once 'Include/SideBar.php'; 
+      require_once("include-for-display/Header.php");
+      require_once ("include-for-display/SideBar.php"); 
     ?>
     <main>
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-label">This Years Revenue</div>
-          <div class="stat-value"><?php echo (GetYearlyRevenue()>0)?GetYearlyRevenue():"0"; ?></div>
-          <div class="stat-sub"><?php echo (GetYearlyRevenueDifference() > 0)?
-                                      "Up " . GetYearlyRevenueDifference() . " on last year":
-                                      "Down "  . GetYearlyRevenueDifference() . " on last year"; ?>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Bookings This Year</div>
-          <div class="stat-value"><?php echo GetThisYearsBookings(); ?></div>
-          <div class="stat-sub">Bookings made so far in <?php echo date("Y"); ?></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Tutors</div>
-          <div class="stat-value"><?php echo GetActive("Tutors"); ?></div>
-          <div class="stat-sub">All available for bookings</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Students</div>
-          <div class="stat-value"><?php echo GetActive("Students"); ?></div>
-          <div class="stat-sub">All actively participating in classes</div>
-        </div>
-      </div>
+      <?php 
+        require_once("include-for-display/GenerateStatsCards.php"); 
+      ?>
+      <form id = 'checkBoxContainer' method = 'POST' action = ''>
+          <label>Room 1</label>
+          <input type = 'radio' name = 'rooms' value = '1' <?php echo (isset($_POST['rooms']) && $_POST['rooms'] === '1')?"checked":""; ?>>
+
+          <label>Room 2</label>
+          <input type = 'radio' name = 'rooms' value = '2' <?php echo (isset($_POST['rooms']) && $_POST['rooms'] === '2')?"checked":""; ?>>
+
+          <label>Room 3</label>
+          <input type = 'radio' name = 'rooms' value = '3' <?php echo (isset($_POST['rooms']) && $_POST['rooms'] === '3')?"checked":""; ?>>
+
+          <button type = 'submit'>Show Classes</button>
+      </form>
+      <?php
+        require_once("include-for-display/GenerateSchedule.php");
+      ?>
 
     </main>
   </body>
