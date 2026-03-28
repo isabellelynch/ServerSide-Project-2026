@@ -12,6 +12,7 @@
     <?php 
       require_once("include-for-display/Header.php");
       require_once ("include-for-display/SideBar.php"); 
+      require_once("Booking.php");
     ?>
     <main>
       <?php 

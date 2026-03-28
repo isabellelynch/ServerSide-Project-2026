@@ -11,7 +11,26 @@ window.addEventListener("DOMContentLoaded", () => {
     let editButtons = document.querySelectorAll(".edit");
     let rows = document.querySelectorAll("#ViewAllTable tr");
     const nav = document.querySelector('nav');
+    let headerBtn = document.getElementById("top-bar-btn");
+    let overlay = document.getElementById('modalOverlay');
 
+    headerBtn.addEventListener("click", openAddModal);
+    overlay.addEventListener("click", handleOverlay);
+    function openAddModal()
+    {
+        overlay.classList.add('active');
+    }
+
+    function closeAddModal()
+    {
+        overlay.classList.remove('active');
+    }
+
+    function handleOverlay(e)
+    {
+        if (e.target=== overlay) closeModal();
+    }
+    /*
     function openModal() {
         if (Overlay) Overlay.style.display = "block";
         if (AddStudentForm) AddStudentForm.style.display = "block";
@@ -46,7 +65,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (CloseFormButton) {
         CloseFormButton.addEventListener("click", closeModal);
     }
-
+*/
     // Edit buttons
     
     editButtons.forEach(b => {

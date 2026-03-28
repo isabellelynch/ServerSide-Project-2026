@@ -184,4 +184,18 @@ function GetThisYearsBookings(){
         return $row['Count'];
     }
 }
+
+
+function GetAllTutorNames(){
+    $sql = "SELECT FirstName, Surname 
+            FROM Tutors 
+            WHERE Status = 'A'";
+    return QueryDatabase($sql);
+}
+
+function GetSubjectNames(){
+    $sql = "SELECT DISTINCT Description 
+            FROM Subjects";
+    return QueryDatabase($sql);
+}
 ?>

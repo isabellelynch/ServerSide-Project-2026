@@ -13,6 +13,7 @@
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -319,127 +320,9 @@ nav{
 }
 
 
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 1;
-    pointer-events: all;
-}
 
 
 
-#StudentFormContainer {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 25%;
-    height:50%;
-    padding: 20px 25px;
-    background-color: var(--color-pale-pink);
-    border: 2px solid var(--color-dark-brown);
-    border-radius: 10px;
-    z-index: 2;
-}
-
-#StudentFormContainer form{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-#StudentFormContainer h3 {
-    text-align: center;
-    background-color: var(--color-dark-brown);
-    padding: 2%;
-    border-radius: 5px;
-    color: var(--color-off-white);
-    margin-bottom: 1em;
-    font-size: 1.5em;
-}
-
-
-#StudentFormContainer form label {
-    font-weight: bold;
-    color: var(--color-dark-brown);
-
-}
-
-#StudentFormContainer input {
-    width: 100%;
-    padding: 7px;
-    border: 1px solid var(--color-darker-pink); 
-    border-radius: 5px;
-    margin:0 auto 1em auto;
-  
-    
-}
-
-.ButtonContainer button:hover {
-    opacity: 0.9;
-}
-#closeForm {
-    background: var(--color-dark-brown);
-    color: var(--color-off-white);
-    margin-left: 10px;
-}
-
-#PermanentRemoval{
-    display: none;
-}
-#UpdateStudentBtn{
-    display: none;
-}
-.ButtonContainer{
-    display:flex;
-    flex-wrap: wrap;
-    width:100%;
-    justify-content: center;
-    gap:5%;
-    
-}
-.ButtonContainer button{
-    min-width:30%;
-    padding: 8px 16px;
-    border: 1px solid var(--color-dark-brown);
-    border-radius: 6px;
-    background-color: var(--color-dark-brown);
-    color: var(--color-off-white);
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 2%;
-}
-
-.edit{
-    padding: 8px 16px;
-    border: 1px solid var(--color-off-white);
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    background-color: var(--color-dark-brown);
-    color: var(--color-off-white);
-}
-
-.edit:hover{
-    background-color: var(--color-off-white);
-    color: var(--color-dark-brown);
-}
-
-#popup {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #e74c3c;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 5px;
-    z-index: 11111111111111;
-}
 
 #ViewAllTable {
     border-collapse: collapse;
@@ -596,7 +479,7 @@ nav{
     margin-bottom: 1.2rem;
 }
 
-label {
+#login-body label {
     display: block;
     font-size: 0.78rem;
     font-weight: 500;
@@ -606,8 +489,8 @@ label {
     margin-bottom: 0.45rem;
 }
 
-input[type="email"],
-input[type="password"] {
+#login-body input[type="email"],
+#login-body input[type="password"] {
     width: 100%;
     padding: 0.75rem 1rem;
     border: 1.5px solid var(--pk-mid);
@@ -620,12 +503,12 @@ input[type="password"] {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input:focus {
+#login-body input:focus {
     border-color: var(--pk-bold);
     box-shadow: 0 0 0 3px rgba(232,135,138,0.15);
 }
 
-input::placeholder { color:var(--pk-soft); }
+#login-body input::placeholder { color:var(--pk-soft); }
 
 .field-row {
     display: flex;
@@ -680,3 +563,136 @@ input::placeholder { color:var(--pk-soft); }
 
 #note a:hover{ text-decoration: underline; }
 
+/*************************************************************************************
+*************************** ADD BOOKING FORM *****************************************
+*************************************************************************************/
+/* -- MODAL -- */
+.modal-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(20,8,2,0.55);
+    backdrop-filter:blur(4px);
+    z-index:200;
+
+    padding:1rem;
+    opacity:0;
+    pointer-events:none;
+    display: none;
+}
+.modal-overlay.active{
+    opacity:1;
+    pointer-events:all;
+}
+.modal{
+    background:#fff;
+    border-radius:16px;
+    width:25%;
+    height:80%;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+    overflow:hidden;
+    margin:5% auto;
+}
+
+.modal-head{
+  background:linear-gradient(135deg,var(--br-deep),var(--br-mid));
+  padding:1.4rem 1.6rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.modal-head h3{
+    color:#fff;
+    font-size:1.25rem;
+}
+.modal-head p{
+    color:var(--pk-soft);
+    font-size:0.8rem;
+    margin-top:2px;
+    opacity:0.85;
+}
+.modal-x{
+    background:rgba(255,255,255,0.15);
+    border:none;
+    color:#fff;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    font-size:1rem;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.modal-x:hover{
+    background:rgba(255,255,255,0.28);
+}
+.modal-form{
+    padding:1.5rem 1.6rem;
+    margin: auto;
+}
+
+.modal-form label{
+    display:block;
+    margin-bottom:1rem;
+    font-size:0.75rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--br-tan);
+    margin-bottom:0.4rem;
+}
+.modal-form input,
+.modal-form select{
+  width:100%;
+  border:1.5px solid var(--br-cream);
+  border-radius:8px;
+  padding:0.6rem 0.85rem;
+  font-size:0.88rem;
+  color:var(--br-deep);
+  background:var(--br-pale);
+  outline:none;
+  transition:border-color .2s;
+  margin-bottom: 1.2rem;
+}
+.modal-form input:focus,
+.modal-form select:focus{
+    border-color:var(--pk-bold);
+    background:#fff;
+}
+
+.modal-footer{
+    display:flex;
+    gap:0.8rem;
+    justify-content:center;
+    margin-top: 1.2rem;
+    padding:0 1.6rem 1.5rem;
+}
+
+/* -- TOAST -- */
+.toast{
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  background:var(--br-deep);color:#fff;
+  border-left:4px solid var(--pk-bold);
+  border-radius:10px;padding:0.9rem 1.4rem;
+  box-shadow:0 8px 28px rgba(0,0,0,0.22);z-index:300;
+  opacity:0;transform:translateX(50px);transition:all .35s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(0);}
+.toast strong{display:block;font-size:0.9rem;margin-bottom:2px;}
+.toast span{font-size:0.78rem;opacity:0.7;}
+
+.active {
+    display:block;
+}
+
+.btn-ghost{
+  background:none;border:1.5px solid var(--br-cream);
+  color:var(--br-warm);border-radius:8px;
+  padding:0.45rem 1rem;
+  font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.btn-ghost:hover{border-color:var(--pk-bold);color:var(--pk-bold);}
