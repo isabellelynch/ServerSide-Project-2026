@@ -6,7 +6,48 @@ require_once("Validation.php");
 
 require_once("MakeConnection.php");
 
+function getDetails(){
+        return match(getCurrentPage()){
+            "Dashboard" => [
+                'page-heading' => "Dashboard", 
+                'top-bar-button' => "+ New Booking", 
+                'form-title' => "New Booking",
+                'form-subtitle' => "Schedule a student session",
+                'form-btn' => "Save Booking",
+                'form-body' => "Booking.php"
+
+            ],
+
+            "Students" => [
+                'page-heading' => "Manage Students", 
+                'top-bar-button' => "+ New Student", 
+                'form-title' => "New Student",
+                'form-subtitle' => "Add a new student to the system",
+                'form-btn' => "Add Student",
+                'form-body' => "NewStudent.php"
+            ],
+
+            "Tutors" => [
+                'page-heading' => "Manage Tutors", 
+                'top-bar-button' => "+ New Tutor", 
+                'form-title' => "New Tutor",
+                'form-subtitle' => "Add a new tutor to the system",
+                'form-btn' => "Add Tutor",
+                'form-body' => "NewStudent.php"
+            ]
+        };
+}
+
+$details = getDetails();
+$days = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
+$times = range(9, 17);
+
+
+
+
 $pdo = MakeConnection();
+
+
 
 function getCurrentPage(){
     return str_replace(".php", "", basename($_SERVER['PHP_SELF']));
@@ -27,12 +68,13 @@ function QueryDatabase(string $sql)
 }
     
 function SelectAllClasses($room){
+    $semester = "261";
     $sql = "SELECT t.FirstName, t.Surname, s.Description, c.Day, c.Time, c.CurrentEnrollment, r.Capacity 
             FROM Classes c
             JOIN Tutors t ON c.TutorID = t.TutorID 
             JOIN Subjects s ON t.SubjectCode = s.SubjectCode 
             JOIN Rooms r ON r.RoomNo = c.RoomNo 
-            WHERE c.RoomNo = $room";
+            WHERE c.RoomNo = $room AND c.SemesterNo = $semester";
     return QueryDatabase($sql);
 }
 function SelectAll()
@@ -44,7 +86,7 @@ function SelectAll()
 function Exists($table,$id)
 {
     global $pdo;
-    $sql = "SELECT count(*) FROM ${table}s where ${table}ID = :id";
+    $sql = "SELECT COUNT(*) FROM ${table}s where ${table}ID = :id";
     
     $exists = $pdo->prepare($sql);
     
@@ -214,4 +256,53 @@ function GetRoomDetails(){
 
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
+function RoomCount(){
+    $sql = "SELECT COUNT(*) AS Count FROM Rooms";
+    $result = QueryDatabase($sql);
+    while ($row=$result->fetch()){
+        return $row['Count'];
+    }
+}
+
+if(!isset($_SESSION['room'])){
+    $_SESSION['room'] = 1;
+}
+
+if(isset($_POST['next-room'])){
+    $_SESSION['room']++;
+    if($_SESSION['room'] > RoomCount()){
+        $_SESSION['room'] = 1;
+    } 
+    generateSchedule($_SESSION['room']);
+}
+if(isset($_POST['previous-room'])){
+    $_SESSION['room']--;
+    if($_SESSION['room'] <= 0){
+        $_SESSION['room'] = RoomCount();
+    } 
+    generateSchedule($_SESSION['room']);
+}
+
+$schedule = [];
+generateSchedule($_SESSION['room']);
+
+
+function generateSchedule($room){
+    global $schedule;
+    $schedule = [];
+    $result = SelectAllClasses($room);
+    
+    while ($row = $result->fetch()) {
+        $day = $row['Day'];
+        $time = $row['Time'];
+
+        $schedule[$day][$time] = [
+            'class' => $row['Description'],
+            'tutor' => $row['FirstName'] . " " . $row['Surname'],
+            'enrollment' => $row['CurrentEnrollment'],
+            'capacity' => $row['Capacity']
+        ];
+    }
+}
+
 ?>

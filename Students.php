@@ -14,7 +14,7 @@
     <?php 
       require_once("include-for-display/Header.php");
       require_once ("include-for-display/SideBar.php"); 
-      require_once("NewStudent.php");
+      require_once("GenerateForm.php");
     ?>
 
     <main>

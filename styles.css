@@ -164,7 +164,6 @@ nav{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:1.2rem;
-    margin:1.8rem;
     width:90%;
     margin:1.8rem auto 1.8rem auto;
 }
@@ -177,6 +176,8 @@ nav{
   position:relative;
   overflow:hidden;
 }
+
+
 .stat-card::after{
   content:'';
   position:absolute;
@@ -210,116 +211,105 @@ nav{
 }
 
 
-#check-boxes-rooms button{
-    width:40%;
-    background:var(--pk-bold);
-    margin:1.2rem;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    padding:0.5rem 1.2rem;
-    font-size:0.85rem;
-    font-weight:700;
-    cursor:pointer;
+#schedule-table-container {
+    width: 90%;
+    margin: 3rem auto;
+    border-radius: 12px;
+    overflow: auto;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    background-color: var(--br-pale);
+    height:80vh;    
+    border:1px solid var(--br-cream);
 }
 
-#check-boxes-rooms button:hover{
-    background:#a83059;
-    transform:translateY(-1px);
+#ScheduleTable {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#ScheduleTable thead {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: left;
+}
+
+#ScheduleTable th{
+    padding: 1rem;
+}
+
+#ScheduleTable thead tr:first-child{
+    height:5%;
+    background-color: var(--br-deep);
+    color: var(--br-cream);
+}
+#ScheduleTable thead tr{
+    height:2%;
+    background-color: var(--br-cream);
+    color: var(--br-tan);
+}
+
+#ScheduleTable tbody tr:nth-child(even) {
+    background-color: rgba(0,0,0,0.02);
+}
+
+#ScheduleTable tbody td {
+    padding: 0.8rem;
+    color: var(--br-deep);
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+#ScheduleTable tbody td:first-child {
+    color: var(--br-deep);
+    font-weight: 600;
+    transition: background-color 0.2s ease;
 }
 
 
-#check-boxes-rooms{
-    width:30%;
+#ScheduleTable button {
+    margin-left: 1rem;
+    background-color: var(--br-cream);
+    color: var(--br-deep);
+    padding: 0.4rem 1rem;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transition: all 0.2s ease;
+}
+
+#ScheduleTable button:hover {
+    background-color: var(--br-tan);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    cursor: pointer;
+}
+#ScheduleTable .class-slot {
+    background: linear-gradient(135deg, rgba(238,170,187,0.25), rgba(238,170,187,0.15));
+    border-radius: 12px;
+    padding: 0.6rem 0.8rem;
+    transition: all 0.25s ease;
+    font-size: 0.95rem;
+    color: #555;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;    
-    align-items: center;
-
-    background-color: var(--br-pale);
-
-    padding: 1.2rem;
-    border-radius: 8px;
-
+    gap: 0.2rem;
 }
 
-#check-boxes-rooms div{
-    display: flex;
-    flex-direction: row;
-    gap:1.2rem;
-}
-
-#ScheduleTable tbody td , 
-#ScheduleTable th{
-    text-align: left;
-    width:18%;
-    height:10%;
-    font-size:1.2rem;
-    color: var(--br-deep);
-    border: 1px solid rgba(0,0,0,0.05);
-    padding: 0.8rem;
-}
-#ScheduleTable tbody td:first-child,
-#ScheduleTable th:first-child {
-    width:10%;
-}
-#ScheduleTable th,
-#ScheduleTable tbody td:first-child{
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    font-weight:700;
-}
 #ScheduleTable .class-slot:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     z-index: 2;
     position: relative;
 }
 
-
-
-#ScheduleTable tbody td:first-child,
-#ScheduleTable thead th{
-    background-color: var(--br-deep);
-    color: var(--br-cream);
-}
-#ScheduleTable tbody{
-    background-color: var(--br-pale); 
-}
-
-#ScheduleTable .class-slot{
-    background: linear-gradient(
-        135deg,
-        rgba(238,170,187,0.25),
-        rgba(238,170,187,0.15)
-    );
-    border-radius: 10px;
-    padding: 0.6rem;
-    transition: all 0.2s ease;
-    overflow: hidden;
-    font-size: 0.95rem;
-    color: #555;
-}
 #ScheduleTable .class-slot strong {
-    display: block;
     font-size: 1rem;
     color: var(--pk-bold);
 }
-#schedule-table-container {
-    width: 60%;
-    margin: 2rem;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    height:80%;
-}
-#ScheduleTable {
-    border-collapse: collapse;
-    width:100%;
-    height:100%;
-
-}
-
 
 
 
@@ -658,8 +648,10 @@ nav{
   transition:border-color .2s;
   margin-bottom: 1.2rem;
 }
+
 .modal-form input:focus,
-.modal-form select:focus{
+.modal-form select:focus,
+#room-selector select:focus{
     border-color:var(--pk-bold);
     background:#fff;
 }

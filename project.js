@@ -1,34 +1,32 @@
 window.addEventListener("DOMContentLoaded", () => {
-    
-    let AddStudentForm = document.getElementById("StudentFormContainer");
-    const Overlay = document.getElementById("overlay");
-    let CloseFormButton = document.getElementById("CloseForm");
-    let popup = document.getElementById("popup");
-    let updateBtn = document.getElementById("UpdateStudentBtn");
-    let addBtn = document.getElementById("AddStudentBtn");
-    let removeBtn = document.getElementById("PermanentRemoval");
-    let header = document.getElementById("FormHeader");
-    let editButtons = document.querySelectorAll(".edit");
-    let rows = document.querySelectorAll("#ViewAllTable tr");
-    const nav = document.querySelector('nav');
+    /************************   FORM CONTROLS   ***********************************/
+
+    let form = document.getElementById("common-form");
     let headerBtn = document.getElementById("top-bar-btn");
-    let overlay = document.getElementById('modalOverlay');
+    let overlay = document.getElementById("modalOverlay");
+    let cancel = document.getElementById("cancel-form-btn");
 
-    headerBtn.addEventListener("click", openAddModal);
-    overlay.addEventListener("click", closeAddModal);
+    headerBtn.addEventListener("click", openForm);
+    overlay.addEventListener("click", handleOverlay);
+    cancel.addEventListener("click", closeForm)
 
-    function openAddModal()
+    function openForm()
     {
         overlay.classList.add('active');
         updateScrollState();
     }
 
-    function closeAddModal()
+    function closeForm()
     {
         overlay.classList.remove('active');
         updateScrollState();
+        form.reset();
     }
 
+    function handleOverlay(e)
+    {
+        if (e.target === overlay) closeForm();
+    }
 
     function updateScrollState() {
         if (overlay.classList.contains('active')) {
@@ -38,9 +36,9 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Edit buttons
-    
-    editButtons.forEach(b => {
+    /************************   END FORM CONTROLS   ***********************************/
+
+    /*editButtons.forEach(b => {
         b.addEventListener("click", (e) => {
             e.preventDefault();
             updateBtn.style.display = "block";
@@ -63,43 +61,6 @@ window.addEventListener("DOMContentLoaded", () => {
         row.classList.add("selected");
     }));
 
-    // Dropdown menu toggles
-    document.querySelectorAll('.toggle').forEach(item => {
-        item.addEventListener('click', function(e) {
-            let parent = this.parentElement;
-            let dropdown = parent.querySelector('.dropdown');
-
-            if (dropdown) {
-                e.preventDefault();
-                document.querySelectorAll('.nav-item').forEach(i => {
-                    i.classList.remove('active-parent');
-                    let d = i.querySelector('.dropdown');
-                    if (d) d.classList.remove('active-dropdown', 'open');
-                });
-                dropdown.classList.toggle('open');
-                parent.classList.toggle('active-parent');
-                if (dropdown.classList.contains('open')) {
-                    dropdown.classList.add('active-dropdown');
-                }
-            }
-        });
-    });
-
-
-    // Add Student link
-    if (nav) {
-        nav.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (link.getAttribute('href') === 'AddStudent') {
-                e.preventDefault();
-                updateBtn.style.display = "none";
-                removeBtn.style.display = "none";
-                addBtn.style.display = "block";
-                header.innerHTML = "New Student Form";
-                openModal();
-            }
-        });
-    }
-
+*/
 
 });
