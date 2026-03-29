@@ -215,20 +215,21 @@ nav{
     width: 90%;
     margin: 3rem auto;
     border-radius: 12px;
-    overflow: auto;
     box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    background-color: var(--br-pale);
-    height:80vh;    
+    background-color: var(--br-pale);  
     border:1px solid var(--br-cream);
+    overflow: hidden;
 }
 
 #ScheduleTable {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
-    height: 100%;
 }
 
+#change-room{
+    display: inline;
+}
 #ScheduleTable thead {
     font-weight: 700;
     text-transform: uppercase;
@@ -294,8 +295,6 @@ nav{
     transition: all 0.25s ease;
     font-size: 0.95rem;
     color: #555;
-    display: flex;
-    flex-direction: column;
     gap: 0.2rem;
 }
 

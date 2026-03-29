@@ -44,7 +44,6 @@ $times = range(9, 17);
 
 
 
-
 $pdo = MakeConnection();
 
 
@@ -256,6 +255,7 @@ function GetRoomDetails(){
 
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
+
 function RoomCount(){
     $sql = "SELECT COUNT(*) AS Count FROM Rooms";
     $result = QueryDatabase($sql);
@@ -264,45 +264,8 @@ function RoomCount(){
     }
 }
 
-if(!isset($_SESSION['room'])){
-    $_SESSION['room'] = 1;
-}
-
-if(isset($_POST['next-room'])){
-    $_SESSION['room']++;
-    if($_SESSION['room'] > RoomCount()){
-        $_SESSION['room'] = 1;
-    } 
-    generateSchedule($_SESSION['room']);
-}
-if(isset($_POST['previous-room'])){
-    $_SESSION['room']--;
-    if($_SESSION['room'] <= 0){
-        $_SESSION['room'] = RoomCount();
-    } 
-    generateSchedule($_SESSION['room']);
-}
-
-$schedule = [];
-generateSchedule($_SESSION['room']);
 
 
-function generateSchedule($room){
-    global $schedule;
-    $schedule = [];
-    $result = SelectAllClasses($room);
-    
-    while ($row = $result->fetch()) {
-        $day = $row['Day'];
-        $time = $row['Time'];
 
-        $schedule[$day][$time] = [
-            'class' => $row['Description'],
-            'tutor' => $row['FirstName'] . " " . $row['Surname'],
-            'enrollment' => $row['CurrentEnrollment'],
-            'capacity' => $row['Capacity']
-        ];
-    }
-}
 
 ?>

@@ -1,9 +1,8 @@
 <?php
-
-include_once("include-for-functions/DatabaseActions.php");
 include_once("include-for-functions/DayMapper.php");
-
+require_once("ScheduleHandling.php");
 global $days, $times, $schedule;
+
 ?>
 <div id = 'schedule-table-container'>
 <table id = "ScheduleTable">
@@ -40,10 +39,11 @@ global $days, $times, $schedule;
                     <p><?php echo htmlspecialchars($class['tutor']); ?></p>
                     <p style = "text-align:right"><?php echo htmlspecialchars($class['enrollment']) . "/" . htmlspecialchars($class['capacity']); ?></p>
                     <br>
+                    </td>
                 <?php else: ?>
-                    <td>
+                    <td></td>
                 <?php endif; ?>
-            </td>
+            
             <?php endforeach; ?>
         </tr>
     <?php endforeach; ?>

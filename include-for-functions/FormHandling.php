@@ -27,37 +27,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive')
     }
 }
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    if (isset($_POST['UpdateStudentBtn'])){
-        $update = true;
-        $add = false;
-        $header = "Update Student Form";
 
-        $msg = ValidateStudent($student);
-        
-        if($msg === ""){
-            UpdateStudent($student);
-        }   
-    } 
 
-    if (isset($_POST['PermanentRemoval'])){
-        PermanentlyRemoveStudent($student);
-    } 
-
-    if(isset($_POST['AddStudentBtn'])){
-        $update = false;
-        $add = true;
-        $header = "New Student Form";
-
-        $msg = ValidateStudent($student);
-
-        if($msg === ""){
-            AddStudent($student);
-        }
-    }
-    if(isset($_POST['CloseForm'])){
-        $student = [];
-    }
 }
 
 

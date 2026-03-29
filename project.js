@@ -36,6 +36,11 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    if(document.querySelectorAll(".class-slot")){
+        document.querySelectorAll(".class-slot").addEventListener("click", openForm);
+    }
+    
+
     /************************   END FORM CONTROLS   ***********************************/
 
     /*editButtons.forEach(b => {
