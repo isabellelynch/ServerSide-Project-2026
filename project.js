@@ -15,57 +15,29 @@ window.addEventListener("DOMContentLoaded", () => {
     let overlay = document.getElementById('modalOverlay');
 
     headerBtn.addEventListener("click", openAddModal);
-    overlay.addEventListener("click", handleOverlay);
+    overlay.addEventListener("click", closeAddModal);
+
     function openAddModal()
     {
         overlay.classList.add('active');
+        updateScrollState();
     }
 
     function closeAddModal()
     {
         overlay.classList.remove('active');
-    }
-
-    function handleOverlay(e)
-    {
-        if (e.target=== overlay) closeModal();
-    }
-    /*
-    function openModal() {
-        if (Overlay) Overlay.style.display = "block";
-        if (AddStudentForm) AddStudentForm.style.display = "block";
         updateScrollState();
     }
 
-    function closeModal() {
-        if (Overlay) Overlay.style.display = "none";
-        if (AddStudentForm) AddStudentForm.style.display = "none";
-        if (popup) popup.style.display = "none";
-        updateScrollState();
-    }
-
-
-    function isVisible(x) {
-        if(x.style.display === 'none'){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
 
     function updateScrollState() {
-        if (isVisible(AddStudentForm)) {
+        if (overlay.classList.contains('active')) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
         }
     }
-    // Close modal button
-    if (CloseFormButton) {
-        CloseFormButton.addEventListener("click", closeModal);
-    }
-*/
+
     // Edit buttons
     
     editButtons.forEach(b => {

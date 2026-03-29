@@ -11,11 +11,12 @@
     ?>
   </head>
   <body>
-    
     <?php 
-      include_once("include-for-display/Header.php");
-      require_once("include-for-display/SideBar.php"); 
+      require_once("include-for-display/Header.php");
+      require_once ("include-for-display/SideBar.php"); 
+      require_once("NewStudent.php");
     ?>
+
     <main>
         <?php include_once("include-for-display/GenerateTable.php"); ?>
     </main>

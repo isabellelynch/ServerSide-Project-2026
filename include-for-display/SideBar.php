@@ -49,7 +49,7 @@
                 <a href = "<?php echo $ni['link']; ?>" 
                    class = "no-link-styling 
                             nav-item 
-                            <?php echo (basename($_SERVER['PHP_SELF']) === $ni['link'])?"active":""; ?>">
+                            <?php echo (basename($_SERVER['PHP_SELF']) === $ni['link'])?" active":""; ?>">
                     <?php echo $ni['item']; ?>
                 </a>
         <?php

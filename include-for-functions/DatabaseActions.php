@@ -190,12 +190,28 @@ function GetAllTutorNames(){
     $sql = "SELECT FirstName, Surname 
             FROM Tutors 
             WHERE Status = 'A'";
-    return QueryDatabase($sql);
+
+    $result = QueryDatabase($sql);
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function GetSubjectNames(){
     $sql = "SELECT DISTINCT Description 
             FROM Subjects";
-    return QueryDatabase($sql);
+    
+    $result = QueryDatabase($sql);
+
+    return $result->fetchAll(PDO::FETCH_COLUMN);
+}
+
+
+function GetRoomDetails(){
+    $sql = "SELECT * 
+            FROM Rooms";
+
+    $result = QueryDatabase($sql);
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
