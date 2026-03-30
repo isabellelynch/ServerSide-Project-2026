@@ -3,6 +3,7 @@
     
     $ID = (basename($_SERVER['PHP_SELF']) === 'Students.php')?'StudentID':'TutorID';
 
+
     
 ?>
     <table id = 'ViewAllTable'>
@@ -21,10 +22,9 @@
 
     <?php 
 
-    $result = SelectAll(basename($_SERVER['PHP_SELF']));
+    $result = SelectAll(str_replace(".php", "", basename($_SERVER['PHP_SELF'])));
 
-    while ($row=$result->fetch())
-        {
+    foreach($result as $row):
             $status = ($row["Status"]==='A')?'Active':'Inactive';
             $currentID = $row[$ID];
     ?>
@@ -34,7 +34,7 @@
         <td> <?php echo $row["Surname"]; ?></td>
         <td> <?php echo $row["Email"]; ?></td>
         <td> <?php echo $row["PhoneNo"]; ?></td>
-        <td><a href = "FormHandling.php?action=SetToInactive&id=<?php echo $currentID; ?>"><?php echo $status; ?></a></td>
+        <td><a href = "include-for-functions/FormHandling.php?action=SetToInactive&id=<?php echo $currentID; ?>"><?php echo $status; ?></a></td>
         <td>
             <button 
                 class = "edit"
@@ -48,7 +48,7 @@
         </td>
         </tr>
         
-    <?php } ?>
+    <?php endforeach; ?>
 
     </tbody>
     </table>

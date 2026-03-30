@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['classid'])){
         $classid = $_POST['classid'];
         $email = $_POST['email'];
-        
+
         global $pdo;
 
         $stmt = $pdo->prepare("SELECT * 
@@ -26,13 +26,16 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                     incrementEnrollment($classid);
                     createBooking($studentID, $classid);
                 }
+                else{
+                    $error = "Student cannot be added to the class because their email is not on the system,
+                              please add them to the system and try again.";
+                }
 
             }
+            else{
+                $error = "Student cannot be added to the class as this class is full";
+            }
         }
-        
-        
-
-        
     }
 }
 

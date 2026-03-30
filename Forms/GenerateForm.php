@@ -26,6 +26,6 @@
 </div>
 
 <div class="toast" id="toast">
-  <strong id="toastTitle">✅ Booking Saved</strong>
-  <span id="toastMsg">The session has been added to the calendar.</span>
+  <strong id="toastTitle">Error</strong>
+  <span id="toastMsg"><?php if(isset($error)){ echo $error; } ?></span>
 </div>

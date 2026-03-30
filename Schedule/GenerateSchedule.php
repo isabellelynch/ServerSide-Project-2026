@@ -1,7 +1,8 @@
 <?php
 include_once("include-for-functions/DayMapper.php");
 require_once("ScheduleHandling.php");
-global $days, $times, $schedule;
+global $days, $times, $schedule, $semesters;
+
 
 ?>
 <div id = 'schedule-table-container'>
@@ -9,10 +10,17 @@ global $days, $times, $schedule;
     <thead>
         <tr>
             <th colspan = "6">
-                Room <?php echo $_SESSION['room']; ?>
                 <form id = 'change-room' action = "" method = "POST">
-                    <button name = 'previous-room'><</button>
-                    <button name = 'next-room'>></button>
+                    <div>
+                        Room <?php echo $_SESSION['room']; ?>
+                        <button name = 'previous-room'><</button>
+                        <button name = 'next-room'>></button>
+                    </div>
+                    <div>
+                        <?php echo $semesters[$_SESSION['semester']]['name']; ?> Semester
+                        <button name = 'previous-sem'><</button>
+                        <button name = 'next-sem'>></button>
+                    </div>
                 </form>
             </th>
         </tr>

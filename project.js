@@ -6,6 +6,12 @@ window.addEventListener("DOMContentLoaded", () => {
     let overlay = document.getElementById("modalOverlay");
     let cancel = document.getElementById("cancel-form-btn");
     let exitForm = document.getElementById("modal-x");
+    let classes = document.querySelectorAll(".class-slot");
+    let bookclassFormBody = document.getElementById("book-for-student");
+    let newClassFormBody = document.getElementById("add-new-class");
+    let error = document.getElementById("toast");
+    let errorMsg = document.getElementById("toastMsg");
+
 
     headerBtn.addEventListener("click", () => {
         openForm();
@@ -45,7 +51,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    let classes = document.querySelectorAll(".class-slot");
+    
     
     
     if(classes){
@@ -65,17 +71,22 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function toggleNewClassForm(){
-        document.getElementById("book-for-student").style.display = 'none';
-        document.getElementById("add-new-class").style.display = 'block';
+        bookclassFormBody.style.display = 'none';
+        newClassFormBody.style.display = 'block';
     }
     function toggleNewStudentForm(){
         document.getElementById("modalTitle").innerHTML = "Make Booking";
         document.getElementById("modalSub").innerHTML = "Add student to class list";
-        document.getElementById("book-for-student").style.display = 'block';
-        document.getElementById("add-new-class").style.display = 'none';
+        bookclassFormBody.style.display = 'block';
+        newClassFormBody.style.display = 'none';
     }
-    
 
+    if(errorMsg.innerText != ""){
+        error.classList.add("show");
+        setTimeout(() => {
+            error.classList.remove("show");
+        }, 3000);
+    }
     /************************   END FORM CONTROLS   ***********************************/
 
     /*editButtons.forEach(b => {

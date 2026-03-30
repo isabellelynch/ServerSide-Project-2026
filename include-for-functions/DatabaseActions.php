@@ -9,7 +9,8 @@ require_once("MakeConnection.php");
 function getDetails(){
         return match(getCurrentPage()){
             "Dashboard" => [
-                'page-heading' => "Dashboard", 
+                'page-heading' => "Dashboard",
+                'page-badge' => date("F Y"), 
                 'top-bar-button' => "+ New Class", 
                 'form-title' => "New Class",
                 'form-subtitle' => "Schedule a class",
@@ -19,6 +20,7 @@ function getDetails(){
 
             "Students" => [
                 'page-heading' => "Manage Students", 
+                'page-badge' => GetActive("Students") . " Students", 
                 'top-bar-button' => "+ New Student", 
                 'form-title' => "New Student",
                 'form-subtitle' => "Add a new student to the system",
@@ -28,6 +30,7 @@ function getDetails(){
 
             "Tutors" => [
                 'page-heading' => "Manage Tutors", 
+                'page-badge' => GetActive("Tutors") . " Tutors", 
                 'top-bar-button' => "+ New Tutor", 
                 'form-title' => "New Tutor",
                 'form-subtitle' => "Add a new tutor to the system",
@@ -119,16 +122,20 @@ function UpdateStatus($table, $id)
     }
 }
 /************************************* CLASSES ********************************************/
-function SelectAllClasses($room){
-    $semester = "261";
-    $sql = "SELECT c.ClassID, t.FirstName, t.Surname, s.Description, 
-                   c.Day, c.Time, c.CurrentEnrollment, r.Capacity 
-            FROM Classes c
-            JOIN Tutors t ON c.TutorID = t.TutorID 
-            JOIN Subjects s ON t.SubjectCode = s.SubjectCode 
-            JOIN Rooms r ON r.RoomNo = c.RoomNo 
-            WHERE c.RoomNo = $room AND c.SemesterNo = $semester";
-    return QueryDatabase($sql);
+function SelectAllClasses($room, $semester){
+    global $pdo;
+    $stmt = $pdo -> prepare("SELECT c.ClassID, t.FirstName, t.Surname, s.Description, 
+                            c.Day, c.Time, c.CurrentEnrollment, r.Capacity 
+                            FROM Classes c
+                            JOIN Tutors t ON c.TutorID = t.TutorID 
+                            JOIN Subjects s ON t.SubjectCode = s.SubjectCode 
+                            JOIN Rooms r ON r.RoomNo = c.RoomNo 
+                            WHERE c.RoomNo = :room AND c.SemesterNo = :sem");
+
+    $stmt->bindValue(':room', $room); 
+    $stmt->bindValue(':sem', $semester);
+    $stmt->execute(); 
+    return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 }
 
 
@@ -256,7 +263,7 @@ function GetThisYearsBookings(){
     $sql = "SELECT COUNT(*) AS Count 
             FROM Bookings 
             WHERE EXTRACT(YEAR FROM BookingDate) = EXTRACT(YEAR FROM SYSDATE())";
-            
+
     $result = QueryDatabase($sql);
     while ($row=$result->fetch()){
         return $row['Count'];

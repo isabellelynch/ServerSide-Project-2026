@@ -8,6 +8,7 @@
     <?php 
       include_once("include-for-functions/FormHandling.php");  
       include_once("include-for-functions/DatabaseActions.php");
+      $details = getDetails();
     ?>
   </head>
   <body>
