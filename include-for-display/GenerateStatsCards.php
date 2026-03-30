@@ -5,7 +5,7 @@
             $result = "No change on last year.";
         }
         else{
-            $result = (GetYearlyRevenueDifference() > 0)?"Up ":"Down " . "$rev on last year.";
+            $result = ((GetYearlyRevenueDifference() > 0)?"Up ":"Down " ). "$rev on last year.";
         }
       
 

@@ -253,7 +253,10 @@ function GetYearlyRevenueDifference(){
 }
 
 function GetThisYearsBookings(){
-    $sql = "SELECT COUNT(*) AS Count FROM Bookings WHERE BookingDate = EXTRACT(YEAR FROM SYSDATE())";
+    $sql = "SELECT COUNT(*) AS Count 
+            FROM Bookings 
+            WHERE EXTRACT(YEAR FROM BookingDate) = EXTRACT(YEAR FROM SYSDATE())";
+            
     $result = QueryDatabase($sql);
     while ($row=$result->fetch()){
         return $row['Count'];

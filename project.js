@@ -7,7 +7,10 @@ window.addEventListener("DOMContentLoaded", () => {
     let cancel = document.getElementById("cancel-form-btn");
     let exitForm = document.getElementById("modal-x");
 
-    headerBtn.addEventListener("click", openForm);
+    headerBtn.addEventListener("click", () => {
+        openForm();
+        toggleNewClassForm();
+    });
     overlay.addEventListener("click", handleOverlay);
     cancel.addEventListener("click", closeForm);
 
@@ -48,25 +51,28 @@ window.addEventListener("DOMContentLoaded", () => {
     if(classes){
         classes.forEach(el => {
             el.addEventListener("click", () => {
-                document.getElementById("modalTitle").innerHTML = "Make Booking";
-                document.getElementById("modalSub").innerHTML = "Add student to class list";
-
-                fetch("Forms/FormBodies/AddStudentFromCalendar.html")
-                    .then(res => res.text())
-                    .then(html => {
-                        document.getElementById("common-form").innerHTML = html;
-                });
-                
                 setTimeout(() => {
                     openForm();
+                    toggleNewStudentForm();
                     let classid = document.getElementById("ClassID");
                     if(classid){
-                        classid.dataset.id = el.dataset.id;
+                        classid.value = el.dataset.id;
                     }
                 }, 100); 
             }
         )});
 
+    }
+
+    function toggleNewClassForm(){
+        document.getElementById("book-for-student").style.display = 'none';
+        document.getElementById("add-new-class").style.display = 'block';
+    }
+    function toggleNewStudentForm(){
+        document.getElementById("modalTitle").innerHTML = "Make Booking";
+        document.getElementById("modalSub").innerHTML = "Add student to class list";
+        document.getElementById("book-for-student").style.display = 'block';
+        document.getElementById("add-new-class").style.display = 'none';
     }
     
 

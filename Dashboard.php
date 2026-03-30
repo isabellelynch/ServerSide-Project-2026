@@ -23,6 +23,7 @@
             require_once("Schedule/GenerateSchedule.php"); 
         ?>
     </main>
+    <div><?php var_dump($_SESSION['error']); ?></div>
   </body>
   <script src="project.js"></script>
 </html>

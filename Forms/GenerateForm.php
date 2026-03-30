@@ -11,20 +11,19 @@
                 <p id="modalSub"><?php echo $details['form-subtitle']; ?></p>
             </div>
 
-            <button id = "modal-x">X</button>
+            <button id = "modal-x" type = "button">X</button>
         </div>
 
 
-        <form class="modal-form" id = "common-form">
+        <form class="modal-form" id = "common-form" method = "POST" action = "">
             <?php require_once($details['form-body']); ?>
             <div class="modal-footer">
                 <button class="btn-ghost" id = "cancel-form-btn">Cancel</button>
-                <button class="btn-primary"><?php echo $details['form-btn']; ?></button>
+                <button type = "submit" class="btn-primary" name = "save-btn"><?php echo $details['form-btn']; ?></button>
             </div>
         </form>
     </div>
 </div>
-
 
 <div class="toast" id="toast">
   <strong id="toastTitle">✅ Booking Saved</strong>
