@@ -5,10 +5,16 @@ window.addEventListener("DOMContentLoaded", () => {
     let headerBtn = document.getElementById("top-bar-btn");
     let overlay = document.getElementById("modalOverlay");
     let cancel = document.getElementById("cancel-form-btn");
+    let exitForm = document.getElementById("modal-x");
 
     headerBtn.addEventListener("click", openForm);
     overlay.addEventListener("click", handleOverlay);
-    cancel.addEventListener("click", closeForm)
+    cancel.addEventListener("click", closeForm);
+
+    if(exitForm){
+        exitForm.addEventListener("click", closeForm);
+    }
+    
 
     function openForm()
     {
@@ -36,8 +42,31 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    if(document.querySelectorAll(".class-slot")){
-        document.querySelectorAll(".class-slot").addEventListener("click", openForm);
+    let classes = document.querySelectorAll(".class-slot");
+    
+    
+    if(classes){
+        classes.forEach(el => {
+            el.addEventListener("click", () => {
+                document.getElementById("modalTitle").innerHTML = "Make Booking";
+                document.getElementById("modalSub").innerHTML = "Add student to class list";
+
+                fetch("Forms/FormBodies/AddStudentFromCalendar.html")
+                    .then(res => res.text())
+                    .then(html => {
+                        document.getElementById("common-form").innerHTML = html;
+                });
+                
+                setTimeout(() => {
+                    openForm();
+                    let classid = document.getElementById("ClassID");
+                    if(classid){
+                        classid.dataset.id = el.dataset.id;
+                    }
+                }, 100); 
+            }
+        )});
+
     }
     
 

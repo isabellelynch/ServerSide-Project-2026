@@ -33,10 +33,10 @@ global $days, $times, $schedule;
                 $d = GetDayNum($day);
                 $class = $schedule[$d][$time]??null; 
                 if ($class) : ?> 
-                    <td class = 'class-slot' >
-                    <strong><?php echo htmlspecialchars($class['class']); ?></strong>
+                    <td class = 'class-slot' data-id = "<?php echo htmlspecialchars($class['id']); ?>">
+                    <p id = "ClassSubject"><strong><?php echo htmlspecialchars($class['class']); ?></strong></p>
                     <br>
-                    <p><?php echo htmlspecialchars($class['tutor']); ?></p>
+                    <p id = "ClassTutor"><?php echo htmlspecialchars($class['tutor']); ?></p>
                     <p style = "text-align:right"><?php echo htmlspecialchars($class['enrollment']) . "/" . htmlspecialchars($class['capacity']); ?></p>
                     <br>
                     </td>

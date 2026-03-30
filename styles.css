@@ -603,7 +603,7 @@ nav{
     margin-top:2px;
     opacity:0.85;
 }
-.modal-x{
+#modal-x{
     background:rgba(255,255,255,0.15);
     border:none;
     color:#fff;
@@ -616,7 +616,7 @@ nav{
     align-items:center;
     justify-content:center;
 }
-.modal-x:hover{
+#modal-x:hover{
     background:rgba(255,255,255,0.28);
 }
 .modal-form{

@@ -3,16 +3,13 @@
 
   $tutors = GetAllTutorNames();
   $subjects = GetSubjectNames();
-  $rooms = GetRoomDetails();
+  $rooms = SelectAll("Rooms");
   global $days, $times;
 ?>
 
-<label>Student Email</label>
-  <input type="text" placeholder="e.g. isabellelynch@gmail.com"/>
-
 <label>Tutor</label>
   <select>
-    <option>Select tutor...</option>
+    <option id = "FormTutor" disabled selected hidden>Select tutor...</option>
     <?php foreach($tutors as $t): ?>
         <option>
             <?php echo $t['FirstName'] . " " . $t['Surname']; ?>
@@ -22,7 +19,7 @@
 
 <label>Subject</label>
   <select>
-    <option disabled selected hidden>Select subject...</option>
+    <option id = "FormSubject" disabled selected hidden>Select subject...</option>
     <?php foreach($subjects as $s): ?>
         <option>
             <?php echo $s; ?>
@@ -32,7 +29,7 @@
 
 <label>Room</label>
 <select>
-    <option disabled selected hidden>Select room...</option>
+    <option id = "FormRoom" disabled selected hidden>Select room...</option>
     <?php foreach($rooms as $r): ?>
         <option>
             <?php echo $r['RoomNo'] . " - " . $r['Description'] . " (" . $r['Capacity'] . ")"; ?>
@@ -42,7 +39,7 @@
 
 <label>Day</label>
 <select>
-    <option disabled selected hidden>Select day...</option>
+    <option id = "FormDay" disabled selected hidden>Select day...</option>
     <?php foreach($days as $d): ?>
         <option>
             <?php echo $d; ?>
@@ -52,10 +49,11 @@
 
 <label>Time</label>
 <select>
-    <option disabled selected hidden>Select time...</option>
+    <option id = "FormTime" disabled selected hidden>Select time...</option>
     <?php foreach($times as $t): ?>
         <option>
             <?php echo $t; ?>
         </option>
     <?php endforeach; ?>
 </select>
+

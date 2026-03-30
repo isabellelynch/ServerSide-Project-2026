@@ -2,6 +2,7 @@
     require_once("include-for-functions/DatabaseActions.php");
     
     $ID = (basename($_SERVER['PHP_SELF']) === 'Students.php')?'StudentID':'TutorID';
+
     
 ?>
     <table id = 'ViewAllTable'>
@@ -20,7 +21,7 @@
 
     <?php 
 
-    $result = SelectAll();
+    $result = SelectAll(basename($_SERVER['PHP_SELF']));
 
     while ($row=$result->fetch())
         {

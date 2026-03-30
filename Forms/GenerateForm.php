@@ -1,6 +1,5 @@
 <?php 
-    require_once("include-for-functions/DatabaseActions.php");
-    global $details;
+    $details = getDetails();
 ?>
 <div class="modal-overlay" id="modalOverlay">
 
@@ -12,18 +11,16 @@
                 <p id="modalSub"><?php echo $details['form-subtitle']; ?></p>
             </div>
 
-            <button class = "modal-x">X</button>
+            <button id = "modal-x">X</button>
         </div>
 
 
         <form class="modal-form" id = "common-form">
             <?php require_once($details['form-body']); ?>
-
             <div class="modal-footer">
                 <button class="btn-ghost" id = "cancel-form-btn">Cancel</button>
                 <button class="btn-primary"><?php echo $details['form-btn']; ?></button>
             </div>
-
         </form>
     </div>
 </div>

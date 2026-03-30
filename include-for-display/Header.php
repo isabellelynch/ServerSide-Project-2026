@@ -7,7 +7,9 @@
     <div class="topbar-title" id="topbarTitle"><?php echo $details['page-heading']; ?></div>
     <div class="topbar-right">
       <span class="topbar-badge" id="topbarBadge"><?php echo date("F Y"); ?></span>
+
       <button class="btn-primary" id="top-bar-btn"><?php echo $details['top-bar-button']; ?></button>
+
     </div>
 </header>
 

@@ -1,13 +1,10 @@
 <?php 
 require_once("include-for-functions/DatabaseActions.php");
 
-
-$schedule = generateSchedule();
-
 if (!isset($_SESSION['room'])) {
     $_SESSION['room'] = 1;
 }
-
+$schedule = generateSchedule();
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     global $schedule;
     if(isset($_POST['previous-room'])){
@@ -25,8 +22,6 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     $schedule = generateSchedule();
 }
 
-
-
 function generateSchedule(){
     $s = [];
     $result = SelectAllClasses($_SESSION['room']);
@@ -39,7 +34,8 @@ function generateSchedule(){
             'class' => $row['Description'],
             'tutor' => $row['FirstName'] . " " . $row['Surname'],
             'enrollment' => $row['CurrentEnrollment'],
-            'capacity' => $row['Capacity']
+            'capacity' => $row['Capacity'],
+            'id' => $row['ClassID']
         ];
     }
 

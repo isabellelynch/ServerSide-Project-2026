@@ -2,10 +2,10 @@
     include_once("include-for-functions/DatabaseActions.php");
     $rev = GetYearlyRevenueDifference();
         if($rev === 0){
-        $result = "No change on last year.";
+            $result = "No change on last year.";
         }
         else{
-        $result = (GetYearlyRevenueDifference() > 0)?"Up ":"Down " . "$rev on last year.";
+            $result = (GetYearlyRevenueDifference() > 0)?"Up ":"Down " . "$rev on last year.";
         }
       
 

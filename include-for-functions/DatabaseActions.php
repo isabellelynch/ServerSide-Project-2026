@@ -10,12 +10,11 @@ function getDetails(){
         return match(getCurrentPage()){
             "Dashboard" => [
                 'page-heading' => "Dashboard", 
-                'top-bar-button' => "+ New Booking", 
-                'form-title' => "New Booking",
-                'form-subtitle' => "Schedule a student session",
-                'form-btn' => "Save Booking",
-                'form-body' => "Booking.php"
-
+                'top-bar-button' => "+ New Class", 
+                'form-title' => "New Class",
+                'form-subtitle' => "Schedule a class",
+                'form-btn' => "Save Class",
+                'form-body' => "Forms/FormBodies/Booking.php"
             ],
 
             "Students" => [
@@ -24,7 +23,7 @@ function getDetails(){
                 'form-title' => "New Student",
                 'form-subtitle' => "Add a new student to the system",
                 'form-btn' => "Add Student",
-                'form-body' => "NewStudent.php"
+                'form-body' => "Forms/FormBodies/NewStudent.php"
             ],
 
             "Tutors" => [
@@ -38,15 +37,13 @@ function getDetails(){
         };
 }
 
-$details = getDetails();
+
+
 $days = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
 $times = range(9, 17);
 
-
-
+/************************************* GENERAL ********************************************/
 $pdo = MakeConnection();
-
-
 
 function getCurrentPage(){
     return str_replace(".php", "", basename($_SERVER['PHP_SELF']));
@@ -66,20 +63,11 @@ function QueryDatabase(string $sql)
     }
 }
     
-function SelectAllClasses($room){
-    $semester = "261";
-    $sql = "SELECT t.FirstName, t.Surname, s.Description, c.Day, c.Time, c.CurrentEnrollment, r.Capacity 
-            FROM Classes c
-            JOIN Tutors t ON c.TutorID = t.TutorID 
-            JOIN Subjects s ON t.SubjectCode = s.SubjectCode 
-            JOIN Rooms r ON r.RoomNo = c.RoomNo 
-            WHERE c.RoomNo = $room AND c.SemesterNo = $semester";
-    return QueryDatabase($sql);
-}
-function SelectAll()
+function SelectAll($table)
 {
-    $sql = "SELECT * FROM " . getCurrentPage();
-    return QueryDatabase($sql);
+    $sql = "SELECT * FROM $table";
+    $result = QueryDatabase($sql);
+    return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function Exists($table,$id)
@@ -99,6 +87,14 @@ function Exists($table,$id)
     else
     {
         return 0;
+    }
+}
+
+function GetActive($table){
+    $sql = "SELECT COUNT(*) AS Count FROM $table WHERE Status = 'A'";
+    $result = QueryDatabase($sql);
+    while ($row=$result->fetch()){
+        return $row['Count'];
     }
 }
 
@@ -122,7 +118,23 @@ function UpdateStatus($table, $id)
         echo "Student could not be found in the database";
     }
 }
+/************************************* CLASSES ********************************************/
+function SelectAllClasses($room){
+    $semester = "261";
+    $sql = "SELECT c.ClassID, t.FirstName, t.Surname, s.Description, 
+                   c.Day, c.Time, c.CurrentEnrollment, r.Capacity 
+            FROM Classes c
+            JOIN Tutors t ON c.TutorID = t.TutorID 
+            JOIN Subjects s ON t.SubjectCode = s.SubjectCode 
+            JOIN Rooms r ON r.RoomNo = c.RoomNo 
+            WHERE c.RoomNo = $room AND c.SemesterNo = $semester";
+    return QueryDatabase($sql);
+}
 
+
+
+
+/************************************* STUDENTS ********************************************/
 function AddStudent($student)
 {
     global $pdo;
@@ -175,15 +187,37 @@ function UpdateStudent($student){
 
     $student = [];
 }
+/************************************* TUTORS ********************************************/
+function GetAllTutorNames(){
+    $sql = "SELECT FirstName, Surname 
+            FROM Tutors 
+            WHERE Status = 'A'";
 
-function GetActive($table){
-    $sql = "SELECT COUNT(*) AS Count FROM $table WHERE Status = 'A'";
+    $result = QueryDatabase($sql);
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/************************************* SUBJECTS ********************************************/
+function GetSubjectNames(){
+    $sql = "SELECT DISTINCT Description 
+            FROM Subjects";
+    
+    $result = QueryDatabase($sql);
+
+    return $result->fetchAll(PDO::FETCH_COLUMN);
+}
+
+/************************************* ROOMS ********************************************/
+function RoomCount(){
+    $sql = "SELECT COUNT(*) AS Count FROM Rooms";
     $result = QueryDatabase($sql);
     while ($row=$result->fetch()){
         return $row['Count'];
     }
 }
 
+/************************************* STATISTICS ********************************************/
 function GetYearlyRevenue(){
     $sql = "SELECT SUM(tr.HourlyRate) AS Count
             FROM Bookings b 
@@ -227,42 +261,11 @@ function GetThisYearsBookings(){
 }
 
 
-function GetAllTutorNames(){
-    $sql = "SELECT FirstName, Surname 
-            FROM Tutors 
-            WHERE Status = 'A'";
-
-    $result = QueryDatabase($sql);
-
-    return $result->fetchAll(PDO::FETCH_ASSOC);
-}
-
-function GetSubjectNames(){
-    $sql = "SELECT DISTINCT Description 
-            FROM Subjects";
-    
-    $result = QueryDatabase($sql);
-
-    return $result->fetchAll(PDO::FETCH_COLUMN);
-}
 
 
-function GetRoomDetails(){
-    $sql = "SELECT * 
-            FROM Rooms";
 
-    $result = QueryDatabase($sql);
 
-    return $result->fetchAll(PDO::FETCH_ASSOC);
-}
 
-function RoomCount(){
-    $sql = "SELECT COUNT(*) AS Count FROM Rooms";
-    $result = QueryDatabase($sql);
-    while ($row=$result->fetch()){
-        return $row['Count'];
-    }
-}
 
 
 
