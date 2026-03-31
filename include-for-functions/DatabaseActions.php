@@ -172,13 +172,16 @@ function PermanentlyRemoveStudent($student){
     $stmt = $pdo->prepare("DELETE FROM Students 
                            WHERE StudentID = :id");
 
-    $stmt->bindValue(':id', $student['id']); 
+    $stmt->bindValue(':id', $student); 
 
     $stmt->execute();
 
-    $student = [];
 }
 
+if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save-btn']) && isset($_POST['remove-id'])){
+    $id = $_POST['remove-id'];
+    PermanentlyRemoveStudent($id);
+}
 function UpdateStudent($student){
     global $pdo;
     

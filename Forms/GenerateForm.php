@@ -19,7 +19,8 @@
             <?php require_once($details['form-body']); ?>
             <div class="modal-footer">
                 <button class="btn-ghost" id = "cancel-form-btn">Cancel</button>
-                <button type = "submit" class="btn-primary" name = "save-btn"><?php echo $details['form-btn']; ?></button>
+                <button type = "submit" class="btn-primary" 
+                        name = "save-btn" id = "save-btn"><?php echo $details['form-btn']; ?></button>
             </div>
         </form>
     </div>

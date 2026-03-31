@@ -2,6 +2,9 @@ window.addEventListener("DOMContentLoaded", () => {
     /************************   FORM CONTROLS   ***********************************/
 
     let form = document.getElementById("common-form");
+    let formTitle = document.getElementById("modalTitle");
+    let formSubTitle = document.getElementById("modalSub");
+    let formSaveBtn = document.getElementById("save-btn");
     let headerBtn = document.getElementById("top-bar-btn");
     let overlay = document.getElementById("modalOverlay");
     let cancel = document.getElementById("cancel-form-btn");
@@ -9,6 +12,8 @@ window.addEventListener("DOMContentLoaded", () => {
     let classes = document.querySelectorAll(".class-slot");
     let bookclassFormBody = document.getElementById("book-for-student");
     let newClassFormBody = document.getElementById("add-new-class");
+    let removeStudentFormBody = document.getElementById("remove-student");
+    let updateStudentFormBody = document.getElementById("update-student-form");
     let error = document.getElementById("toast");
     let errorMsg = document.getElementById("error");
     let successMsg = document.getElementById("success");
@@ -78,11 +83,26 @@ window.addEventListener("DOMContentLoaded", () => {
         newClassFormBody.style.display = 'block';
     }
     function toggleNewStudentForm(){
-        document.getElementById("modalTitle").innerHTML = "Make Booking";
-        document.getElementById("modalSub").innerHTML = "Add student to class list";
+        formTitle.innerHTML = "Make Booking";
+        formSubTitle.innerHTML = "Add student to class list";
         bookclassFormBody.style.display = 'block';
         newClassFormBody.style.display = 'none';
     }
+    function toggleUpdateStudentForm(){
+        formTitle.innerHTML = "Update Student";
+        formSubTitle.innerHTML = "Make the necessary changes to students details";
+        formSaveBtn.innerHTML = "Update Student";
+        updateStudentFormBody.style.display = 'block';
+        removeStudentFormBody.style.display = 'none';
+    }
+    function toggleDeleteStudentForm(){
+        formTitle.innerHTML = "Remove Student";
+        formSubTitle.innerHTML = "Please confirm student removal";
+        formSaveBtn.innerHTML = "Remove Student";
+        updateStudentFormBody.style.display = 'none';
+        removeStudentFormBody.style.display = 'block';
+    }
+
 
     let msgTitle = document.getElementById("toastTitle");
     if(error){
@@ -108,12 +128,44 @@ window.addEventListener("DOMContentLoaded", () => {
             r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
         });
     }
+
     filter.addEventListener("input", (e) => {
         filterTable("ViewAllTable", e.target.value)
     });
 
+    if(table){
+        let editButtons = document.querySelectorAll(".edit-btn");
+        let deleteButtons = document.querySelectorAll(".delete-btn");
+        
+        editButtons.forEach(b => {
+            b.addEventListener("click", (e) => {
+                document.querySelector('[name="update-id"]').value = b.dataset.id;
+                document.querySelector('[name="firstname"]').value = b.dataset.firstname;
+                document.querySelector('[name="surname"]').value = b.dataset.surname;
+                document.querySelector('[name="email"]').value = b.dataset.email;
+                document.querySelector('[name="phone"]').value = b.dataset.phone;
+                toggleUpdateStudentForm();
+                openForm();
+            });
+        });
 
+        deleteButtons.forEach(d => {
+            d.addEventListener("click", () => {
+                document.querySelector('[name="remove-id"]').value = d.dataset.id;
+                let name = d.dataset.firstname + " " + d.dataset.surname;
+                
+                toggleDeleteStudentForm();
+                
+                document.getElementById("remove-msg").innerText = "Are you sure you wish to remove " +
+                name + " from the system ?";
+                openForm();
+            });
+            
+        });
+    }
+    
 
+    
     /************************   END FORM CONTROLS   ***********************************/
 
     /*editButtons.forEach(b => {

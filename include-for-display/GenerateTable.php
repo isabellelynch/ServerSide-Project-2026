@@ -18,6 +18,7 @@
     <thead>
         <tr>
             <th><?php echo $table; ?></th>
+            <th>Email</th>
             <th>Phone No.</th>
             <th>Status</th>
             <th style = "text-align:right">Actions</th>
@@ -34,29 +35,36 @@
             $currentID = $row[str_replace("s", "ID", $table)];
     ?>
         <tr> 
-            <td hidden><?php echo $currentID; ?></td>
-            <td> 
-                <div class="avatar-chip">
-                    <div class="avatar-sm"><?php echo substr($row["FirstName"],0,1); ?></div>
-                    <div>
-                        <div style="font-weight:700"><?php echo $row["FirstName"]; ?></div>
-                        <div style="font-size:0.74rem;color:var(--br-tan)"><?php echo $row["Email"]; ?></div>
-                    </div>
-                </div>
-                
+            <td hidden><?php echo $row[$currentID]; ?></td>
+            <td class="avatar-chip"> 
+                <div class="avatar-sm"><?php echo substr($row["FirstName"],0,1); ?></div>
+                <?php echo $row["FirstName"] . " " . $row["Surname"]; ?>
             </td>
-            <td> <?php echo $row["PhoneNo"]; ?></td>
+            <td><?php echo $row["Email"]; ?></td>
+            <td><?php echo $row["PhoneNo"]; ?></td>
+            
             <td>
                 <a href = "FormHandling.php?action=SetToInactive&id=<?php echo $currentID; ?>">
                     <?php echo $status; ?>
                 </a>
             </td>
             <td>
-                <div class="action-btns">
-                    <button class="btn-icon">
+                <div class = "action-btns">
+                    <button class="edit-btn" 
+                            type = "button"
+                            data-id = <?php echo $currentID; ?>
+                            data-firstname = <?php echo $row["FirstName"]; ?>
+                            data-surname = <?php echo $row["Surname"]; ?>
+                            data-email = <?php echo $row["Email"]; ?>
+                            data-phone = <?php echo $row["PhoneNo"]; ?>>
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button class="btn-icon del">
+                    <button class="delete-btn" 
+                            type = "button" 
+                            data-id = <?php echo $currentID; ?>
+                            data-firstname = <?php echo $row["FirstName"]; ?>
+                            data-surname = <?php echo $row["Surname"]; ?>
+                            >
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
