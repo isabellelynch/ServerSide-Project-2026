@@ -12,6 +12,8 @@ window.addEventListener("DOMContentLoaded", () => {
     let error = document.getElementById("toast");
     let errorMsg = document.getElementById("error");
     let successMsg = document.getElementById("success");
+    let filter = document.getElementById("table-filter");
+    let table = document.getElementById("ViewAllTable");
 
 
     headerBtn.addEventListener("click", () => {
@@ -100,6 +102,17 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
     
+    function filterTable(tableId, q){
+        let rows = document.querySelectorAll('#' + tableId + ' tbody tr');
+        rows.forEach(r => { 
+            r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none';
+        });
+    }
+    filter.addEventListener("input", (e) => {
+        filterTable("ViewAllTable", e.target.value)
+    });
+
+
 
     /************************   END FORM CONTROLS   ***********************************/
 
