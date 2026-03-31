@@ -26,6 +26,7 @@
 </div>
 
 <div class="toast" id="toast">
-  <strong id="toastTitle">Error</strong>
-  <span id="toastMsg"><?php if(isset($error)){ echo $error; } ?></span>
+  <strong id="toastTitle"></strong>
+  <span id="error" class = "toast-msg"><?php if(isset($error)){ echo $error; } ?></span>
+  <span id="sucess" class = "toast-msg"><?php if(isset($success)){ echo $sucess; } ?></span>
 </div>

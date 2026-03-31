@@ -76,27 +76,28 @@ function SelectAll($table)
 function Exists($table,$id)
 {
     global $pdo;
-    $sql = "SELECT COUNT(*) FROM ${table}s where ${table}ID = :id";
+    $tableID = substr($table, 0, -1) . "ID";
+    
+    $sql = "SELECT * FROM $table WHERE $tableID = :id";
     
     $exists = $pdo->prepare($sql);
-    
+
     $exists->bindValue(':id', $id);
     $exists->execute();
     
-    if($exists->fetchColumn() > 0)
-    {
-        return 1;
+    if(count($exists->fetch(PDO::FETCH_ASSOC))>0){
+        return true;
     }
-    else
-    {
-        return 0;
-    }
+        
+    return false;
+    
+
 }
 
 function GetActive($table){
     $sql = "SELECT COUNT(*) AS Count FROM $table WHERE Status = 'A'";
     $result = QueryDatabase($sql);
-    while ($row=$result->fetch()){
+    while ($row=$result->fetch(PDO::FETCH_ASSOC)){
         return $row['Count'];
     }
 }
@@ -104,17 +105,21 @@ function GetActive($table){
 function UpdateStatus($table, $id) 
 {
     global $pdo;
-    if(Exists("Student",$id) == 1)
+
+    $tableID = substr($table, 0, -1) . "ID";
+
+    if(Exists($table,$id) === true)
     {
-            $sql = "UPDATE ${table}s 
-                    SET Status = CASE 
-                    WHEN Status = 'A' THEN 'I' 
-                    ELSE 'A'
-                    END
-                    WHERE ${table}ID = :id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':id', $id); 
-            $stmt->execute(); 
+        $sql = "UPDATE $table 
+                SET Status = CASE 
+                WHEN Status = 'A' THEN 'I' 
+                ELSE 'A'
+                END
+                WHERE $tableID = :id";
+                
+        $stmt = $pdo->prepare($sql); 
+        $stmt->bindValue(':id', $id); 
+        $stmt->execute(); 
     }
     else
     {
@@ -176,7 +181,7 @@ function PermanentlyRemoveStudent($student){
 
 function UpdateStudent($student){
     global $pdo;
-
+    
     $stmt = $pdo->prepare("UPDATE Students SET 
                             FirstName = :firstname, 
                             Surname = :surname, 
@@ -193,6 +198,8 @@ function UpdateStudent($student){
     $stmt->execute();
 
     $student = [];
+    
+    
 }
 /************************************* TUTORS ********************************************/
 function GetAllTutorNames(){

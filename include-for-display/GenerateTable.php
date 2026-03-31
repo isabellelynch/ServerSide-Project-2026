@@ -1,10 +1,8 @@
 <?php
     require_once("include-for-functions/DatabaseActions.php");
     
-    $ID = (basename($_SERVER['PHP_SELF']) === 'Students.php')?'StudentID':'TutorID';
-
-
-    
+    $_SESSION['current_page'] = basename($_SERVER['PHP_SELF']);
+    $ID = str_replace("s.php", "ID", $_SESSION['current_page']);
 ?>
     <table id = 'ViewAllTable'>
     <thead>
@@ -22,7 +20,7 @@
 
     <?php 
 
-    $result = SelectAll(str_replace(".php", "", basename($_SERVER['PHP_SELF'])));
+    $result = SelectAll(str_replace(".php", "", $_SESSION['current_page']));
 
     foreach($result as $row):
             $status = ($row["Status"]==='A')?'Active':'Inactive';
@@ -34,7 +32,7 @@
         <td> <?php echo $row["Surname"]; ?></td>
         <td> <?php echo $row["Email"]; ?></td>
         <td> <?php echo $row["PhoneNo"]; ?></td>
-        <td><a href = "include-for-functions/FormHandling.php?action=SetToInactive&id=<?php echo $currentID; ?>"><?php echo $status; ?></a></td>
+        <td><a href = "FormHandling.php?action=SetToInactive&id=<?php echo $currentID; ?>"><?php echo $status; ?></a></td>
         <td>
             <button 
                 class = "edit"

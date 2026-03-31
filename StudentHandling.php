@@ -6,6 +6,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['classid'])){
         $classid = $_POST['classid'];
         $email = $_POST['email'];
+        if($email == ""){
+            $error = "Please enter an email to add a student.";
+            return;
+        }
 
         global $pdo;
 
@@ -25,6 +29,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                 if($studentID){
                     incrementEnrollment($classid);
                     createBooking($studentID, $classid);
+                    $success = "Student sucessfully added to the class.";
                 }
                 else{
                     $error = "Student cannot be added to the class because their email is not on the system,

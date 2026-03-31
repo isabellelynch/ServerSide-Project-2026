@@ -10,7 +10,8 @@ window.addEventListener("DOMContentLoaded", () => {
     let bookclassFormBody = document.getElementById("book-for-student");
     let newClassFormBody = document.getElementById("add-new-class");
     let error = document.getElementById("toast");
-    let errorMsg = document.getElementById("toastMsg");
+    let errorMsg = document.getElementById("error");
+    let successMsg = document.getElementById("success");
 
 
     headerBtn.addEventListener("click", () => {
@@ -81,12 +82,25 @@ window.addEventListener("DOMContentLoaded", () => {
         newClassFormBody.style.display = 'none';
     }
 
-    if(errorMsg.innerText != ""){
-        error.classList.add("show");
-        setTimeout(() => {
-            error.classList.remove("show");
-        }, 3000);
+    let msgTitle = document.getElementById("toastTitle");
+    if(error){
+        msgTitle.innerText = "";
+
+        if(errorMsg && errorMsg.innerText != ""){
+                msgTitle.innerText = "Error";
+        }
+        if(successMsg && successMsg.innerText != ""){
+            msgTitle.innerText = "Success";
+        }
+        if(msgTitle.innerText != ""){
+            error.classList.add("show");
+            setTimeout(() => {
+                error.classList.remove("show");
+            }, 3000);
+        }
     }
+    
+
     /************************   END FORM CONTROLS   ***********************************/
 
     /*editButtons.forEach(b => {
