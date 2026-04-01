@@ -8,14 +8,15 @@ require_once("MakeConnection.php");
 
 function getDetails(){
         return match(getCurrentPage()){
-            "Dashboard" => [
+            "index" => [
                 'page-heading' => "Dashboard",
                 'page-badge' => date("F Y"), 
                 'top-bar-button' => "+ New Class", 
                 'form-title' => "New Class",
                 'form-subtitle' => "Schedule a class",
                 'form-btn' => "Save Class",
-                'form-body' => "Forms/FormBodies/Booking.php"
+                'form-body' => "Forms/FormBodies/Booking.php",
+                'table' => ""
             ],
 
             "Students" => [
@@ -25,7 +26,8 @@ function getDetails(){
                 'form-title' => "New Student",
                 'form-subtitle' => "Add a new student to the system",
                 'form-btn' => "Add Student",
-                'form-body' => "Forms/FormBodies/NewStudent.php"
+                'form-body' => "../Forms/FormBodies/NewStudent.php",
+                'table' => "Students"
             ],
 
             "Tutors" => [
@@ -35,11 +37,11 @@ function getDetails(){
                 'form-title' => "New Tutor",
                 'form-subtitle' => "Add a new tutor to the system",
                 'form-btn' => "Add Tutor",
-                'form-body' => "NewStudent.php"
+                'form-body' => "../Forms/FormBodies/NewStudent.php",
+                'table' => "Tutors"
             ]
         };
 }
-
 
 
 $days = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
@@ -215,6 +217,21 @@ function GetAllTutorNames(){
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+function GetTutorRate($r){
+    global $pdo;
+    
+    $stmt = $pdo->prepare("SELECT HourlyRate 
+                           FROM TutorRates 
+                           WHERE RateCode = :r");
+    $stmt->bindValue(':r', $r); 
+
+    $stmt->execute();
+    
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['HourlyRate'];
+}
 /************************************* SUBJECTS ********************************************/
 function GetSubjectNames(){
     $sql = "SELECT DISTINCT Description 
@@ -233,6 +250,8 @@ function RoomCount(){
         return $row['Count'];
     }
 }
+
+
 
 /************************************* STATISTICS ********************************************/
 function GetYearlyRevenue(){

@@ -1,5 +1,5 @@
 <?php
-    include_once("include-for-functions/DatabaseActions.php");
+    include_once("../include-for-functions/DatabaseActions.php");
     global $details;
 
 ?>

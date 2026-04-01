@@ -1,5 +1,5 @@
 <?php
-require_once("include-for-functions/DatabaseActions.php");
+require_once("../include-for-functions/DatabaseActions.php");
 unset($_SESSION['error']);
 global $pdo;
 if($_SERVER['REQUEST_METHOD'] === "POST"){

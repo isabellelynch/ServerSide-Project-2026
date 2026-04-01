@@ -217,7 +217,7 @@ nav{
     margin: 3rem auto;
     border-radius: 12px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    background-color: var(--br-pale);  
+    background-color: #fff;  
     border:1px solid var(--br-cream);
     overflow: hidden;
 }
@@ -238,6 +238,7 @@ nav{
 
 #ScheduleTable th{
     padding: 1rem;
+
 }
 
 #ScheduleTable thead tr:first-child{
@@ -247,7 +248,7 @@ nav{
 }
 #ScheduleTable thead tr{
     height:2%;
-    background-color: var(--br-cream);
+    background-color: var(--br-pale);
     color: var(--br-tan);
 }
 
@@ -261,12 +262,14 @@ nav{
     font-size: 1rem;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     border-top: 1px solid rgba(0,0,0,0.05);
+    width:18%;
 }
 
 #ScheduleTable tbody td:first-child {
     color: var(--br-deep);
     font-weight: 600;
     transition: background-color 0.2s ease;
+    width:10%;
 }
 
 
@@ -290,7 +293,7 @@ nav{
 #ScheduleTable .class-slot {
     background: linear-gradient(135deg, rgba(238,170,187,0.25), rgba(238,170,187,0.15));
     border-radius: 12px;
-    padding: 0.6rem 0.8rem;
+    padding: 0.6rem;
     transition: all 0.25s ease;
     font-size: 0.95rem;
     color: #555;
@@ -311,58 +314,6 @@ nav{
 
 
 
-
-/*
-#ViewAllTable {
-    border-collapse: collapse;
-    background-color: var(--br-pale); 
-    border: 2px solid var(--br-deep);
-    color:var(--br-deep);
-    width:50%;
-    border-radius:8px;
-    padding:1.2rem 1.4rem;
-    box-shadow:0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-
-
-#ViewAllTable thead {
-    background-color: var(--color-dark-brown);
-    color: var(--color-off-white);
-}
-
-#ViewAllTable th,
-#ViewAllTable td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--color-off-white); 
-}
-
-#ViewAllTable tbody tr:nth-child(even) {
-    background-color: var(--color-accent-pink); 
-}
-
-#ViewAllTable tbody tr:hover {
-    background-color: var(--color-darker-pink);
-
-}
-
-#ViewAllTable tr.selected td{
-    background-color: var(--color-darker-pink);
-}
-#ViewAllTable a:link{
-    text-decoration:underline;
-    color: var(--color-dark-brown);
-}
-
-#ViewAllTable a:visited{
-    color:var(--color-dark-brown);
-}
-#ViewAllTable a:hover{
-    color: var(--color-off-white);
-}
-
-*/
 
 
 
@@ -695,9 +646,9 @@ nav{
 
 #change-room{
     display: flex;
-   
     justify-content: space-between;
 }
+
 .btn-ghost{
   background:none;border:1.5px solid var(--br-cream);
   color:var(--br-warm);border-radius:8px;
@@ -813,13 +764,20 @@ nav{
 .action-btns{
     display:flex;
     gap:0.6rem;
-    justify-content: right;
+
 }
 .action-btns button{
-  background:none;border:1.5px solid var(--br-cream);
-  border-radius:6px;width:30px;height:30px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:0.85rem;cursor:pointer;transition:all .2s;
+  background:none;
+  border:1.5px solid var(--br-cream);
+  border-radius:6px;
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.85rem;
+  cursor:pointer;
+  transition:all .2s;
 }
 .action-btns button:hover{
     border-color:var(--pk-bold);

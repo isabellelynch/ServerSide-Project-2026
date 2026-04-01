@@ -6,7 +6,7 @@
       'items' => [
           [
             "item" => "Dashboard",
-            "link" => "Dashboard.php"
+            "link" => "index.php"
           ]
         ]
     ],

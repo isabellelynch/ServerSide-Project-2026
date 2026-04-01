@@ -1,15 +1,36 @@
 <?php
-    require_once("include-for-functions/DatabaseActions.php");
-    
-    $_SESSION['current_page'] = basename($_SERVER['PHP_SELF']);
-    $table = str_replace(".php", "", $_SESSION['current_page']);
+    require_once("../include-for-functions/DatabaseActions.php");
+
+    global $details;
+    $table = $details['table'];
+
+    //link in Students table to go from active to inactive
+    if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive') 
+    {
+        $id = $_GET['id'];
+        try 
+        {
+            UpdateStatus($table,$id);
+            header("Location:$table.php" );
+            exit();
+        }
+        catch (PDOException $e) 
+        { 
+            $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(); 
+        }
+    }
+
 ?>
+<div class = "content-header">
+    <h2><?php echo $table; ?></h2>
+    <p><?php echo ($table === "Students")?"All enrolled students":"All employed tutors"; ?></p>
+</div>
 <div class = "panel">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <div class="table-toolbar">
         <input class="search-input" 
                type="text" 
-               placeholder="Search students…" 
+               placeholder="Search <?php echo $table; ?>…" 
                id = "table-filter">
 </div>
 
@@ -20,15 +41,18 @@
             <th><?php echo $table; ?></th>
             <th>Email</th>
             <th>Phone No.</th>
+            <?php if($table === "Tutors"): ?>
+                <th>Rate (€)</th>
+            <?php endif; ?>
             <th>Status</th>
-            <th style = "text-align:right">Actions</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
 
     <?php 
 
-    $result = SelectAll(str_replace(".php", "", $_SESSION['current_page']));
+    $result = SelectAll($table);
 
     foreach($result as $row):
             $status = ($row["Status"]==='A')?'Active':'Inactive';
@@ -42,9 +66,11 @@
             </td>
             <td><?php echo $row["Email"]; ?></td>
             <td><?php echo $row["PhoneNo"]; ?></td>
-            
+            <?php if($table === "Tutors"): ?>
+                <td>€<?php echo GetTutorRate($row["RateCode"]); ?></td>
+            <?php endif; ?>
             <td>
-                <a href = "FormHandling.php?action=SetToInactive&id=<?php echo $currentID; ?>">
+                <a href = "?action=SetToInactive&id=<?php echo $currentID; ?>">
                     <?php echo $status; ?>
                 </a>
             </td>

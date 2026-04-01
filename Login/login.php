@@ -4,7 +4,7 @@
     <title>Login</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="CSS/grindbookingsys.css">
     <?php require_once("include-for-functions/handle-login.php"); ?>
   </head>
 <body id = 'login-body'>
@@ -44,5 +44,5 @@
   </main>
 
 </body>
-  <script src="project.js"></script>
+  <script src="JavaScript/grindbookingsys.js"></script>
 </html>
