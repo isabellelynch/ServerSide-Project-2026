@@ -1,44 +1,72 @@
 window.addEventListener("DOMContentLoaded", () => {
-    /************************   FORM CONTROLS   ***********************************/
-
-    let form = document.getElementById("common-form");
+    let page = document.body.dataset.page;
+    
     let formTitle = document.getElementById("modalTitle");
     let formSubTitle = document.getElementById("modalSub");
     let formSaveBtn = document.getElementById("save-btn");
     let headerBtn = document.getElementById("top-bar-btn");
+    let pageHeading = document.getElementById("topbarTitle");
+
+    const pageConfig = {
+        index: {
+            title: "Dashboard",
+            top: "+ New Class",
+            formtitle: "New Class",
+            subtitle: "Schedule a class",
+            save: "Save Class",
+        },
+        students: {
+            title: "Manage Students",
+            top: "+ New Student",
+            formtitle: "New Student",
+            subtitle: "Add a new student to the system",
+            save: "Add Student",
+        },
+        tutors: {
+            title: "Manage Tutors",
+            top: "+ New Tutor",
+            formtitle: "New Tutor",
+            subtitle: "Add a new tutor to the system",
+            save: "Add Tutor",
+        }
+    };
+
+    const config = pageConfig[page];
+    if(config){
+        pageHeading.innerHTML = config.title;
+        headerBtn.innerHTML = config.top;
+        formTitle.innerHTML = config.formtitle;
+        formSubTitle.innerHTML = config.subtitle;
+        formSaveBtn.innerHTML = config.save;
+    }
+
     let overlay = document.getElementById("modalOverlay");
     let cancel = document.getElementById("cancel-form-btn");
     let exitForm = document.getElementById("modal-x");
     let classes = document.querySelectorAll(".class-slot");
-    let bookclassFormBody = document.getElementById("book-for-student");
-    let newClassFormBody = document.getElementById("add-new-class");
-    let removeStudentFormBody = document.getElementById("remove-student");
-    let updateStudentFormBody = document.getElementById("update-student-form");
-    let error = document.getElementById("toast");
-    let errorMsg = document.getElementById("error");
-    let successMsg = document.getElementById("success");
+    
     let filter = document.getElementById("table-filter");
     let table = document.getElementById("ViewAllTable");
-
 
     headerBtn.addEventListener("click", () => {
         openForm();
         toggleNewClassForm();
     });
-    overlay.addEventListener("click", handleOverlay);
-    cancel.addEventListener("click", closeForm);
-
+    if(overlay){
+       overlay.addEventListener("click", handleOverlay); 
+    }
+    if(cancel){
+       cancel.addEventListener("click", closeForm); 
+    }
     if(exitForm){
         exitForm.addEventListener("click", closeForm);
     }
-    
-
     function openForm()
     {
         overlay.classList.add('active');
         updateScrollState();
     }
-
+    let form = document.getElementById("common-form");
     function closeForm()
     {
         overlay.classList.remove('active');
@@ -59,9 +87,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    
-    
-    
     if(classes){
         classes.forEach(el => {
             el.addEventListener("click", () => {
@@ -75,8 +100,12 @@ window.addEventListener("DOMContentLoaded", () => {
                 }, 100); 
             }
         )});
-
     }
+
+    let bookclassFormBody = document.getElementById("book-for-student");
+    let newClassFormBody = document.getElementById("add-new-class");
+    let removeStudentFormBody = document.getElementById("remove-student");
+    let updateStudentFormBody = document.getElementById("update-student-form");
 
     function toggleNewClassForm(){
         bookclassFormBody.style.display = 'none';
@@ -105,6 +134,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
     let msgTitle = document.getElementById("toastTitle");
+    let error = document.getElementById("toast");
+    let errorMsg = document.getElementById("error");
+    let successMsg = document.getElementById("success");
     if(error){
         msgTitle.innerText = "";
 
@@ -129,9 +161,12 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    filter.addEventListener("input", (e) => {
-        filterTable("ViewAllTable", e.target.value)
-    });
+    if(filter){
+        filter.addEventListener("input", (e) => {
+            filterTable("ViewAllTable", e.target.value)
+        });
+    }
+    
 
     if(table){
         let editButtons = document.querySelectorAll(".edit-btn");
@@ -164,33 +199,4 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     }
     
-
-    
-    /************************   END FORM CONTROLS   ***********************************/
-
-    /*editButtons.forEach(b => {
-        b.addEventListener("click", (e) => {
-            e.preventDefault();
-            updateBtn.style.display = "block";
-            removeBtn.style.display = "block";
-            addBtn.style.display = "none";
-            header.innerHTML = "Update Student Form";
-            document.querySelector('[name="id"]').value = b.dataset.id;
-            document.querySelector('[name="FirstName"]').value = b.dataset.firstname;
-            document.querySelector('[name="Surname"]').value = b.dataset.surname;
-            document.querySelector('[name="Email"]').value = b.dataset.email;
-            document.querySelector('[name="PhoneNo"]').value = b.dataset.phone;
-            openModal();
-        });
-    });
-
-
-    // Table row selection
-    rows.forEach(row => row.addEventListener("click", () => {
-        rows.forEach(r => r.classList.remove("selected"));
-        row.classList.add("selected");
-    }));
-
-*/
-
 });

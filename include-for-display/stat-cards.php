@@ -1,13 +1,16 @@
 <?php
-    include_once("include-for-functions/DatabaseActions.php");
+    include_once(ROOT . "/database-interactions/statistics.php");
+    include_once(ROOT . "/database-interactions/general.php");
+
     $rev = GetYearlyRevenueDifference();
-        if($rev === 0){
-            $result = "No change on last year.";
-        }
-        else{
-            $result = ((GetYearlyRevenueDifference() > 0)?"Up ":"Down " ). "$rev on last year.";
-        }
-      
+
+    if($rev === 0){
+        $result = "No change on last year.";
+    }
+    else{
+        $result = ((GetYearlyRevenueDifference() > 0)?"Up ":"Down " ). "$rev on last year.";
+    }
+    
 
     $stats = [
         [
@@ -30,7 +33,7 @@
             'value' => GetActive("Students"),
             'sub' => "All actively participating in classes"
         ]
-    ]
+    ];
 ?>
 <div class="stats-row">
     <?php

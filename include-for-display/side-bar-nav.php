@@ -6,7 +6,8 @@
       'items' => [
           [
             "item" => "Dashboard",
-            "link" => "index.php"
+            "link" => "index.php",
+            "file" => "index.php"
           ]
         ]
     ],
@@ -15,15 +16,18 @@
       'items' => [
         [
           "item" => "Tutors",
-          "link" => "Tutors.php"
+          "link" => "Tutors/Tutors.php",
+          "file" => "Tutors.php"
         ],
         [
           "item" => "Students",
-          "link" => "Students.php"
+          "link" => "Students/Students.php",
+          "file" => "Students.php"
         ],
         [
           "item" => "Subjects & Schedules",
-          "link" => "Schedules.php"
+          "link" => "Schedules.php",
+          "file" => "Schedules.php"
         ]
       ]
     ]
@@ -46,10 +50,10 @@
             <?php 
               foreach($n['items'] as $ni): 
             ?>
-                <a href = "<?php echo $ni['link']; ?>" 
+                <a href = "<?php echo (basename($_SERVER['PHP_SELF']) === "index.php")?$ni['link']:"../" . $ni['link']; ?>" 
                    class = "no-link-styling 
                             nav-item 
-                            <?php echo (basename($_SERVER['PHP_SELF']) === $ni['link'])?" active":""; ?>">
+                            <?php echo (basename($_SERVER['PHP_SELF']) === $ni['file'])?" active":""; ?>">
                     <?php echo $ni['item']; ?>
                 </a>
         <?php

@@ -1,0 +1,38 @@
+<?php
+require_once(ROOT . "/database-interactions/students.php");
+require_once(ROOT . "/database-interactions/classes.php");
+require_once(ROOT . "/database-interactions/bookings.php");
+
+//Add student to a class, index page form using email
+if($_SERVER['REQUEST_METHOD'] === "POST"){
+    if(isset($_POST['save-btn']) && isset($_POST['classid'])){
+        $classid = $_POST['classid'];
+        $email = $_POST['email'];
+        if($email == ""){
+            $_SESSION['error'] = "Please enter an email to add a student.";
+            return;
+        }
+
+        $class = getClass($classid);
+
+        if($class){
+            if(!isClassFull($classid)){
+                $studentID = doesEmailExist($email);
+                if($studentID){
+                    incrementEnrollment($classid);
+                    createBooking($studentID, $classid);
+                    $success = "Student sucessfully added to the class.";
+                }
+                else{
+                    $_SESSION['error'] = "Student cannot be added to the class because their email is not on the system,
+                              please add them to the system and try again.";
+                }
+            }
+            else{
+                $_SESSION['error'] = "Student cannot be added to the class as this class is full";
+            }
+        }
+    }
+}
+
+?>

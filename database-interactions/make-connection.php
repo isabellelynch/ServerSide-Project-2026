@@ -14,5 +14,6 @@ function MakeConnection()
     }
 }
 
+$pdo = MakeConnection();
 
 ?>

@@ -1,19 +1,17 @@
 <?php 
-  include_once("include-for-functions/DatabaseActions.php");
+    include_once(ROOT . "/database-interactions/tutors.php");
+    $tutors = GetAllTutorNames();
 
-  $tutors = GetAllTutorNames();
-  $subjects = GetSubjectNames();
-  $rooms = SelectAll("Rooms");
-  global $days, $times;
+    include_once(ROOT . "/database-interactions/subjects.php");
+    $subjects = GetSubjectNames();
+
+    include_once(ROOT . "/database-interactions/rooms.php");
+    $rooms = SelectAll("Rooms");
+    
+    include_once(ROOT . "/include-for-functions/day-mapper.php");
+    global $days, $times;
 ?>
 
-<div id = "book-for-student">
-    <label>Student Email</label>
-        <input type="text" placeholder="e.g. isabellelynch@gmail.com" name = "email"
-        value = "<?php echo (isset($email))?$email:''; ?>">
-
-    <input type = "hidden" id = "ClassID" name = "classid" value = ""></input>
-</div>
 <div id = "add-new-class">
     <label>Tutor</label>
     <select>

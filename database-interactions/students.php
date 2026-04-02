@@ -1,0 +1,73 @@
+<?php
+    require_once(ROOT . "/database-interactions/make-connection.php");
+    global $pdo;
+
+if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save-btn']) && isset($_POST['remove-id'])){
+    $id = $_POST['remove-id'];
+    PermanentlyRemoveStudent($id);
+}
+function AddStudent($student)
+{
+    global $pdo;
+
+    $stmt = $pdo->prepare("INSERT INTO Students 
+                    (FirstName, Surname, Email, PhoneNo,Status) 
+                    VALUES (:name, :surname, :email, :phone, 'A')");
+                            
+    $stmt->bindValue(':name', $student['name']);
+    $stmt->bindValue(':surname', $student['surname']);
+    $stmt->bindValue(':email', $student['email']);
+    $stmt->bindValue(':phone', $student['phone']);  
+
+    $stmt->execute();
+
+    $student = [];
+    
+}
+
+function PermanentlyRemoveStudent($student){
+    global $pdo;
+
+    $stmt = $pdo->prepare("DELETE FROM Students 
+                           WHERE StudentID = :id");
+
+    $stmt->bindValue(':id', $student); 
+
+    $stmt->execute();
+
+}
+
+function UpdateStudent($student){
+    global $pdo;
+    
+    $stmt = $pdo->prepare("UPDATE Students SET 
+                            FirstName = :firstname, 
+                            Surname = :surname, 
+                            Email = :email, 
+                            PhoneNo = :phone 
+                            WHERE StudentID = :id");
+
+    $stmt->bindValue(':firstname', $student['name']);
+    $stmt->bindValue(':surname', $student['surname']);
+    $stmt->bindValue(':email', $student['email']);
+    $stmt->bindValue(':phone', $student['phone']);  
+    $stmt->bindValue(':id', $student['id']); 
+
+    $stmt->execute();
+
+    $student = [];
+}
+
+function doesEmailExist($e){
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT StudentID FROM Students WHERE Email = :email");
+    $stmt->bindValue(':email', $e);
+    $stmt->execute();
+    
+    if ($stmt->rowCount() === 1) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['StudentID'];
+    }
+}
+
+?>

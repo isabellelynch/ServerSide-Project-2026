@@ -1,9 +1,11 @@
 <?php
-include_once("include-for-functions/DayMapper.php");
-require_once("ScheduleHandling.php");
-global $days, $times, $schedule, $semesters;
+require_once(ROOT . "/include-for-functions/day-mapper.php");
+require_once(ROOT . "/Schedule/schedule-handling.php");
+require_once(ROOT . "/Schedule/semesters.php");
 
+$schedule = generateSchedule();
 
+global $days, $times, $semesters;
 ?>
 <div id = 'schedule-table-container'>
 <table id = "ScheduleTable">
