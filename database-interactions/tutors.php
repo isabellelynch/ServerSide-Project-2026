@@ -28,4 +28,23 @@ function GetTutorRate($r){
 
     return $result['HourlyRate'];
 }
+
+function ensureTutorTeachesSubject($t, $s){
+    global $pdo;
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) AS Count 
+                            FROM TutorSubjects 
+                            WHERE TutorID = :tid AND
+                            SubjectCode = :scode");
+    
+    $stmt -> bindValue(":tid", $t);
+    $stmt -> bindValue(":scode", $s);
+
+    $stmt->execute();
+    
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['Count'];
+}
+
 ?>

@@ -10,8 +10,8 @@ window.addEventListener("DOMContentLoaded", () => {
     const defaultConfig = {
         title: "Dashboard",
         top: "+ New Class",
-        formtitle: "New Class",
-        subtitle: "Schedule a class",
+        formtitle: "Add Class",
+        subtitle: "Add a new class to the schedule",
         save: "Save Class"
     }
     const pageConfig = {
@@ -62,8 +62,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let table = document.getElementById("ViewAllTable");
 
     headerBtn.addEventListener("click", () => {
-        openForm();
         toggleNewClassForm();
+        openForm();
+        
     });
     if(overlay){
        overlay.addEventListener("click", handleOverlay); 
@@ -119,16 +120,21 @@ window.addEventListener("DOMContentLoaded", () => {
     let newClassFormBody = document.getElementById("add-new-class");
     let removeStudentFormBody = document.getElementById("remove-student");
     let updateStudentFormBody = document.getElementById("update-student-form");
+    let activeForm = document.getElementById("activeForm");
 
     function toggleNewClassForm(){
+        formTitle.innerHTML = "Add Class";
+        formSubTitle.innerHTML = "Add a new class to the system";
         bookclassFormBody.style.display = 'none';
         newClassFormBody.style.display = 'block';
+        activeForm.value = "new-class";
     }
     function toggleNewStudentForm(){
         formTitle.innerHTML = "Make Booking";
         formSubTitle.innerHTML = "Add student to class list";
         bookclassFormBody.style.display = 'block';
         newClassFormBody.style.display = 'none';
+        activeForm.value = "add";
     }
     function toggleUpdateStudentForm(){
         formTitle.innerHTML = "Update Student";
@@ -136,6 +142,7 @@ window.addEventListener("DOMContentLoaded", () => {
         formSaveBtn.innerHTML = "Update Student";
         updateStudentFormBody.style.display = 'block';
         removeStudentFormBody.style.display = 'none';
+        activeForm.value = "update";
     }
     function toggleDeleteStudentForm(){
         formTitle.innerHTML = "Remove Student";
@@ -143,6 +150,7 @@ window.addEventListener("DOMContentLoaded", () => {
         formSaveBtn.innerHTML = "Remove Student";
         updateStudentFormBody.style.display = 'none';
         removeStudentFormBody.style.display = 'block';
+        activeForm.value = "delete";
     }
 
     

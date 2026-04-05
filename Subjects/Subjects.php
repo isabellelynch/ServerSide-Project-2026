@@ -14,8 +14,6 @@
         <?php
             require_once(ROOT . "/Subjects/subjects-table.php");
         ?>
-        
-
     </main>
 
   </body>

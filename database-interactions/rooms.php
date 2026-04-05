@@ -22,5 +22,14 @@ function getRoomCapacity($room){
 
 }
 
+function isRoomFree(){
+    $stmt = $pdo->prepare("SELECT COUNT(*) AS Count 
+                           FROM Classes 
+                           WHERE Day = :d AND 
+                           Time = :t AND 
+                           RoomNo = :r");
+    $stmt 
+}
+
 
 ?>

@@ -26,6 +26,7 @@
                 <button type = "submit" class="btn-primary" 
                         name = "save-btn" id = "save-btn"></button>
             </div>
+        <input type = "hidden" name = "activeForm" id = "activeForm" value = "">
         </form>
     </div>
 </div>

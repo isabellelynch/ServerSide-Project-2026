@@ -6,7 +6,7 @@ global $msg, $msgtitle;
 $msgtitle = "Error";
 //Add student to a class, index page form using email
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    if(isset($_POST['save-btn']) && isset($_POST['classid'])){
+    if(isset($_POST['save-btn']) && isset($_POST['classid']) && $_POST['activeForm'] === "add"){
         $classid = $_POST['classid'];
         $email = $_POST['email'];
         if($email == ""){
