@@ -11,8 +11,7 @@
     <main>
       <?php 
         require_once(ROOT . "/Students/student-handling.php"); 
-        require_once(ROOT . "/student-tutor-table/generate-table.php"); 
-        
+        require_once(ROOT . "/student-tutor-table/generate-table.php");
       ?>
     </main>
   </body>

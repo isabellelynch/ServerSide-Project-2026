@@ -26,8 +26,8 @@
         ],
         [
           "item" => "Subjects & Schedules",
-          "link" => "Schedules.php",
-          "file" => "Schedules.php"
+          "link" => "Subjects/Subjects.php",
+          "file" => "Subjects.php"
         ]
       ]
     ]

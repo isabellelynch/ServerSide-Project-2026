@@ -2,14 +2,15 @@
 require_once(ROOT . "/database-interactions/students.php");
 require_once(ROOT . "/database-interactions/classes.php");
 require_once(ROOT . "/database-interactions/bookings.php");
-
+global $msg, $msgtitle;
+$msgtitle = "Error";
 //Add student to a class, index page form using email
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['classid'])){
         $classid = $_POST['classid'];
         $email = $_POST['email'];
         if($email == ""){
-            $_SESSION['error'] = "Please enter an email to add a student.";
+            $msg = "Please enter an email to add a student.";
             return;
         }
 
@@ -21,18 +22,21 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                 if($studentID){
                     incrementEnrollment($classid);
                     createBooking($studentID, $classid);
-                    $success = "Student sucessfully added to the class.";
+                    $msg = "Student sucessfully added to the class.";
+                    $msgtitle = "Success";
                 }
                 else{
-                    $_SESSION['error'] = "Student cannot be added to the class because their email is not on the system,
+                    $msg = "Student cannot be added to the class because their email is not on the system,
                               please add them to the system and try again.";
                 }
             }
             else{
-                $_SESSION['error'] = "Student cannot be added to the class as this class is full";
+                $msg = "Student cannot be added to the class as this class is full";
             }
         }
     }
+    
 }
+
 
 ?>

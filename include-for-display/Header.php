@@ -1,9 +1,11 @@
 <?php
     require_once(ROOT . "/database-interactions/general.php");
+    require_once(ROOT . "/database-interactions/subjects.php");
     $badge = match(getCurrentPage()){
-        "index" => date("F Y"),
         "Students" => GetActive("Students") . " Students",
-        "Tutors" => GetActive("Tutors") . " Tutors"
+        "Tutors" => GetActive("Tutors") . " Tutors",
+        "Subjects" => GetSubjectCount() . " Subjects",
+        default => date("F Y")
     }
 
 ?>

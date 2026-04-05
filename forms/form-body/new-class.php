@@ -17,7 +17,7 @@
     <select>
         <option id = "FormTutor" disabled selected hidden>Select tutor...</option>
         <?php foreach($tutors as $t): ?>
-            <option>
+            <option value = "<?php $t['TutorID']; ?>">
                 <?php echo $t['FirstName'] . " " . $t['Surname']; ?>
             </option>
         <?php endforeach; ?>
@@ -58,7 +58,7 @@
         <option id = "FormTime" disabled selected hidden>Select time...</option>
         <?php foreach($times as $t): ?>
             <option>
-                <?php echo $t; ?>
+                <?php echo "$t:00"; ?>
             </option>
         <?php endforeach; ?>
     </select>

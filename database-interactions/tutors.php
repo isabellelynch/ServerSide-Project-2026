@@ -4,7 +4,7 @@ require_once(ROOT . "/database-interactions/general.php");
 global $pdo;
 
 function GetAllTutorNames(){
-    $sql = "SELECT FirstName, Surname 
+    $sql = "SELECT TutorID, FirstName, Surname 
             FROM Tutors 
             WHERE Status = 'A'";
 

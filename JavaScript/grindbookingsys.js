@@ -7,31 +7,42 @@ window.addEventListener("DOMContentLoaded", () => {
     let headerBtn = document.getElementById("top-bar-btn");
     let pageHeading = document.getElementById("topbarTitle");
 
+    const defaultConfig = {
+        title: "Dashboard",
+        top: "+ New Class",
+        formtitle: "New Class",
+        subtitle: "Schedule a class",
+        save: "Save Class"
+    }
     const pageConfig = {
-        index: {
-            title: "Dashboard",
-            top: "+ New Class",
-            formtitle: "New Class",
-            subtitle: "Schedule a class",
-            save: "Save Class",
-        },
         students: {
             title: "Manage Students",
             top: "+ New Student",
             formtitle: "New Student",
             subtitle: "Add a new student to the system",
-            save: "Add Student",
+            save: "Add Student"
         },
         tutors: {
             title: "Manage Tutors",
             top: "+ New Tutor",
             formtitle: "New Tutor",
             subtitle: "Add a new tutor to the system",
-            save: "Add Tutor",
+            save: "Add Tutor"
+        },
+        subjects: {
+            title: "Subjects & Schedules",
+            top: "+ New Subject",
+            formtitle: "New Subject",
+            subtitle: "Add a new subject",
+            save: "Save Subject"
         }
     };
 
-    const config = pageConfig[page];
+    const config = {
+        ...defaultConfig,
+        ...pageConfig[page] || {}
+    };
+
     if(config){
         pageHeading.innerHTML = config.title;
         headerBtn.innerHTML = config.top;
@@ -39,6 +50,8 @@ window.addEventListener("DOMContentLoaded", () => {
         formSubTitle.innerHTML = config.subtitle;
         formSaveBtn.innerHTML = config.save;
     }
+    
+    
 
     let overlay = document.getElementById("modalOverlay");
     let cancel = document.getElementById("cancel-form-btn");
@@ -132,26 +145,16 @@ window.addEventListener("DOMContentLoaded", () => {
         removeStudentFormBody.style.display = 'block';
     }
 
+    
+    let msgBody = document.getElementById("toastBody");
+    if(msgBody.innerText != ""){
+        showMsg();
+    }
 
-    let msgTitle = document.getElementById("toastTitle");
-    let error = document.getElementById("toast");
-    let errorMsg = document.getElementById("error");
-    let successMsg = document.getElementById("success");
-    if(error){
-        msgTitle.innerText = "";
-
-        if(errorMsg && errorMsg.innerText != ""){
-                msgTitle.innerText = "Error";
-        }
-        if(successMsg && successMsg.innerText != ""){
-            msgTitle.innerText = "Success";
-        }
-        if(msgTitle.innerText != ""){
-            error.classList.add("show");
-            setTimeout(() => {
-                error.classList.remove("show");
-            }, 3000);
-        }
+    function showMsg() {
+        let msg = document.getElementById("toast");
+        msg.classList.add("show");
+        setTimeout(() => msg.classList.remove("show"), 3000);
     }
     
     function filterTable(tableId, q){
@@ -200,3 +203,20 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     
 });
+
+/*
+if(error){
+        if(errorMsg && errorMsg.innerText != ""){
+            msgTitle.innerText = "Error";
+        }
+        if(successMsg && successMsg.innerText != ""){
+            msgTitle.innerText = "Success";
+        }
+        
+        if(msgTitle.innerText != ""){
+            error.classList.add("show");
+            setTimeout(() => {
+                error.classList.remove("show");
+            }, 3000);
+        }
+    }*/

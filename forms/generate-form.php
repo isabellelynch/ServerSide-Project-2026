@@ -1,10 +1,10 @@
 <?php 
+    require_once(ROOT . "/Students/student-handling.php");
     $form = match(getCurrentPage()){
-        "index" => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-class.php"],
         "Students" => [ROOT . "/forms/form-body/update-student.html",ROOT . "/forms/form-body/remove-student.html"],
-        "Tutors" => [ROOT . "/forms/form-body/update-student.html",ROOT . "/forms/form-body/remove-student.html"]
-    }
-    
+        "Tutors" => [ROOT . "/forms/form-body/update-student.html",ROOT . "/forms/form-body/remove-student.html"],
+        default => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-class.php"]
+    };
 ?>
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
@@ -31,7 +31,20 @@
 </div>
 
 <div class="toast" id="toast">
-  <strong id="toastTitle"></strong>
-  <span id="error" class = "toast-msg"><?php if(isset($_SESSION['error'])){ echo $_SESSION['error']; } ?></span>
-  <span id="sucess" class = "toast-msg"><?php if(isset($success)){ echo $sucess; } ?></span>
+    <strong id="toastTitle">
+        <?php 
+            global $msgtitle;
+            if($msgtitle !== ""){ 
+                echo $msgtitle;
+            }
+        ?>
+    </strong>
+    <span id="toastBody" class = "toast-msg">
+        <?php 
+            global $msg;
+            if($msg !== ""){ 
+                echo $msg;
+            }
+        ?>
+    </span>
 </div>
