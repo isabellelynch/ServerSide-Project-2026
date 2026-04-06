@@ -123,7 +123,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let activeForm = document.getElementById("activeForm");
 
     let tutorSelect = document.getElementById("FormTutor");
-    tutorSelect.addEventListener("change", showTutorSubjects(this.value));
+    tutorSelect.addEventListener("change", (e) => {
+        showTutorSubjects(e.target.value);
+    });
 
     let subjectSelect = document.getElementById("FormSubject");
     let roomSelect = document.getElementById("FormRoom");
@@ -134,13 +136,14 @@ window.addEventListener("DOMContentLoaded", () => {
         if (str == "" || str == undefined) {
             return;
         } 
+        console.log(str);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 subjectSelect.innerHTML = this.responseText;
             }
         }
-        xmlhttp.open("GET","../databaseinteractions/tutors.php?id="+str,true);
+        xmlhttp.open("GET","database-interactions/tutors.php?action=tutorsubject&id="+str,true);
         xmlhttp.send();
     }
 

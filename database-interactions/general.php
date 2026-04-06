@@ -1,5 +1,6 @@
 <?php
-require_once(ROOT . "/database-interactions/make-connection.php");
+
+require_once("make-connection.php");
 
 global $pdo;
 

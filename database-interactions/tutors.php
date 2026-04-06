@@ -1,21 +1,16 @@
 <?php
-require_once(ROOT . "/database-interactions/general.php");
-
 global $pdo;
+require_once("general.php");
+require_once("subjects.php");
 
 
-if($_SERVER['REQUEST_METHOD']==="GET" && isset($_GET['id'])):
-    $subjects = 
-    foreach($subjects as $s): ?>
-            <option>
-                <?php echo $s; ?>
-            </option>
-<?php 
-    endforeach;
-endif;
-?>
 
-<?php
+if(isset($_GET['action']) && $_GET['action'] === 'tutorsubject'){
+    $id = $_GET['id'];
+    $subject = getTutorSubject($id);
+    echo "<option>$subject</option>";  
+}
+
 function GetAllTutorNames(){
     $sql = "SELECT TutorID, FirstName, Surname 
             FROM Tutors 
