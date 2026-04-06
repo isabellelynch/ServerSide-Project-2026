@@ -3,6 +3,19 @@ require_once(ROOT . "/database-interactions/general.php");
 
 global $pdo;
 
+
+if($_SERVER['REQUEST_METHOD']==="GET" && isset($_GET['id'])):
+    $subjects = 
+    foreach($subjects as $s): ?>
+            <option>
+                <?php echo $s; ?>
+            </option>
+<?php 
+    endforeach;
+endif;
+?>
+
+<?php
 function GetAllTutorNames(){
     $sql = "SELECT TutorID, FirstName, Surname 
             FROM Tutors 

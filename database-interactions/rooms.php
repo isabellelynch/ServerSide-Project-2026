@@ -22,13 +22,23 @@ function getRoomCapacity($room){
 
 }
 
-function isRoomFree(){
+function isRoomFree($day, $time, $room){
     $stmt = $pdo->prepare("SELECT COUNT(*) AS Count 
                            FROM Classes 
                            WHERE Day = :d AND 
                            Time = :t AND 
                            RoomNo = :r");
-    $stmt 
+    $stmt->bindValue(':d', $day);
+    $stmt->bindValue(':t', $time);
+    $stmt->bindValue(':r', $room);
+    $stmt->execute();
+
+    if ($stmt->rowCount() === 0) {
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 

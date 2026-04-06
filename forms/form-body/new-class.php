@@ -14,23 +14,18 @@
 
 <div id = "add-new-class">
     <label>Tutor</label>
-    <select>
-        <option name = "FormTutor" disabled selected hidden>Select tutor...</option>
+    <select name = "FormTutor" id = "FormTutor">
+        <option disabled selected hidden>Select tutor...</option>
         <?php foreach($tutors as $t): ?>
-            <option value = "<?php $t['TutorID']; ?>">
+            <option value = "<?php echo $t['TutorID']; ?>">
                 <?php echo $t['FirstName'] . " " . $t['Surname']; ?>
             </option>
         <?php endforeach; ?>
     </select>
 
     <label>Subject</label>
-    <select>
-        <option name = "FormSubject" disabled selected hidden>Select subject...</option>
-        <?php foreach($subjects as $s): ?>
-            <option>
-                <?php echo $s; ?>
-            </option>
-        <?php endforeach; ?>
+    <select name = "FormSubject" id = "FormSubject">
+        <option disabled selected hidden>Select subject...</option>
     </select>
 
     <label>Room</label>

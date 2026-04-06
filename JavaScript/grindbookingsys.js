@@ -122,6 +122,28 @@ window.addEventListener("DOMContentLoaded", () => {
     let updateStudentFormBody = document.getElementById("update-student-form");
     let activeForm = document.getElementById("activeForm");
 
+    let tutorSelect = document.getElementById("FormTutor");
+    tutorSelect.addEventListener("change", showTutorSubjects(this.value));
+
+    let subjectSelect = document.getElementById("FormSubject");
+    let roomSelect = document.getElementById("FormRoom");
+    let daySelect = document.getElementById("FormDay");
+    let timeSelect = document.getElementById("FormTime");
+
+    function showTutorSubjects(str) {
+        if (str == "" || str == undefined) {
+            return;
+        } 
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                subjectSelect.innerHTML = this.responseText;
+            }
+        }
+        xmlhttp.open("GET","../databaseinteractions/tutors.php?id="+str,true);
+        xmlhttp.send();
+    }
+
     function toggleNewClassForm(){
         formTitle.innerHTML = "Add Class";
         formSubTitle.innerHTML = "Add a new class to the system";
