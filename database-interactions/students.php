@@ -1,11 +1,7 @@
 <?php
-    require_once(ROOT . "/database-interactions/make-connection.php");
+    require_once(__DIR__ . "/../database-interactions/make-connection.php");
     global $pdo;
 
-if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save-btn']) && isset($_POST['remove-id'])){
-    $id = $_POST['remove-id'];
-    PermanentlyRemoveStudent($id);
-}
 function AddStudent($student)
 {
     global $pdo;

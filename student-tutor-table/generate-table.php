@@ -1,8 +1,8 @@
 <?php
-    require_once(ROOT . "/database-interactions/tutors.php");
-    require_once(ROOT . "/database-interactions/general.php");
+    require_once(dirname(__DIR__) . "/database-interactions/tutors.php");
+    require_once(dirname(__DIR__) . "/database-interactions/general.php");
     $table = getCurrentPage();
-    require_once(ROOT . "/student-tutor-table/activation.php");
+    require_once("table-handler.php");
 ?>
 <div class = "content-header">
     <h2><?php echo $table; ?></h2>

@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT . "/database-interactions/general.php");
+require_once(__DIR__ . "/../database-interactions/general.php");
 
 function RoomCount(){
     $sql = "SELECT COUNT(*) AS Count FROM Rooms";

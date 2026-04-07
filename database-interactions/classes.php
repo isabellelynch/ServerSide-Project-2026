@@ -1,6 +1,6 @@
 <?php
-    require_once(ROOT . "/database-interactions/make-connection.php");
-    require_once(ROOT . "/database-interactions/rooms.php");
+    require_once(__DIR__ . "/../database-interactions/make-connection.php");
+    require_once(__DIR__ . "/../database-interactions/rooms.php");
     global $pdo;
 
     function SelectAllClasses($room, $semester){

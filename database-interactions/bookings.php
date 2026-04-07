@@ -1,5 +1,5 @@
 <?php
-    require_once(ROOT . "/database-interactions/make-connection.php");
+    require_once(__DIR__ . "/../database-interactions/make-connection.php");
     global $pdo;
     function createBooking($s, $c){
         global $pdo;

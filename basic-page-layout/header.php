@@ -1,6 +1,6 @@
 <?php
-    require_once(ROOT . "/database-interactions/general.php");
-    require_once(ROOT . "/database-interactions/subjects.php");
+    require_once(dirname(__DIR__) . "/database-interactions/general.php");
+    require_once(dirname(__DIR__) . "/database-interactions/subjects.php");
     $badge = match(getCurrentPage()){
         "Students" => GetActive("Students") . " Students",
         "Tutors" => GetActive("Tutors") . " Tutors",

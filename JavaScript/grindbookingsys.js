@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
     let page = document.body.dataset.page;
-    
+
     let formTitle = document.getElementById("modalTitle");
     let formSubTitle = document.getElementById("modalSub");
     let formSaveBtn = document.getElementById("save-btn");
@@ -44,12 +44,20 @@ window.addEventListener("DOMContentLoaded", () => {
     };
 
     if(config){
-        pageHeading.innerHTML = config.title;
-        headerBtn.innerHTML = config.top;
-        formTitle.innerHTML = config.formtitle;
-        formSubTitle.innerHTML = config.subtitle;
-        formSaveBtn.innerHTML = config.save;
+        if(pageHeading) pageHeading.innerHTML = config.title;
+        if(headerBtn) {
+            headerBtn.innerHTML = config.top;
+            headerBtn.addEventListener("click", () => {
+                toggleNewClassForm();
+                openForm();
+            });
+        }
+        if(formTitle) formTitle.innerHTML = config.formtitle;
+        if(formSubTitle) formSubTitle.innerHTML = config.subtitle;
+        if(formSaveBtn) formSaveBtn.innerHTML = config.save;
     }
+    
+    
     
     
 
@@ -60,12 +68,7 @@ window.addEventListener("DOMContentLoaded", () => {
     
     let filter = document.getElementById("table-filter");
     let table = document.getElementById("ViewAllTable");
-
-    headerBtn.addEventListener("click", () => {
-        toggleNewClassForm();
-        openForm();
-        
-    });
+    
     if(overlay){
        overlay.addEventListener("click", handleOverlay); 
     }
@@ -123,27 +126,46 @@ window.addEventListener("DOMContentLoaded", () => {
     let activeForm = document.getElementById("activeForm");
 
     let tutorSelect = document.getElementById("FormTutor");
-    tutorSelect.addEventListener("change", (e) => {
-        showTutorSubjects(e.target.value);
-    });
+    if(tutorSelect){
+        tutorSelect.addEventListener("change", (e) => {
+            filterForm(e.target.value, "tutorChanged", subjectSelect);
+        });
+    }
+    
 
     let subjectSelect = document.getElementById("FormSubject");
+    if(subjectSelect){
+        subjectSelect.addEventListener("change", (e) => {
+            filterForm(e.target.value, "subjectChanged", tutorSelect);
+        });
+    }
+
     let roomSelect = document.getElementById("FormRoom");
     let daySelect = document.getElementById("FormDay");
     let timeSelect = document.getElementById("FormTime");
+    
+    if(roomSelect){
+        roomSelect.addEventListener("change", (e) => {
+            filterForm(e.target.value, "roomChanged", daySelect);
+        });
+    }
+    if(daySelect){
+        daySelect.addEventListener("change", (e) => {
+            filterForm(e.target.value, "dayChanged", timeSelect);
+        });
+    }
 
-    function showTutorSubjects(str) {
-        if (str == "" || str == undefined) {
+    function filterForm(id, action, dropdown) {
+        if (id == "" || id == undefined) {
             return;
         } 
-        console.log(str);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                subjectSelect.innerHTML = this.responseText;
+                dropdown.innerHTML = this.responseText;
             }
         }
-        xmlhttp.open("GET","database-interactions/tutors.php?action=tutorsubject&id="+str,true);
+        xmlhttp.open("GET","forms/form-filtering.php?action="+action+"&id="+id,true);
         xmlhttp.send();
     }
 
@@ -180,9 +202,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
     
     let msgBody = document.getElementById("toastBody");
-    if(msgBody.innerText != ""){
-        showMsg();
+    if(msgBody){
+        if(msgBody.innerText != ""){
+            showMsg();
+        }
     }
+    
 
     function showMsg() {
         let msg = document.getElementById("toast");

@@ -19,7 +19,7 @@
             <tbody>
 
     <?php 
-    require_once(ROOT . "/database-interactions/general.php");
+    require_once("../database-interactions/general.php");
     $table = getCurrentPage();
     $result = SelectAll($table);
 

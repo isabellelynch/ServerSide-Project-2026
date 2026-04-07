@@ -1,5 +1,4 @@
 <?php 
-    require_once(ROOT . "/Students/student-handling.php");
     $form = match(getCurrentPage()){
         "Students" => [ROOT . "/forms/form-body/update-student.html",ROOT . "/forms/form-body/remove-student.html"],
         "Tutors" => [ROOT . "/forms/form-body/update-student.html",ROOT . "/forms/form-body/remove-student.html"],

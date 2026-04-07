@@ -1,14 +1,17 @@
 <?php
 global $pdo;
 require_once("general.php");
-require_once("subjects.php");
 
+function GetSpecificTutorNames($sub){
+    global $pdo;
+    $stmt = $pdo -> prepare("SELECT TutorID, FirstName, Surname 
+                             FROM Tutors 
+                             WHERE Status = 'A' AND 
+                             SubjectCode = :sub");
+    $stmt -> bindValue(":sub", $sub);
+    $stmt -> execute();
 
-
-if(isset($_GET['action']) && $_GET['action'] === 'tutorsubject'){
-    $id = $_GET['id'];
-    $subject = getTutorSubject($id);
-    echo "<option>$subject</option>";  
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function GetAllTutorNames(){

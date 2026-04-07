@@ -3,12 +3,12 @@ require_once("general.php");
 require_once("make-connection.php");
 global $pdo;
 function GetSubjectNames(){
-    $sql = "SELECT DISTINCT Description 
+    $sql = "SELECT Description, SubjectCode 
             FROM Subjects";
     
     $result = QueryDatabase($sql);
 
-    return $result->fetchAll(PDO::FETCH_COLUMN);
+    return $result->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getSubjectCount(){

@@ -1,4 +1,5 @@
 <?php 
+    
     include_once(ROOT . "/database-interactions/tutors.php");
     $tutors = GetAllTutorNames();
 
@@ -26,33 +27,38 @@
     <label>Subject</label>
     <select name = "FormSubject" id = "FormSubject">
         <option disabled selected hidden>Select subject...</option>
+        <?php foreach($subjects as $s): ?>
+            <option value = "<?php echo $s['SubjectCode']; ?>">
+                <?php echo $s['Description']; ?>
+            </option>
+        <?php endforeach; ?>
     </select>
 
     <label>Room</label>
-    <select>
-        <option name = "FormRoom" disabled selected hidden>Select room...</option>
+    <select id = "FormRoom" name = "FormRoom">
+        <option disabled selected hidden>Select room...</option>
         <?php foreach($rooms as $r): ?>
-            <option>
+            <option value = "<?php echo $r['RoomNo']; ?>">
                 <?php echo $r['RoomNo'] . " - " . $r['Description'] . " (" . $r['Capacity'] . ")"; ?>
             </option>
         <?php endforeach; ?>
     </select>
 
     <label>Day</label>
-    <select>
-        <option name = "FormDay" disabled selected hidden>Select day...</option>
+    <select id = "FormDay" name = "FormDay">
+        <option disabled selected hidden>Select day...</option>
         <?php foreach($days as $d): ?>
-            <option>
+            <option value = "<?php echo GetDayNum($d); ?>">
                 <?php echo $d; ?>
             </option>
         <?php endforeach; ?>
     </select>
 
     <label>Time</label>
-    <select>
-        <option name = "FormTime" disabled selected hidden>Select time...</option>
+    <select id = "FormTime" name = "FormTime">
+        <option disabled selected hidden>Select time...</option>
         <?php foreach($times as $t): ?>
-            <option>
+            <option value = "<?php echo $t; ?>">
                 <?php echo "$t:00"; ?>
             </option>
         <?php endforeach; ?>

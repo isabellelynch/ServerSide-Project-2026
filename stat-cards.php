@@ -1,6 +1,6 @@
 <?php
-    include_once(ROOT . "/database-interactions/statistics.php");
-    include_once(ROOT . "/database-interactions/general.php");
+    include_once("database-interactions/statistics.php");
+    include_once("database-interactions/general.php");
 
     $rev = GetYearlyRevenueDifference();
 

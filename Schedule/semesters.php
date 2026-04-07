@@ -14,6 +14,8 @@ $semesters = [
     ]
 ];
 
+
+
 function getCurrentSemester(){
     $year = date("y");
     $month = date("m");

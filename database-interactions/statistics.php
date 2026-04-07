@@ -1,5 +1,5 @@
 <?php
-require_once(ROOT . "/database-interactions/general.php");
+require_once(__DIR__ . "/../database-interactions/general.php");
 
 function GetYearlyRevenue(){
     $sql = "SELECT SUM(tr.HourlyRate) AS Count
