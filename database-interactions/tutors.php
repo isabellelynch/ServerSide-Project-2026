@@ -40,6 +40,15 @@ function GetTutorRate($r){
     return $result['HourlyRate'];
 }
 
+function GetTutorRates(){
+    $sql = "SELECT RateCode, HourlyRate  
+            FROM TutorRates";
+
+    $result = QueryDatabase($sql);
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function ensureTutorTeachesSubject($t, $s){
     global $pdo;
 

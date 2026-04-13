@@ -51,7 +51,10 @@
           </div>
           <?php endforeach; ?>
       </div>
-        <?php require_once(ROOT . "/Schedule/generate-schedule.php"); ?>
+        <?php 
+          require_once(ROOT . "/Schedule/generate-schedule.php");
+          require_once(ROOT . "/form-handlers/add-student-from-schedule-click.php");
+        ?>
     </main>
   </body>
   
