@@ -6,8 +6,8 @@
       'items' => [
           [
             "item" => "Dashboard",
-            "link" => "index.php",
-            "file" => "index.php"
+            "link" => "Dashboard/Dashboard.php",
+            "file" => "Dashboard.php"
           ]
         ]
     ],
@@ -25,7 +25,12 @@
           "file" => "Students.php"
         ],
         [
-          "item" => "Subjects & Schedules",
+          "item" => "Schedule",
+          "link" => "Schedule/Schedule.php",
+          "file" => "Schedule.php"
+        ],
+        [
+          "item" => "Subjects",
           "link" => "Subjects/Subjects.php",
           "file" => "Subjects.php"
         ]
@@ -50,7 +55,7 @@
             <?php 
               foreach($n['items'] as $ni): 
             ?>
-                <a href = "<?php echo (basename($_SERVER['PHP_SELF']) === "index.php")?$ni['link']:"../" . $ni['link']; ?>" 
+                <a href = "<?php echo "../" . $ni['link']; ?>" 
                    class = "no-link-styling 
                             nav-item 
                             <?php echo (basename($_SERVER['PHP_SELF']) === $ni['file'])?" active":""; ?>">
@@ -64,7 +69,7 @@
 
   <div class="sidebar-footer">
     <p>
-      <strong>Admin User</strong>admin@grindschool.ie
+      <strong><?php echo $_SESSION['name']; ?></strong><?php echo $_SESSION['email']; ?>
     </p>
   </div>
 </aside>

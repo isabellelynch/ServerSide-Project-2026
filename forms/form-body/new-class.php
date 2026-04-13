@@ -10,6 +10,7 @@
     $rooms = SelectAll("Rooms");
     
     include_once(ROOT . "/include-for-functions/day-mapper.php");
+
     global $days, $times;
 ?>
 

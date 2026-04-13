@@ -1,8 +1,8 @@
 <?php
-require_once(__DIR__ . "/../database-interactions/subjects.php");
-require_once(__DIR__ . "/../database-interactions/tutors.php");
-require_once(__DIR__ . "/../include-for-functions/day-mapper.php");
-require_once(__DIR__ . "/../Schedule/schedule-handling.php");
+require_once("../database-interactions/subjects.php");
+require_once("../database-interactions/tutors.php");
+require_once("../include-for-functions/day-mapper.php");
+require_once("../Schedule/schedule-handling.php");
 
 if(isset($_GET['action']) && $_GET['action'] === 'tutorChanged'){
     $id = $_GET['id'];
@@ -36,9 +36,6 @@ if(isset($_GET['action']) && $_GET['action'] === "dayChanged"){
     
     foreach($_SESSION['free-slots'][$index] as $t){
         echo "<option>$t</option>";
-    }
-
-
-    
+    } 
 }
 ?>

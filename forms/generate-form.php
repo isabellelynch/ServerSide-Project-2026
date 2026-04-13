@@ -1,9 +1,5 @@
 <?php 
-    $form = match(getCurrentPage()){
-        "Students" => [ROOT . "/forms/form-body/update-student.html",ROOT . "/forms/form-body/remove-student.html"],
-        "Tutors" => [ROOT . "/forms/form-body/update-student.html",ROOT . "/forms/form-body/remove-student.html"],
-        default => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-class.php"]
-    };
+    global $form;
 ?>
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">

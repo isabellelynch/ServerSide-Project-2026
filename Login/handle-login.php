@@ -1,14 +1,63 @@
 <?php
+    require_once("../database-interactions/make-connection.php");
+    global $pdo, $msg, $msgtitle;
+
+    
+
     if($_SERVER['REQUEST_METHOD'] === 'POST' &&
         isset($_POST['login-btn'])){
-            if(ValidLogin()){
-                header("Location:Dashboard.php");
+            $password = $_POST['password'];
+            $email = $_POST['email'];
+            if(ValidLogin($email, $password)){
+                header("Location:../index.php");
                 exit;
             }
         }
 
-    function ValidLogin(){
-        return true;
+    function ValidLogin($email, $password){
+        global $msg, $msgtitle;
+        if(doesUserExist($email, $password)){
+            $_SESSION['email'] = $email;
+            $_SESSION['password'] = $password;
+            $_SESSION['name'] = getName($email, $password);
+            return true;
+        }
+        else{
+            $msgtitle = "Invalid Login attempt";
+            $msg = "Incorrect username/password please try again.";
+            return false;
+        }
     }
 
+    function doesUserExist($email, $password){
+        global $pdo;
+        $stmt = $pdo -> prepare("SELECT COUNT(*) AS Count 
+                                 FROM Admin 
+                                 WHERE Email = :u AND 
+                                 Password = :p");
+        $stmt -> bindValue(":u", $email);
+        $stmt -> bindValue(":p", $password);
+        $stmt -> execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $count = $result['Count'];
+        if($count === 1){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    function getName($email, $password){
+        global $pdo;
+        $stmt = $pdo -> prepare("SELECT Name 
+                                 FROM Admin 
+                                 WHERE Email = :e AND 
+                                 Password = :p");
+        $stmt -> bindValue(":e", $email);
+        $stmt -> bindValue(":p", $password);
+        $stmt -> execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['Name'];
+    }
 ?>

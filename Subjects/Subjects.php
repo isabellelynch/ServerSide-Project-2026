@@ -8,12 +8,12 @@
   </head>
   <body data-page = "subjects">
     <?php 
-      require_once("../basic-page-layout/header.php"); 
-      require_once("../basic-page-layout/side-bar-nav.php");
+      require_once("../start-up.php"); 
     ?>
     <main>
         <?php
             require_once("subjects-table.php");
+
         ?>
     </main>
 

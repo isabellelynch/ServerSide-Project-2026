@@ -7,17 +7,100 @@ window.addEventListener("DOMContentLoaded", () => {
     let headerBtn = document.getElementById("top-bar-btn");
     let pageHeading = document.getElementById("topbarTitle");
 
+    let bookclassFormBody = document.getElementById("book-for-student");
+    let newClassFormBody = document.getElementById("add-new-class");
+    let removeFormBody = document.getElementById("remove");
+    let newOrUpdateForm = document.getElementById("new-or-update-form");
+    let newAdminForm = document.getElementById("new-admin-form");
+
+    let activeForm = document.getElementById("activeForm");
+
+    function toggleNewClassForm(){
+        formTitle.innerHTML = "Add Class";
+        formSubTitle.innerHTML = "Add a new class to the system";
+        bookclassFormBody.style.display = 'none';
+        newClassFormBody.style.display = 'block';
+        activeForm.value = "new-class";
+    }
+
+    function toggleNewAdminForm(){
+        formTitle.innerHTML = "New Staff Member";
+        formSubTitle.innerHTML = "Add a new staff member to the system";
+        newAdminForm.style.display = 'block';
+        bookclassFormBody.style.display = 'none';
+        activeForm.value = "new-admin";
+    }
+    function toggleAddStudentToClassForm(){
+        formTitle.innerHTML = "Make Booking";
+        formSubTitle.innerHTML = "Add student to class list";
+        if(page === "index"){
+            newAdminForm.style.display = 'none';
+        }
+        else{
+            newClassFormBody.style.display = "none";
+        }
+        
+        bookclassFormBody.style.display = 'block';
+        activeForm.value = "add";
+    }
+
+    function toggleUpdateForm(){
+        if(page === "tutors"){
+            formTitle.innerHTML = "Update Tutor";
+            formSubTitle.innerHTML = "Make the necessary changes to tutors details";
+        }
+        if(page === "students"){
+            formTitle.innerHTML = "Update Student";
+            formSubTitle.innerHTML = "Make the necessary changes to students details";
+        }
+        formSaveBtn.innerHTML = "Update";
+        newOrUpdateForm.style.display = 'block';
+        removeFormBody.style.display = 'none';
+        activeForm.value = "update";
+    }
+    function toggleNewForm(){
+        if(page === "tutors"){
+            formTitle.innerHTML = "New Tutor";
+            formSubTitle.innerHTML = "Add a new Tutor to the system";
+        }
+        if(page === "students"){
+            formTitle.innerHTML = "New Student";
+            formSubTitle.innerHTML = "Add a new Student to the system";
+        }
+        formSaveBtn.innerHTML = "Save";
+        newOrUpdateForm.style.display = 'block';
+        removeFormBody.style.display = 'none';
+        activeForm.value = "new";
+    }
+
+    function toggleDeleteForm(){
+        if(page === "tutors"){
+            formTitle.innerHTML = "Remove Tutor";
+            formSubTitle.innerHTML = "Please confirm tutor removal";
+        }
+        if(page === "students"){
+            formTitle.innerHTML = "Remove Student";
+            formSubTitle.innerHTML = "Please confirm student removal";
+        }
+        formSaveBtn.innerHTML = "Remove";
+        newOrUpdateForm.style.display = 'none';
+        removeFormBody.style.display = 'block';
+        activeForm.value = "delete";
+    }
+
     const defaultConfig = {
         title: "Dashboard",
-        top: "+ New Class",
-        formtitle: "Add Class",
-        subtitle: "Add a new class to the schedule",
-        save: "Save Class"
+        top: "+ New Staff Member",
+        action: toggleNewAdminForm,
+        formtitle: "Add New Staff Member",
+        subtitle: "Add a new staff member to the database",
+        save: "Save"
     }
     const pageConfig = {
         students: {
             title: "Manage Students",
             top: "+ New Student",
+            action: toggleNewForm,
             formtitle: "New Student",
             subtitle: "Add a new student to the system",
             save: "Add Student"
@@ -25,13 +108,23 @@ window.addEventListener("DOMContentLoaded", () => {
         tutors: {
             title: "Manage Tutors",
             top: "+ New Tutor",
+            action: toggleNewForm,
             formtitle: "New Tutor",
             subtitle: "Add a new tutor to the system",
             save: "Add Tutor"
         },
+        schedule: {
+            title: "Schedule",
+            top: "+ New Class",
+            action: toggleNewClassForm,
+            formtitle: "Add Class",
+            subtitle: "Add a new class to the schedule",
+            save: "Save Class"
+        },
         subjects: {
-            title: "Subjects & Schedules",
+            title: "Subjects",
             top: "+ New Subject",
+            action: toggleNewClassForm,
             formtitle: "New Subject",
             subtitle: "Add a new subject",
             save: "Save Subject"
@@ -48,9 +141,9 @@ window.addEventListener("DOMContentLoaded", () => {
         if(headerBtn) {
             headerBtn.innerHTML = config.top;
             headerBtn.addEventListener("click", () => {
-                toggleNewClassForm();
                 openForm();
-            });
+                config.action();
+        });
         }
         if(formTitle) formTitle.innerHTML = config.formtitle;
         if(formSubTitle) formSubTitle.innerHTML = config.subtitle;
@@ -109,7 +202,7 @@ window.addEventListener("DOMContentLoaded", () => {
             el.addEventListener("click", () => {
                 setTimeout(() => {
                     openForm();
-                    toggleNewStudentForm();
+                    toggleAddStudentToClassForm();
                     let classid = document.getElementById("ClassID");
                     if(classid){
                         classid.value = el.dataset.id;
@@ -119,11 +212,7 @@ window.addEventListener("DOMContentLoaded", () => {
         )});
     }
 
-    let bookclassFormBody = document.getElementById("book-for-student");
-    let newClassFormBody = document.getElementById("add-new-class");
-    let removeStudentFormBody = document.getElementById("remove-student");
-    let updateStudentFormBody = document.getElementById("update-student-form");
-    let activeForm = document.getElementById("activeForm");
+    
 
     let tutorSelect = document.getElementById("FormTutor");
     if(tutorSelect){
@@ -165,41 +254,11 @@ window.addEventListener("DOMContentLoaded", () => {
                 dropdown.innerHTML = this.responseText;
             }
         }
-        xmlhttp.open("GET","forms/form-filtering.php?action="+action+"&id="+id,true);
+        xmlhttp.open("GET","../forms/form-filtering.php?action="+action+"&id="+id,true);
         xmlhttp.send();
     }
 
-    function toggleNewClassForm(){
-        formTitle.innerHTML = "Add Class";
-        formSubTitle.innerHTML = "Add a new class to the system";
-        bookclassFormBody.style.display = 'none';
-        newClassFormBody.style.display = 'block';
-        activeForm.value = "new-class";
-    }
-    function toggleNewStudentForm(){
-        formTitle.innerHTML = "Make Booking";
-        formSubTitle.innerHTML = "Add student to class list";
-        bookclassFormBody.style.display = 'block';
-        newClassFormBody.style.display = 'none';
-        activeForm.value = "add";
-    }
-    function toggleUpdateStudentForm(){
-        formTitle.innerHTML = "Update Student";
-        formSubTitle.innerHTML = "Make the necessary changes to students details";
-        formSaveBtn.innerHTML = "Update Student";
-        updateStudentFormBody.style.display = 'block';
-        removeStudentFormBody.style.display = 'none';
-        activeForm.value = "update";
-    }
-    function toggleDeleteStudentForm(){
-        formTitle.innerHTML = "Remove Student";
-        formSubTitle.innerHTML = "Please confirm student removal";
-        formSaveBtn.innerHTML = "Remove Student";
-        updateStudentFormBody.style.display = 'none';
-        removeStudentFormBody.style.display = 'block';
-        activeForm.value = "delete";
-    }
-
+    
     
     let msgBody = document.getElementById("toastBody");
     if(msgBody){
@@ -240,7 +299,10 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.querySelector('[name="surname"]').value = b.dataset.surname;
                 document.querySelector('[name="email"]').value = b.dataset.email;
                 document.querySelector('[name="phone"]').value = b.dataset.phone;
-                toggleUpdateStudentForm();
+                if(page === "tutors"){
+                    document.querySelector('[name="rate"]').value = "€" + b.dataset.rate;
+                }
+                toggleUpdateForm();
                 openForm();
             });
         });
@@ -249,9 +311,7 @@ window.addEventListener("DOMContentLoaded", () => {
             d.addEventListener("click", () => {
                 document.querySelector('[name="remove-id"]').value = d.dataset.id;
                 let name = d.dataset.firstname + " " + d.dataset.surname;
-                
-                toggleDeleteStudentForm();
-                
+                toggleDeleteForm();
                 document.getElementById("remove-msg").innerText = "Are you sure you wish to remove " +
                 name + " from the system ?";
                 openForm();
@@ -261,20 +321,3 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     
 });
-
-/*
-if(error){
-        if(errorMsg && errorMsg.innerText != ""){
-            msgTitle.innerText = "Error";
-        }
-        if(successMsg && successMsg.innerText != ""){
-            msgTitle.innerText = "Success";
-        }
-        
-        if(msgTitle.innerText != ""){
-            error.classList.add("show");
-            setTimeout(() => {
-                error.classList.remove("show");
-            }, 3000);
-        }
-    }*/

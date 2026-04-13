@@ -1,10 +1,10 @@
 <?php 
-require_once(__DIR__ . "/../database-interactions/classes.php");
-require_once(__DIR__ . "/../database-interactions/students.php");
-require_once(__DIR__ . "/../database-interactions/classes.php");
-require_once(__DIR__ . "/../database-interactions/bookings.php");
-require_once(__DIR__ . "/../Schedule/semesters.php");
-require_once(__DIR__ . "/../database-interactions/rooms.php");
+require_once("../database-interactions/classes.php");
+require_once("../database-interactions/students.php");
+require_once("../database-interactions/classes.php");
+require_once("../database-interactions/bookings.php");
+require_once("semesters.php");
+require_once("../database-interactions/rooms.php");
 
 global $semesters, $days, $times, $msg, $msgtitle;
 
@@ -13,12 +13,12 @@ $msgtitle = "Error";
 function generateSchedule(){
     global $semesters;
     $s = [];
-    $semesterNum = $semesters[$_SESSION['semester']]['number'];
-    $result = SelectAllClasses($_SESSION['room'], $semesterNum);
+    $sem = $semesters[$_SESSION['semester']]['number'];
+    $room = $_SESSION['room'];
+    $result = SelectAllClasses($room, $sem);
     foreach($result as $row){
         $day = $row['Day'];
         $time = $row['Time'];
-
         $s[$day][$time] = [
             'class' => $row['Description'],
             'tutor' => $row['FirstName'] . " " . $row['Surname'],
@@ -33,19 +33,17 @@ function generateSchedule(){
 
 
 function getFreeScheduleSlots($room){
+    global $days, $times;
     $_SESSION['room'] = $room;
     $schedule = generateSchedule();
     $freeSlots = [];
-
     foreach ($days as $day) {
         foreach ($times as $time) {
-
             if (!isset($schedule[$day][$time])) {
                 $freeSlots[$day][] = $time;
             }
         }
     }
-
     return $freeSlots;
 }
 

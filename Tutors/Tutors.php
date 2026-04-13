@@ -8,11 +8,10 @@
   </head>
   <body data-page = "tutors">
     <?php 
-      require_once("../basic-page-layout/header.php"); 
-      require_once("../basic-page-layout/side-bar-nav.php");
+      require_once("../start-up.php"); 
     ?>
     <main>
-         <?php include_once("../student-tutor-table/generate-table.php"); ?>
+         <?php include_once(ROOT . "/student-tutor-table/generate-table.php"); ?>
     </main>
   </body>
   <script src="../JavaScript/grindbookingsys.js"></script>
