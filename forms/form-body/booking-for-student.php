@@ -1,5 +1,8 @@
-<?php require_once(ROOT . "/forms/form-handlers/add-student-from-schedule-click.php"); ?>
-<div id = "book-for-student">
+<?php 
+    require_once(ROOT . "/forms/form-handlers/add-student-from-schedule-click.php"); 
+    global $showadminform;
+?>
+<div id = "book-for-student" class = "<?php if($showadminform) echo "dontshow"; ?>">
     <label>Student Email</label>
         <input 
             type="text" 

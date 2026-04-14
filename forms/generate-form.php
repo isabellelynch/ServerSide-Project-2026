@@ -1,5 +1,5 @@
 
-<div class="modal-overlay" id="modalOverlay">
+<div class="modal-overlay" id="modalOverlay" >
     <div class="modal">
         <div class="modal-head">
             <div>
@@ -15,13 +15,12 @@
                     require_once($f);
                 }
              ?>
-        
-        <input type = "hidden" name = "activeForm" id = "activeForm" value = "">
         <div class="modal-footer">
             <button class="btn-ghost" id = "cancel-form-btn">Cancel</button>
             <button type = "submit" class="btn-primary" 
                     name = "save-btn" id = "save-btn"></button>
         </div>
+        <input type = "hidden" name = "activeForm" id = "activeForm" value = "">
     </form>
     </div>
 </div>

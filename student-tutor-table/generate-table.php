@@ -62,13 +62,13 @@
                     <button class="edit-btn" 
                             type = "button"
                             data-id = <?php echo $currentID; ?>
-                            data-firstname = <?php echo $row["FirstName"]; ?>
-                            data-surname = <?php echo $row["Surname"]; ?>
+                            data-firstname = "<?php echo $row["FirstName"]; ?>"
+                            data-surname = "<?php echo $row["Surname"]; ?>"
                             data-email = <?php echo $row["Email"]; ?>
                             data-phone = <?php echo $row["PhoneNo"]; ?>
                             <?php if($table === "Tutors"): ?>
-                                data-rate = <?php echo GetTutorRate($row["RateCode"]); 
-                                endif; ?>
+                                data-rate = <?php echo GetTutorRate($row["RateCode"]);
+                                endif; ?> 
                             >
                         <i class="fa-solid fa-pen"></i>
                     </button>

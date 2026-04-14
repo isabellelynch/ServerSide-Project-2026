@@ -809,3 +809,10 @@ nav{
     color:var(--br-tan);
     margin-top:2px;
 }
+
+.showthisform{
+    display: block;
+}
+.dontshow{
+    display: none;
+}

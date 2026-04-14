@@ -69,7 +69,7 @@ function ValidateStudent($student):string{
     return "";
 }
 
-function ValidatePassword(){
+function ValidatePassword($password){
     return strlen($password) >= 8 &&
            preg_match('/[A-Z]/', $password) &&
            preg_match('/[a-z]/', $password) &&

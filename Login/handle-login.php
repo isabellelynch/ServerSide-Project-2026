@@ -15,7 +15,7 @@
         }
 
     function ValidLogin($email, $password){
-        if(doesUserExist($email, $password)){
+        if(doesUserExist($email, $password) && isPasswordCorrect($password, $email)){
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $password;
             $_SESSION['name'] = getName($email, $password);
@@ -32,14 +32,11 @@
         global $pdo;
         $stmt = $pdo -> prepare("SELECT COUNT(*) AS Count 
                                  FROM Admin 
-                                 WHERE Email = :u AND 
-                                 Password = :p");
+                                 WHERE Email = :u");
         $stmt -> bindValue(":u", $email);
-        $stmt -> bindValue(":p", $password);
         $stmt -> execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $count = $result['Count'];
-        if($count === 1){
+        if($result['Count'] === 1){
             return true;
         }
         else{
@@ -49,14 +46,29 @@
 
     function getName($email, $password){
         global $pdo;
-        $stmt = $pdo -> prepare("SELECT Name 
+        $stmt = $pdo -> prepare("SELECT FirstName, Surname  
                                  FROM Admin 
-                                 WHERE Email = :e AND 
-                                 Password = :p");
+                                 WHERE Email = :e");
         $stmt -> bindValue(":e", $email);
-        $stmt -> bindValue(":p", $password);
         $stmt -> execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['Name'];
+        return $result['FirstName'] . " " . $result['Surname'];
+    }
+
+    function isPasswordCorrect($p, $e){
+        global $pdo;
+        $stmt = $pdo -> prepare("SELECT Password 
+                                 FROM Admin 
+                                 WHERE Email = :e");
+        $stmt -> bindValue(":e", $e);
+        $stmt -> execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $hash = $result['Password'];
+        if(password_verify($p, $hash)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 ?>

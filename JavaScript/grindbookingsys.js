@@ -257,11 +257,10 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     let msg = document.getElementById("toast");
+    
     if(msg){
         setTimeout(() => msg.classList.remove("show"), 3000);
     }
-
-    
     
     
     function filterTable(tableId, q){
@@ -290,7 +289,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.querySelector('[name="email"]').value = b.dataset.email;
                 document.querySelector('[name="phone"]').value = b.dataset.phone;
                 if(page === "tutors"){
-                    document.querySelector('[name="rate"]').value = "€" + b.dataset.rate;
+                    document.querySelector('[name="rate"] option').innerHTML = "€" + b.dataset.rate;
                 }
                 toggleUpdateForm();
                 openForm();
