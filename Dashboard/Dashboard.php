@@ -5,11 +5,12 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../CSS/grindbookingsys.css">
-    <script src = "../JavaScript/grindbookingsys.js" defer></script>
+    <script src = "../JavaScript/grindbookingsys.js"></script>
   </head>
   <body data-page = "index">
     <?php 
       require_once("../start-up.php");
+      require_once(ROOT . "/forms/form-handlers/add-student-from-schedule-click.php");
       include_once(ROOT . "/database-interactions/statistics.php");
       include_once(ROOT . "/database-interactions/general.php");
     ?>
@@ -53,11 +54,9 @@
       </div>
         <?php 
           require_once(ROOT . "/Schedule/generate-schedule.php");
-          require_once(ROOT . "/form-handlers/add-student-from-schedule-click.php");
         ?>
     </main>
   </body>
-  
 </html>
 
 

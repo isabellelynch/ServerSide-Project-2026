@@ -10,7 +10,6 @@
     if (!isset($_SESSION['semester'])) {
         $_SESSION['semester'] = 1;
     }
-
     require_once(ROOT . "/database-interactions/general.php"); 
 
     $form = match(getCurrentPage()){

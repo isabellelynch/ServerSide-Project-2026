@@ -258,19 +258,9 @@ window.addEventListener("DOMContentLoaded", () => {
         xmlhttp.send();
     }
 
-    
-    
-    let msgBody = document.getElementById("toastBody");
-    if(msgBody){
-        if(msgBody.innerText != ""){
-            showMsg();
-        }
-    }
-    
 
-    function showMsg() {
-        let msg = document.getElementById("toast");
-        msg.classList.add("show");
+    let msg = document.getElementById("toast");
+    if(msg){
         setTimeout(() => msg.classList.remove("show"), 3000);
     }
     

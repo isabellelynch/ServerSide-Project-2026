@@ -1,21 +1,20 @@
 <?php
-    require_once("../database-interactions/make-connection.php");
-    global $pdo, $msg, $msgtitle;
-
-    
+    require_once("database-interactions/make-connection.php");
+    global $pdo;
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' &&
         isset($_POST['login-btn'])){
             $password = $_POST['password'];
             $email = $_POST['email'];
             if(ValidLogin($email, $password)){
-                header("Location:../index.php");
+                unset($_SESSION['msg']);
+                unset($_SESSION['msgtitle']);
+                header("Location:Dashboard/Dashboard.php");
                 exit;
             }
         }
 
     function ValidLogin($email, $password){
-        global $msg, $msgtitle;
         if(doesUserExist($email, $password)){
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $password;
@@ -23,8 +22,8 @@
             return true;
         }
         else{
-            $msgtitle = "Invalid Login attempt";
-            $msg = "Incorrect username/password please try again.";
+            $_SESSION['msgtitle'] = "Invalid Login attempt";
+            $_SESSION['msg'] = "Incorrect username/password please try again.";
             return false;
         }
     }

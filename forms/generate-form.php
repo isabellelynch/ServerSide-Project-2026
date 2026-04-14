@@ -1,6 +1,3 @@
-<?php 
-    global $form;
-?>
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
         <div class="modal-head">
@@ -10,8 +7,9 @@
             </div>
             <button id = "modal-x" type = "button">X</button>
         </div>
-        <form class="modal-form" id = "common-form" method = "POST" action = "">
+        <form class="modal-form" id = "common-form" method = "POST" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
             <?php 
+                global $form;
                 foreach($form as $f){
                     require_once($f);
                 }
@@ -25,22 +23,12 @@
         </form>
     </div>
 </div>
-
-<div class="toast" id="toast">
-    <strong id="toastTitle">
-        <?php 
-            global $msgtitle;
-            if($msgtitle !== ""){ 
-                echo $msgtitle;
-            }
-        ?>
-    </strong>
-    <span id="toastBody" class = "toast-msg">
-        <?php 
-            global $msg;
-            if($msg !== ""){ 
-                echo $msg;
-            }
-        ?>
-    </span>
+<?php if(isset($_SESSION['msg']) && isset($_SESSION['msgtitle'])):?>
+<div  id="toast" class="toast show">
+    <strong id="toastTitle"><?php echo $_SESSION['msgtitle']; ?></strong>
+    <span id="toastBody" class = "toast-msg"><?php echo $_SESSION['msg']; ?></span>
 </div>
+<?php 
+    endif; 
+    unset($_SESSION['msg'], $_SESSION['msgtitle']);
+?>

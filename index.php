@@ -4,7 +4,8 @@
     <title>Login</title>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../CSS/grindbookingsys.css">
+    <link rel="stylesheet" href="CSS/grindbookingsys.css">
+    <script src="JavaScript/grindbookingsys.js"></script>
     <?php 
       session_start();
       require_once("Login/handle-login.php"); 
@@ -43,24 +44,14 @@
       <p id = "note">Need access? <a href="#">Contact your administrator</a></p>
     </form>
   </main>
-  <div class="toast" id="toast">
-      <strong id="toastTitle">
-          <?php 
-              global $msgtitle;
-              if($msgtitle !== ""){ 
-                  echo $msgtitle;
-              }
-          ?>
-      </strong>
-      <span id="toastBody" class = "toast-msg">
-          <?php 
-              global $msg;
-              if($msg !== ""){ 
-                  echo $msg;
-              }
-          ?>
-      </span>
-  </div>
+<?php if(isset($_SESSION['msg']) && isset($_SESSION['msgtitle'])):?>
+<div  id="toast" class="toast show">
+    <strong id="toastTitle"><?php echo $_SESSION['msgtitle']; ?></strong>
+    <span id="toastBody" class = "toast-msg"><?php echo $_SESSION['msg']; ?></span>
+</div>
+<?php 
+    endif; 
+?>
 </body>
-  <script src="../JavaScript/grindbookingsys.js"></script>
+  
 </html>
