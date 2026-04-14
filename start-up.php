@@ -10,10 +10,11 @@
     if (!isset($_SESSION['semester'])) {
         $_SESSION['semester'] = 1;
     }
+
     require_once(ROOT . "/database-interactions/general.php"); 
 
     $form = match(getCurrentPage()){
-        "Dashboard" => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-admin.html"],
+        "Dashboard" => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-admin.php"],
         "Students" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.html"],
         "Tutors" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.html"],
         "Schedule" => [ROOT . "/forms/form-body/new-class.php", ROOT . "/forms/form-body/booking-for-student.php"],

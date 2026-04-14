@@ -1,3 +1,4 @@
+<?php require_once(ROOT . "/forms/form-handlers/add-student-from-schedule-click.php"); ?>
 <div id = "book-for-student">
     <label>Student Email</label>
         <input 

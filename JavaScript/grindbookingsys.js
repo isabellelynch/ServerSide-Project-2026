@@ -33,10 +33,10 @@ window.addEventListener("DOMContentLoaded", () => {
     function toggleAddStudentToClassForm(){
         formTitle.innerHTML = "Make Booking";
         formSubTitle.innerHTML = "Add student to class list";
-        if(page === "index"){
+        if(newAdminForm){
             newAdminForm.style.display = 'none';
         }
-        else{
+        else if (newClassFormBody){
             newClassFormBody.style.display = "none";
         }
         
@@ -212,8 +212,6 @@ window.addEventListener("DOMContentLoaded", () => {
         )});
     }
 
-    
-
     let tutorSelect = document.getElementById("FormTutor");
     if(tutorSelect){
         tutorSelect.addEventListener("change", (e) => {
@@ -258,11 +256,13 @@ window.addEventListener("DOMContentLoaded", () => {
         xmlhttp.send();
     }
 
-
     let msg = document.getElementById("toast");
     if(msg){
         setTimeout(() => msg.classList.remove("show"), 3000);
     }
+
+    
+    
     
     function filterTable(tableId, q){
         let rows = document.querySelectorAll('#' + tableId + ' tbody tr');

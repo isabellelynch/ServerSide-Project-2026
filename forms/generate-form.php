@@ -1,3 +1,4 @@
+
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
         <div class="modal-head">
@@ -7,20 +8,21 @@
             </div>
             <button id = "modal-x" type = "button">X</button>
         </div>
-        <form class="modal-form" id = "common-form" method = "POST" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+        <form class="modal-form " id = "common-form" method = "POST" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
             <?php 
                 global $form;
                 foreach($form as $f){
                     require_once($f);
                 }
              ?>
-            <div class="modal-footer">
-                <button class="btn-ghost" id = "cancel-form-btn">Cancel</button>
-                <button type = "submit" class="btn-primary" 
-                        name = "save-btn" id = "save-btn"></button>
-            </div>
+        
         <input type = "hidden" name = "activeForm" id = "activeForm" value = "">
-        </form>
+        <div class="modal-footer">
+            <button class="btn-ghost" id = "cancel-form-btn">Cancel</button>
+            <button type = "submit" class="btn-primary" 
+                    name = "save-btn" id = "save-btn"></button>
+        </div>
+    </form>
     </div>
 </div>
 <?php if(isset($_SESSION['msg']) && isset($_SESSION['msgtitle'])):?>

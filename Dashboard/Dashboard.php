@@ -10,7 +10,6 @@
   <body data-page = "index">
     <?php 
       require_once("../start-up.php");
-      require_once(ROOT . "/forms/form-handlers/add-student-from-schedule-click.php");
       include_once(ROOT . "/database-interactions/statistics.php");
       include_once(ROOT . "/database-interactions/general.php");
     ?>
