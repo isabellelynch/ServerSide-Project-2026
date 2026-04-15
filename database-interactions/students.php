@@ -64,6 +64,9 @@ function doesEmailExist($e){
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['StudentID'];
     }
+    else{
+        return "error";
+    }
 }
 
 ?>

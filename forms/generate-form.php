@@ -1,5 +1,7 @@
-
-<div class="modal-overlay" id="modalOverlay" >
+<?php 
+    $updating = $_SESSION['updating']??false;
+?>
+<div class="modal-overlay <?php echo ($updating === true)?'active':''; ?>" id="modalOverlay" >
     <div class="modal">
         <div class="modal-head">
             <div>
@@ -20,7 +22,7 @@
             <button type = "submit" class="btn-primary" 
                     name = "save-btn" id = "save-btn"></button>
         </div>
-        <input type = "hidden" name = "activeForm" id = "activeForm" value = "">
+        <input type = "hidden" name = "activeForm" id = "activeForm" value = "<?php echo $_POST['activeForm']??''; ?>">
     </form>
     </div>
 </div>

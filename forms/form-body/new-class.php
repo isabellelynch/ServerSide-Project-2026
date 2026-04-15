@@ -12,9 +12,10 @@
     include_once(ROOT . "/include-for-functions/day-mapper.php");
 
     global $days, $times;
+    $newClass = $_SESSION['new-class']??false;
 ?>
 
-<div id = "add-new-class">
+<div id = "add-new-class" class = "<?php echo ($newClass === true)?'showthisform':'dontshow'; ?>">
     <label>Tutor</label>
     <select name = "FormTutor" id = "FormTutor">
         <option disabled selected hidden>Select tutor...</option>

@@ -6,6 +6,7 @@ $msgtitle = "Error";
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && $_POST['activeForm'] === "new-class"){
+        $_SESSION['new-class'] = true;
         $tutor = $_POST['FormTutor']??"";
         if($tutor === "") {
             $msg = "Tutor must be chosen.";
@@ -38,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
         if(ensureTutorTeachesSubject($tutor, $subject) === 1){
             if(isRoomFree($day, $time, $room) === true){
-
+                $_SESSION['new-class'] = false;
             }
             else{
                 $msg = "The chosen room is not free at the chosen day and time.";

@@ -1,4 +1,8 @@
-<div id = "new-or-update-form">
+<?php 
+    require_once(ROOT . "/forms/form-handlers/add-new-student-tutor.php"); 
+    $new = $_SESSION['header-form']??false;
+?>
+<div id = "new-or-update-form" class = "<?php echo ($new === true)?'showthisform':'dontshow'; ?>">
     <label>First Name</label>
         <input type="text" name = "firstname" placeholder = "eg. Isabelle">
 

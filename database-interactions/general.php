@@ -80,4 +80,18 @@ function getCurrentPage(){
     return str_replace(".php", "", basename($_SERVER['PHP_SELF']));
 }
 
+function errorHandler($msg){
+    $_SESSION['msgtitle'] = "Error";
+    $_SESSION['msg'] = $msg;
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+function successMsg($msg){
+    $_SESSION['msgtitle'] = "Success";
+    $_SESSION['msg'] = $msg;
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+
 ?>

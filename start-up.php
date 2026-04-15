@@ -11,6 +11,16 @@
         $_SESSION['semester'] = 1;
     }
 
+    if(!isset($_SESSION['other-form'])){
+        $_SESSION['other-form'] = false;
+    }
+    if(!isset($_SESSION['header-form'])){
+        $_SESSION['header-form'] = false;
+    }
+    if(!isset($_SESSION['updating'])){
+        $_SESSION['updating'] = false;
+    }
+
     require_once(ROOT . "/database-interactions/general.php"); 
 
     $form = match(getCurrentPage()){

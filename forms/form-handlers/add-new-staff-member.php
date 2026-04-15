@@ -1,57 +1,60 @@
 <?php
 require_once(ROOT . "/include-for-functions/Validation.php");
 require_once(ROOT . "/database-interactions/make-connection.php");
+require_once(ROOT . "/database-interactions/general.php");
 global $pdo;
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['admin-password']) && $_POST['activeForm'] === "new-admin"){
+        $_SESSION['header-form'] = true;
+        $_SESSION['other-form'] = false;
+        $_SESSION['updating'] = true;
+
         $firstname = trim($_POST['firstname']??"");
+        $_SESSION['new-firstname'] = $firstname;
+
         $surname = trim($_POST['surname']??"");
+        $_SESSION['new-surname'] = $surname;
+
         $email = trim($_POST['email']??"");
+        $_SESSION['new-email'] = $email;
+
         $password = trim($_POST['admin-password']??"");
+        $confirm = trim($_POST['admin-password-confirm']??"");
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
 
         if($firstname === "" || $surname === "" || $email === "" || $password === ""){
-            $_SESSION['msgtitle'] = "Error";
-            $_SESSION['msg'] = "All fields must be entered to continue.";
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
+            errorHandler("All fields must be entered to continue.");
         }
 
-        if(ValidName($firstname, "Firstname") !== "Valid"){
-            $_SESSION['msgtitle'] = "Error";
-            $_SESSION['msg'] = ValidName($firstname, "Firstname");
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
+        elseif(ValidName($firstname, "Firstname") !== "Valid"){
+            errorHandler(ValidName($firstname, "Firstname"));
         }
 
-        if(ValidName($surname, "Surname") !== "Valid"){
-            $_SESSION['msgtitle'] = "Error";
-            $_SESSION['msg'] = ValidName($surname, "Surname");
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
+        elseif(ValidName($surname, "Surname") !== "Valid"){
+            errorHandler(ValidName($surname, "Surname"));
         }
-        if(ValidEmail($email) !== "Valid"){
-            $_SESSION['msgtitle'] = "Error";
-            $_SESSION['msg'] = ValidName($email);
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
+        elseif(ValidEmail($email) !== "Valid"){
+            errorHandler(ValidEmail($email));
         }
-        if(!ValidatePassword($password)){
-            $_SESSION['msgtitle'] = "Error";
-            $_SESSION['msg'] = "Password must be in correct formation to continue.";
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
+        elseif($password !== $confirm){
+            errorHandler("Passwords must match to continue.");
+        }
+        elseif(!ValidatePassword($password)){
+            errorHandler("Password must contain more than 8 digits, one uppercase, one lowercase and a special character");
         }
 
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+
         if(isEmailUnique($email)){
             addAdminMember($firstname, $surname, $email, $hash);
-            $_SESSION['msgtitle'] = "Success";
-            $_SESSION['msg'] = "$firstname $surname successfully added as an admin member.";
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
+            unset($_SESSION['header-form']);
+            unset($_SESSION['updating']);
+            successMsg("$firstname $surname successfully added as an admin member.");
         }
-        
+        else{
+            errorHandler("Email already exists as an admin member");
+        }
     }
 }
 
