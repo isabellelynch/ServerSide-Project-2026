@@ -21,6 +21,7 @@
         $_SESSION['updating'] = false;
     }
 
+
     require_once(ROOT . "/database-interactions/general.php"); 
 
     $form = match(getCurrentPage()){

@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let formSaveBtn = document.getElementById("save-btn");
     let headerBtn = document.getElementById("top-bar-btn");
     let pageHeading = document.getElementById("topbarTitle");
-
+    let overlay = document.getElementById("modalOverlay");
     const defaultConfig = {
         title: "Dashboard",
         top: "+ New Staff Member",
@@ -67,6 +67,8 @@ window.addEventListener("DOMContentLoaded", () => {
         activeForm.value = active;
         formTitle.innerHTML = title;
         formSubTitle.innerHTML = sub;
+        overlay.classList.add('active');
+        updateScrollState();
     }
 
 
@@ -94,11 +96,10 @@ window.addEventListener("DOMContentLoaded", () => {
         if(page === "students"){
             showForm(newOrUpdateForm, removeFormBody, "new", "New Student", "Add a new Student to the system");
         }
-        openForm();
     });
  
     
-    let overlay = document.getElementById("modalOverlay");
+    
     let cancel = document.getElementById("cancel-form-btn");
     let exitForm = document.getElementById("modal-x");
     let classes = document.querySelectorAll(".class-slot");
@@ -115,11 +116,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if(exitForm){
         exitForm.addEventListener("click", closeForm);
     }
-    function openForm()
-    {
-        overlay.classList.add('active');
-        updateScrollState();
-    }
+
     let form = document.getElementById("common-form");
     function closeForm()
     {
@@ -149,7 +146,6 @@ window.addEventListener("DOMContentLoaded", () => {
         classes.forEach(el => {
             el.addEventListener("click", () => {
                 setTimeout(() => {
-                    openForm();
                     showForm(bookclassFormBody, newAdminForm, "add", "Make Booking", "Add student to class list"); 
                     let classid = document.getElementById("ClassID");
                     if(classid){
@@ -206,12 +202,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
     let msg = document.getElementById("toast");
     if(msg){
-        setTimeout(msg.classList.remove("show"),3000);
+        setTimeout(() => {msg.classList.remove("show")},3000);
     }
-    
- 
-    
-    
     
     
     
@@ -249,7 +241,6 @@ window.addEventListener("DOMContentLoaded", () => {
                     showForm(newOrUpdateForm, removeFormBody, "update", "Update Student", "Make the necessary changes to students details");
                     formSaveBtn.innerHTML = "Update Student";
                 }
-                openForm();
             });
         });
 
@@ -266,7 +257,6 @@ window.addEventListener("DOMContentLoaded", () => {
                     formSaveBtn.innerHTML = "Remove Student";
                 }
                 document.getElementById("remove-msg").innerText = "Are you sure you wish to remove " + name + " from the system ?";
-                openForm();
             });
             
         });

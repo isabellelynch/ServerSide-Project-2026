@@ -49,7 +49,11 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         if(isEmailUnique($email)){
             addAdminMember($firstname, $surname, $email, $hash);
             unset($_SESSION['header-form']);
+            unset($_SESSION['other-form']);
             unset($_SESSION['updating']);
+            unset($_SESSION['new-firstname']);
+            unset($_SESSION['new-surname']);
+            unset($_SESSION['new-email']);
             successMsg("$firstname $surname successfully added as an admin member.");
         }
         else{
