@@ -5,6 +5,7 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../CSS/grindbookingsys.css">
+    <script src = "../JavaScript/grindbookingsys.js"></script>
   </head>
   <body data-page = "schedule">
     <?php 
@@ -18,5 +19,5 @@
     </main>
 
   </body>
-  <script src = "../JavaScript/grindbookingsys.js"></script>
+  
 </html>

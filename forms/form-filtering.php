@@ -4,6 +4,8 @@ require_once("../database-interactions/tutors.php");
 require_once("../include-for-functions/day-mapper.php");
 require_once("../Schedule/schedule-handling.php");
 
+$room = "";
+
 if(isset($_GET['action']) && $_GET['action'] === 'tutorChanged'){
     $id = $_GET['id'];
     $subject = getTutorSubject($id);
@@ -21,21 +23,28 @@ if(isset($_GET['action']) && $_GET['action'] === 'subjectChanged'){
 }
 
 if(isset($_GET['action']) && $_GET['action'] === "roomChanged"){
-    $_SESSION['room'] = $_GET['id'];
-    $_SESSION['free-slots'] = getFreeScheduleSlots($_SESSION['room']);
-    foreach ($_SESSION['free-slots'] as $day => $times){
+    global $room;
+    $room = $_GET['id'];
+    $freeslots = getFreeScheduleSlots($room);
+
+    foreach ($freeslots as $day => $times){
         if (!empty($times)){
-            $daynum = GetDayNum($day);
-            echo "<option value='$daynum'>$day</option>";
+            $daynum = $day + 1;
+            $dayname = GetDay($daynum);
+            echo "<option value='$daynum'>$dayname</option>";
         }
     }
 }
 if(isset($_GET['action']) && $_GET['action'] === "dayChanged"){
-    $daynum = $_GET['id'];
-    $index = GetDay($daynum);
+    global $room;
     
-    foreach($_SESSION['free-slots'][$index] as $t){
-        echo "<option>$t</option>";
-    } 
+    $daynum = $_GET['id'];
+    $free = getFreeTimes($daynum, $room, 1);
+    foreach($free as $f){
+        echo "<option value='$f'>$f:00</option>";
+    }
+    
+
+
 }
 ?>

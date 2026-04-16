@@ -2,15 +2,16 @@
 require_once("../database-interactions/classes.php");
 require_once("semesters.php");
 require_once("../database-interactions/rooms.php");
+require_once("../database-interactions/make-connection.php");
+global $pdo, $semesters, $days, $times;
 
-global $semesters, $days, $times;
 
 function generateSchedule(){
     global $semesters;
     $s = [];
-    $sem = $semesters[$_SESSION['semester']]['number'];
-    $room = $_SESSION['room'];
-    $result = SelectAllClasses($room, $sem);
+    //change this to dynamic semester !!
+    $sem = $semesters[1]['number'];
+    $result = SelectAllClasses($_SESSION['room'], $sem);
     foreach($result as $row){
         $day = $row['Day'];
         $time = $row['Time'];
@@ -28,20 +29,54 @@ function generateSchedule(){
 
 
 function getFreeScheduleSlots($room){
-    global $days, $times;
+    global $times;
     $_SESSION['room'] = $room;
     $schedule = generateSchedule();
     $freeSlots = [];
-    foreach ($days as $day) {
+    for($i = 0; $i <= 4; $i ++) {
         foreach ($times as $time) {
-            if (!isset($schedule[$day][$time])) {
-                $freeSlots[$day][] = $time;
+            if (!isset($schedule[$i][$time])) {
+                $freeSlots[$i][] = $time;
             }
         }
     }
     return $freeSlots;
 }
 
+
+function getFreeTimes($day, $room, $semester){
+    global $pdo, $times;
+    $stmt = $pdo -> prepare("SELECT Time 
+                             FROM Classes 
+                             WHERE Day = :d AND 
+                             RoomNo = :r AND 
+                             SemesterNo = :s");
+
+    $stmt -> bindValue(":d", $day);
+    $stmt -> bindValue(":r", $room);
+    $stmt -> bindValue(":s", $semester);
+    $stmt -> execute();
+
+    $fulltimes = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $free = [];
+    var_dump($fulltimes['Time']);
+
+    $occupiedTimes = $fulltimes['Time'];
+    
+    
+    var_dump($occupiedTimes);
+
+    foreach ($times as $t) {
+        if (!in_array($t, $occupiedTimes)) {
+            $free[] = $t;
+        }
+    }
+  
+
+    return $free;
+
+}
 
 
 //handle the changing of the room via buttons on the top of the schedule

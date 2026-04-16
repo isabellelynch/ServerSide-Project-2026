@@ -82,6 +82,9 @@ window.addEventListener("DOMContentLoaded", () => {
         if(newOrUpdateForm && newOrUpdateForm.classList.contains("showthisform")){
             showForm(newOrUpdateForm, removeFormBody, "new", "New Tutor", "Add a new Tutor to the system");
         }
+        if(removeFormBody && removeFormBody.classList.contains("showthisform")){
+            showForm(removeFormBody, newOrUpdateForm, "remove", "Remove Tutor", "Remove tutor from the system.");
+        }
     }
     
     
@@ -95,6 +98,9 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         if(page === "students"){
             showForm(newOrUpdateForm, removeFormBody, "new", "New Student", "Add a new Student to the system");
+        }
+        if(page === "schedule"){
+            showForm(newClassFormBody, bookclassFormBody, "new-class", "New Class", "Add a new class to the schedule.");
         }
     });
  
@@ -124,6 +130,14 @@ window.addEventListener("DOMContentLoaded", () => {
             newAdminForm.className = "";
             bookclassFormBody.className = "";
         }
+        if(page === "tutors"){
+            removeFormBody.className = "";
+            newOrUpdateForm.className = "";
+        }
+        if(page === "schedule"){
+            newClassFormBody.className = "";
+            bookclassFormBody.className = "";
+        }
         overlay.classList.remove('active');
         updateScrollState();
         form.reset();
@@ -146,7 +160,13 @@ window.addEventListener("DOMContentLoaded", () => {
         classes.forEach(el => {
             el.addEventListener("click", () => {
                 setTimeout(() => {
-                    showForm(bookclassFormBody, newAdminForm, "add", "Make Booking", "Add student to class list"); 
+                    if(newAdminForm){
+                        showForm(bookclassFormBody, newAdminForm, "add", "Make Booking", "Add student to class list"); 
+                    }
+                    if(newClassFormBody){
+                        showForm(bookclassFormBody, newClassFormBody, "add", "Make Booking", "Add student to class list"); 
+                    }
+                    
                     let classid = document.getElementById("ClassID");
                     if(classid){
                         classid.value = el.dataset.id;

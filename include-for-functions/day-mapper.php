@@ -8,8 +8,7 @@
                         2 => 'Tuesday',
                         3 => 'Wednesday',
                         4 => 'Thursday',
-                        5 => 'Friday',
-                        default => 'Invalid'
+                        5 => 'Friday'
                     };
     }
 

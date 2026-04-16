@@ -21,13 +21,12 @@
         $_SESSION['updating'] = false;
     }
 
-
     require_once(ROOT . "/database-interactions/general.php"); 
 
     $form = match(getCurrentPage()){
         "Dashboard" => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-admin.php"],
-        "Students" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.html"],
-        "Tutors" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.html"],
+        "Students" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.php"],
+        "Tutors" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.php"],
         "Schedule" => [ROOT . "/forms/form-body/new-class.php", ROOT . "/forms/form-body/booking-for-student.php"],
         "Subjects" => [ROOT . "/forms/form-body/new-subject.html",ROOT . "/forms/form-body/remove.html"]
     };
