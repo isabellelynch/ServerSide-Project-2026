@@ -3,6 +3,10 @@
 
     define("ROOT", __DIR__);
 
+    require_once(ROOT . "/database-interactions/general.php"); 
+
+    $page = getCurrentPage();
+
     if (!isset($_SESSION['room'])) {
         $_SESSION['room'] = 1;
     }
@@ -11,19 +15,17 @@
         $_SESSION['semester'] = 1;
     }
 
-    if(!isset($_SESSION['other-form'])){
+    if(!isset($_SESSION['other-form'][$page])){
         $_SESSION['other-form'] = false;
     }
-    if(!isset($_SESSION['header-form'])){
+    if(!isset($_SESSION['header-form'][$page])){
         $_SESSION['header-form'] = false;
     }
-    if(!isset($_SESSION['updating'])){
+    if(!isset($_SESSION['updating'][$page])){
         $_SESSION['updating'] = false;
     }
 
-    require_once(ROOT . "/database-interactions/general.php"); 
-
-    $form = match(getCurrentPage()){
+    $form = match($page){
         "Dashboard" => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-admin.php"],
         "Students" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.php"],
         "Tutors" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.php"],

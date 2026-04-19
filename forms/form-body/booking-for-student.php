@@ -1,6 +1,7 @@
 <?php 
     require_once(ROOT . "/forms/form-handlers/add-student-from-schedule-click.php"); 
-    $booking = $_SESSION['other-form']??false;
+    global $page;
+    $booking = $_SESSION['other-form'][$page]??false;
 ?>
 <div id = "book-for-student" class = "<?php echo ($booking === true)?'showthisform':'dontshow'; ?>">
     <label>Student Email</label>

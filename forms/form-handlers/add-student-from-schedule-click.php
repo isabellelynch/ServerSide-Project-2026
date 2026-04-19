@@ -3,13 +3,13 @@ require_once(ROOT . "/database-interactions/classes.php");
 require_once(ROOT . "/database-interactions/students.php");
 require_once(ROOT . "/database-interactions/bookings.php");
 require_once(ROOT . "/database-interactions/general.php");
-
+global $page;
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['classid']) && $_POST['activeForm'] === "add"){
-        $_SESSION['other-form'] = true;
-        $_SESSION['header-form'] = false;
-        $_SESSION['updating'] = true;
+        $_SESSION['other-form'][$page] = true;
+        $_SESSION['header-form'][$page] = false;
+        $_SESSION['updating'][$page] = true;
         $_SESSION['class'] = $_POST['classid'];
         $classid = $_SESSION['class'];
         $email = $_POST['student-email'];
@@ -26,8 +26,6 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             if($studentID != "error"){
                 incrementEnrollment($classid);
                 createBooking($studentID, $classid);
-                unset($_SESSION['other-form']);
-                unset($_SESSION['header-form']);
                 successMsg("Student sucessfully added to the class.");
             }
             else{
