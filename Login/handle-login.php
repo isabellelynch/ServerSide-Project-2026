@@ -4,8 +4,16 @@
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' &&
         isset($_POST['login-btn'])){
-            $password = $_POST['password'];
-            $email = $_POST['email'];
+            $password = trim($_POST['password'])??'';
+            $email = trim($_POST['email'])??'';
+
+            if($email === "" || $password === ""){
+                $_SESSION['msgtitle'] = "Invalid Login attempt";
+                $_SESSION['msg'] = "Username and Password must be entered, please try again.";
+                header("Location:" . $_SERVER['PHP_SELF']);
+                exit;
+            }
+
             if(ValidLogin($email, $password)){
                 unset($_SESSION['msg']);
                 unset($_SESSION['msgtitle']);
@@ -23,7 +31,7 @@
         }
         else{
             $_SESSION['msgtitle'] = "Invalid Login attempt";
-            $_SESSION['msg'] = "Incorrect username/password please try again.";
+            $_SESSION['msg'] = "Incorrect username/password combination, please try again.";
             return false;
         }
     }

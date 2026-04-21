@@ -10,10 +10,16 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['admin-password']) && $_POST['activeForm'] === "new-admin"){
         $_SESSION['header-form'][$page] = true;
         $_SESSION['other-form'][$page] = false;
-        $_SESSION['updating'][$page] = true;
-        $AdminFirstname = trim($_POST['firstname']??"");
-        $AdminSurname = trim($_POST['surname']??"");
-        $AdminEmail = trim($_POST['email']??"");
+
+        $_SESSION['admin-firstname'] = trim($_POST['firstname']??"");
+        $AdminFirstname = $_SESSION['admin-firstname'];
+
+        $_SESSION['admin-surname'] = trim($_POST['surname']??"");
+        $AdminSurname = $_SESSION['admin-surname'];
+
+        $_SESSION['admin-email'] = trim($_POST['email']??"");
+        $AdminEmail = $_SESSION['admin-email'];
+
         $AdminPassword = trim($_POST['admin-password']??"");
         $confirm = trim($_POST['admin-password-confirm']??"");
         $AdminHash = password_hash($password, PASSWORD_DEFAULT);
@@ -43,7 +49,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
         if(isEmailUnique($AdminEmail)){
             addAdminMember($AdminFirstname, $AdminSurname, $AdminEmail, $AdminHash);
+            unset($_SESSION['admin-firstname'], $_SESSION['admin-surname'], $_SESSION['admin-email']);
             successMsg("$AdminFirstname $AdminSurname successfully added as an admin member.");
+            
         }
         else{
             errorHandler("Email already exists as an admin member");

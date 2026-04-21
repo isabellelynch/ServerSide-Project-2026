@@ -71,6 +71,7 @@ window.addEventListener("DOMContentLoaded", () => {
         updateScrollState();
     }
 
+    
 
     if(newAdminForm && newAdminForm.classList.contains("showthisform")){
         showForm(newAdminForm, bookclassFormBody, "new-admin", "New Staff Member", "Add a new staff member to the system");
@@ -88,21 +89,23 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     
     
-
-    headerBtn.addEventListener("click", () => {
-        if(page === "index"){
-            showForm(newAdminForm, bookclassFormBody, "new-admin", "New Staff Member", "Add a new staff member to the system");
-        }
-        if(page === "tutors"){
-            showForm(newOrUpdateForm, removeFormBody, "new", "New Tutor", "Add a new Tutor to the system");
-        }
-        if(page === "students"){
-            showForm(newOrUpdateForm, removeFormBody, "new", "New Student", "Add a new Student to the system");
-        }
-        if(page === "schedule"){
-            showForm(newClassFormBody, bookclassFormBody, "new-class", "New Class", "Add a new class to the schedule.");
-        }
-    });
+    if(headerBtn){
+        headerBtn.addEventListener("click", () => {
+            if(page === "index"){
+                showForm(newAdminForm, bookclassFormBody, "new-admin", "New Staff Member", "Add a new staff member to the system");
+            }
+            if(page === "tutors"){
+                showForm(newOrUpdateForm, removeFormBody, "new", "New Tutor", "Add a new Tutor to the system");
+            }
+            if(page === "students"){
+                showForm(newOrUpdateForm, removeFormBody, "new", "New Student", "Add a new Student to the system");
+            }
+            if(page === "schedule"){
+                showForm(newClassFormBody, bookclassFormBody, "new-class", "New Class", "Add a new class to the schedule.");
+            }
+        });
+    }
+    
  
     
     
@@ -224,7 +227,12 @@ window.addEventListener("DOMContentLoaded", () => {
     if(msg){
         setTimeout(() => {msg.classList.remove("show")},3000);
     }
-    
+    let msgTitle = document.getElementById("toastTitle");
+    if(msgTitle){
+        if(msgTitle.innerHTML == "Success"){
+            closeForm();
+        }
+    }
     
     
     function filterTable(tableId, q){
