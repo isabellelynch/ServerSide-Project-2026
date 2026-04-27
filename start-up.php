@@ -35,5 +35,4 @@
 
     require_once(ROOT . "/basic-page-layout/header.php"); 
     require_once(ROOT . "/basic-page-layout/side-bar-nav.php");
-    require_once(ROOT . "/forms/generate-form.php");
 ?>

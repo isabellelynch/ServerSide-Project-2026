@@ -30,7 +30,6 @@ function PermanentlyRemoveStudent($student){
     $stmt->bindValue(':id', $student); 
 
     $stmt->execute();
-
 }
 
 function UpdateStudent($student){
@@ -60,12 +59,13 @@ function doesEmailExist($e){
     $stmt->bindValue(':email', $e);
     $stmt->execute();
     
-    if ($stmt->rowCount() === 1) {
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($row) {
         return $row['StudentID'];
-    }
-    else{
-        return "error";
+    } 
+    else {
+        return false;
     }
 }
 

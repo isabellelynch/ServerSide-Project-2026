@@ -1,4 +1,3 @@
-
 <div class="modal-overlay <?php echo ($_SESSION['updating'] === true)?'active':''; ?>" id="modalOverlay" >
     <div class="modal">
         <div class="modal-head">

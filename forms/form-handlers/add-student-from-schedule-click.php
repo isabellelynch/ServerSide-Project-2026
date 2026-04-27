@@ -16,17 +16,20 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         if($email == ""){
             errorHandler("Please enter an email to add a student.");
         }
-        
-        $class = getClass($classid);
-        
 
-        
         if(!isClassFull($classid)){
             $studentID = doesEmailExist($email);
-            if($studentID != "error"){
-                incrementEnrollment($classid);
-                createBooking($studentID, $classid);
-                successMsg("Student sucessfully added to the class.");
+            if($studentID != false){
+                if(hasStudentBookedClass($studentID, $classid) !== false){
+                    incrementEnrollment($classid);
+                    createBooking($studentID, $classid);
+                    $_SESSION['updating'][$page] = false;
+                    successMsg("Student sucessfully added to the class.");
+                }
+                else{
+                    errorHandler("Student has already booked this class");
+                }
+                
             }
             else{
                 errorHandler("Student cannot be added to the class because their email is not on the system,
@@ -36,7 +39,6 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         else{
             errorHandler("Student cannot be added to the class as this class is full");
         }
-        
     }
 }
 ?>

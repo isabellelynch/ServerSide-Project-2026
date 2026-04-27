@@ -88,7 +88,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
     
-    
     if(headerBtn){
         headerBtn.addEventListener("click", () => {
             if(page === "index"){
@@ -105,9 +104,6 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    
- 
-    
     
     let cancel = document.getElementById("cancel-form-btn");
     let exitForm = document.getElementById("modal-x");
@@ -143,7 +139,9 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         overlay.classList.remove('active');
         updateScrollState();
-        form.reset();
+        document.querySelectorAll("form input").forEach(input => {
+            input.value = "";
+        });
     }
 
     function handleOverlay(e)

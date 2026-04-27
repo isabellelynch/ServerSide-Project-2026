@@ -11,7 +11,7 @@
         try 
         {
             UpdateStatus($table,$id);
-            header("Location:$table.php" );
+            header("Location: $table.php" );
             exit();
         }
         catch (PDOException $e) 
@@ -21,7 +21,7 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['save-btn']) && isset($_POST['remove-id'])){
-        $id = $_POST['remove-id'];
+        $id = (int)$_POST['remove-id'];
         PermanentlyRemoveStudent($id);
     }
 

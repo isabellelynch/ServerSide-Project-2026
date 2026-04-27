@@ -1,7 +1,9 @@
 <?php
     require_once(dirname(__DIR__) . "/database-interactions/tutors.php");
     require_once(dirname(__DIR__) . "/database-interactions/general.php");
+
     $table = getCurrentPage();
+
     require_once("table-handler.php");
 ?>
 <div class = "content-header">
@@ -42,7 +44,7 @@
             $currentID = $row[str_replace("s", "ID", $table)];
     ?>
         <tr> 
-            <td hidden><?php echo $row[$currentID]; ?></td>
+            <td hidden data-id = "<?php echo $currentID; ?>"></td>
             <td class="avatar-chip"> 
                 <div class="avatar-sm"><?php echo substr($row["FirstName"],0,1); ?></div>
                 <?php echo $row["FirstName"] . " " . $row["Surname"]; ?>
@@ -61,22 +63,22 @@
                 <div class = "action-btns">
                     <button class="edit-btn" 
                             type = "button"
-                            data-id = <?php echo $currentID; ?>
+                            data-id = "<?php echo $currentID; ?>"
                             data-firstname = "<?php echo $row["FirstName"]; ?>"
                             data-surname = "<?php echo $row["Surname"]; ?>"
-                            data-email = <?php echo $row["Email"]; ?>
-                            data-phone = <?php echo $row["PhoneNo"]; ?>
+                            data-email = "<?php echo $row["Email"]; ?>"
+                            data-phone = "<?php echo $row["PhoneNo"]; ?>"
                             <?php if($table === "Tutors"): ?>
                                 data-rate = <?php echo GetTutorRate($row["RateCode"]);
-                                endif; ?> 
+                            endif; ?> 
                             >
                         <i class="fa-solid fa-pen"></i>
                     </button>
                     <button class="delete-btn" 
                             type = "button" 
-                            data-id = <?php echo $currentID; ?>
-                            data-firstname = <?php echo $row["FirstName"]; ?>
-                            data-surname = <?php echo $row["Surname"]; ?>
+                            data-id = "<?php echo $currentID; ?>"
+                            data-firstname = "<?php echo $row["FirstName"]; ?>"
+                            data-surname = "<?php echo $row["Surname"]; ?>"
                             >
                         <i class="fa-solid fa-trash"></i>
                     </button>

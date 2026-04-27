@@ -61,5 +61,21 @@
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    function hasStudentBookedClass($s, $c){
+        global $pdo;
+        $stmt = $pdo->prepare("SELECT * 
+                               FROM Student_Classes 
+                               WHERE StudentID = :student AND
+                               ClassID = :class");
+        $stmt->execute([
+            ':student' => $s,
+            ':class' => $c
+        ]);
+
+        return $stmt->fetch() !== false;
+    }
+
+
+
 
 ?>
