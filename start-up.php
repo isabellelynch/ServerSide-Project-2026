@@ -7,10 +7,10 @@
 
     $page = getCurrentPage();
 
-    /*if($page !== "Login" && !isset($_SESSION['name'])){
-        header("Location: /ServerSide-Project-2026/login.php");
+    if($page !== "Login" && !isset($_SESSION['name'])){
+        header("Location: /ServerSide-Project-2026/Login.php");
         exit();
-    }*/
+    }
     if (!isset($_SESSION['room'])) {
         $_SESSION['room'] = 1;
     }
