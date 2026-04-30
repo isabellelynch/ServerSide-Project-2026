@@ -2,8 +2,7 @@
     require_once("database-interactions/make-connection.php");
     global $pdo;
 
-    if($_SERVER['REQUEST_METHOD'] === 'POST' &&
-        isset($_POST['login-btn'])){
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login-btn'])){
             $password = trim($_POST['password'])??'';
             $email = trim($_POST['email'])??'';
 
@@ -27,6 +26,7 @@
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $password;
             $_SESSION['name'] = getName($email, $password);
+            unset($_SESSION['msg'], $_SESSION['msgtitle']);
             return true;
         }
         else{

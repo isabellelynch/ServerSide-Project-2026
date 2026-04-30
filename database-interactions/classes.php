@@ -75,7 +75,36 @@
         return $stmt->fetch() !== false;
     }
 
+    function addNewClass($class){
+        global $pdo;
 
+        $stmt = $pdo->prepare("INSERT INTO Classes 
+                              (TutorID, Day, Time, RoomNo, SemesterNo) 
+                              VALUES (:tutor, :day, :time, :room, :semester)");
+                                
+        $stmt->execute([
+            ':tutor' => $class['tutor'],
+            ':day' => $class['day'],
+            ':time' => $class['time'],
+            ':room' => $class['room'],
+            ':semester' => $class['semester']
+        ]);
+    }
+
+    function tutorAlreadyBooked($tutor, $day, $time){
+        $stmt = $pdo->prepare("SELECT * 
+                               FROM Classes 
+                               WHERE TutorID = :tutorID AND 
+                               Day = :day AND 
+                               Time = :time");
+        $stmt->execute([
+            ':tutorID' => $tutor,
+            ':day' => $day,
+            ':time' => $time
+        ]);
+
+        return $stmt->fetch() !== false;            
+    }
 
 
 ?>

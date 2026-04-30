@@ -1,5 +1,4 @@
 <?php 
-    
     include_once(ROOT . "/database-interactions/tutors.php");
     $tutors = GetAllTutorNames();
 
@@ -12,11 +11,9 @@
     include_once(ROOT . "/include-for-functions/day-mapper.php");
 
     global $days, $times;
-    
-    $newClass = $_SESSION['header-form']??false;
 ?>
 
-<div id = "add-new-class" class = "<?php echo ($newClass === true)?'showthisform':'dontshow'; ?>">
+<div id = "add-new-class" class = "">
     <label>Tutor</label>
     <select name = "FormTutor" id = "FormTutor">
         <option disabled selected hidden>Select tutor...</option>

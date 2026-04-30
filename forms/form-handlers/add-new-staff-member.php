@@ -7,10 +7,11 @@ global $pdo, $page;
 
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    if(isset($_POST['save-btn']) && isset($_POST['admin-password']) && $_POST['activeForm'] === "new-admin"){
+    if(isset($_POST['save-btn']) && $_POST['activeForm'] === "new-admin"){
+        $_SESSION['updating'] = true;
         $_SESSION['header-form'][$page] = true;
         $_SESSION['other-form'][$page] = false;
-        $_SESSION['updating'] = true;
+        
 
         $_SESSION['admin-firstname'] = trim($_POST['firstname']??"");
         $AdminFirstname = $_SESSION['admin-firstname'];

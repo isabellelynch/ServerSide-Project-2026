@@ -1,9 +1,4 @@
-<?php 
-    require_once(ROOT . "/forms/form-handlers/add-new-staff-member.php"); 
-    global $page;
-    $admin = $_SESSION['header-form'][$page]??false;
-?>
-<div id = "new-admin-form" class = "<?php echo ($admin === true)?'showthisform':'dontshow'; ?>">
+<div id = "new-admin-form" class = "">
     <label>First Name</label>
         <input type="text" name = "firstname" placeholder="eg. Isabelle" value = "<?php echo $_SESSION['admin-firstname']??''; ?>">
         

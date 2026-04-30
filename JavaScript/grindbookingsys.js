@@ -55,15 +55,16 @@ window.addEventListener("DOMContentLoaded", () => {
     let activeForm = document.getElementById("activeForm");
 
     function showForm(show, hide, active, title, sub){
-        if(show.classList.contains("dontshow")){
-            show.classList.remove("dontshow");
+        if(show){
+            show.classList.add("showthisform");
+            if(show.classList.contains("dontshow"))show.classList.remove("dontshow");
         }
-        show.classList.add("showthisform");
 
-        if(hide.classList.contains("showthisform")){
-            hide.classList.remove("showthisform");
+        if(hide){
+            hide.classList.add("dontshow");
+            if(hide.classList.contains("showthisform"))hide.classList.remove("showthisform");
         }
-        hide.classList.add("dontshow");
+        
         activeForm.value = active;
         formTitle.innerHTML = title;
         formSubTitle.innerHTML = sub;
@@ -215,21 +216,30 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     if(daySelect){
         daySelect.addEventListener("change", (e) => {
-            filterForm(e.target.value, "dayChanged", timeSelect);
+            let room = roomSelect.value;
+            filterForm(e.target.value, "dayChanged", timeSelect, room);
         });
     }
 
-    function filterForm(id, action, dropdown) {
-        if (id == "" || id == undefined) {
+    function filterForm(id, action, dropdown, extra = null) {
+         if (id == "" || id == undefined) {
             return;
         } 
+
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 dropdown.innerHTML = this.responseText;
             }
         }
-        xmlhttp.open("GET","../forms/form-filtering.php?action="+action+"&id="+id,true);
+
+        let url = "../forms/form-filtering.php?action=" + action + "&id=" + id;
+
+        if (extra !== null) {
+            url += "&room=" + extra;
+        }
+
+        xmlhttp.open("GET", url, true);
         xmlhttp.send();
     }
 

@@ -9,7 +9,7 @@ global $pdo, $semesters, $days, $times;
 function generateSchedule(){
     global $semesters;
     $s = [];
-    $sem = $semesters[$_SESSION['semester']]['number'];
+    $sem = (isset($_SESSION['semester']))?$semesters[$_SESSION['semester']]['number']:$semesters[1]['number'];
     $result = SelectAllClasses($_SESSION['room'], $sem);
     foreach($result as $row){
         $day = $row['Day'];
@@ -44,36 +44,32 @@ function getFreeScheduleSlots($room){
 
 function getFreeTimes($day, $room, $semester){
     global $pdo, $times;
-    $stmt = $pdo -> prepare("SELECT Time 
-                             FROM Classes 
-                             WHERE Day = :d AND 
-                             RoomNo = :r AND 
-                             SemesterNo = :s");
 
-    $stmt -> bindValue(":d", $day);
-    $stmt -> bindValue(":r", $room);
-    $stmt -> bindValue(":s", $semester);
-    $stmt -> execute();
+    $stmt = $pdo->prepare("
+        SELECT Time 
+        FROM Classes 
+        WHERE Day = :d 
+        AND RoomNo = :r 
+        AND SemesterNo = :s
+    ");
 
-    $fulltimes = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->execute([
+        ':d' => $day,
+        ':r' => $room,
+        ':s' => $semester
+    ]);
 
-    $free = [];
-    var_dump($fulltimes['Time']);
-
-    $occupiedTimes = $fulltimes['Time'];
-    
-    
+    $occupiedTimes = $stmt->fetchAll(PDO::FETCH_COLUMN);
     var_dump($occupiedTimes);
+    $free = [];
 
     foreach ($times as $t) {
         if (!in_array($t, $occupiedTimes)) {
             $free[] = $t;
         }
     }
-  
 
     return $free;
-
 }
 
 

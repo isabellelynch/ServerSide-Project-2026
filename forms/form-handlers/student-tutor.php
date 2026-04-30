@@ -10,6 +10,8 @@ $person = substr($table, 0, -1);
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn'])){
         if($_POST['activeForm'] === "new" || $_POST['activeForm'] === "update"){
+            $_SESSION['updating'] = true;
+
             $firstname = trim($_POST['firstname'])??"";
             $surname = trim($_POST['surname'])??"";
             $email = trim($_POST['email'])??"";
@@ -66,10 +68,13 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                     $personArray['rate'] = $rate;
                     UpdateTutor($personArray);
                 }
+                $_SESSION['updating'] = false;
                 successMsg("$firstname $surname has been updated successfully");
             }
         }
         else if($_POST['activeForm'] === "delete"){
+            $_SESSION['updating'] = true;
+
             $id = trim($_POST['remove-id'])??'';
             if($person == "Student"){
                 PermanentlyRemoveStudent($id);
@@ -77,6 +82,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             else if($person == "Tutor"){
                 PermanentlyRemoveTutor($id);
             }
+            $_SESSION['updating'] = false;
             successMsg("$person has been removed successfully");
         }
         

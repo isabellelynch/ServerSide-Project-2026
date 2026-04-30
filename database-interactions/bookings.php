@@ -6,8 +6,9 @@
         $stmt = $pdo -> prepare("INSERT INTO Bookings(StudentID, BookingDate, ClassID) 
                 VALUES (:student, SYSDATE(), :class)");
         
-        $stmt -> bindValue(":student", $s);
-        $stmt -> bindValue(":class", $c);
-        $stmt -> execute();
+        $stmt -> execute([
+            ":student", $s,
+            ":class", $c
+        ]);
     }
 ?>

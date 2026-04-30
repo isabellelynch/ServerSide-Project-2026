@@ -1,8 +1,4 @@
-<?php 
-    require_once(ROOT . "/forms/form-handlers/student-tutor.php"); 
-    $new = $_SESSION['header-form']??false;
-?>
-<div id = "new-or-update-form" class = "<?php echo ($new === true)?'showthisform':'dontshow'; ?>">
+<div id = "new-or-update-form" class = "">
     <label>First Name</label>
         <input type="text" name = "firstname" placeholder = "eg. Isabelle">
 
@@ -17,8 +13,11 @@
 
     <?php 
         require_once(ROOT . "/database-interactions/general.php");
+
         $page = getCurrentPage();
+
         if($page === "Tutors"):?>
+        
         <label>Rate</label>
         <select id = "rate" name = "rate">
             <option disabled selected hidden>Select rate...</option>

@@ -25,6 +25,7 @@ if(isset($_GET['action']) && $_GET['action'] === 'subjectChanged'){
 if(isset($_GET['action']) && $_GET['action'] === "roomChanged"){
     global $room;
     $room = $_GET['id'];
+
     $freeslots = getFreeScheduleSlots($room);
 
     foreach ($freeslots as $day => $times){
@@ -36,15 +37,14 @@ if(isset($_GET['action']) && $_GET['action'] === "roomChanged"){
     }
 }
 if(isset($_GET['action']) && $_GET['action'] === "dayChanged"){
-    global $room;
-    
     $daynum = $_GET['id'];
-    $free = getFreeTimes($daynum, $room, 1);
+    $room = $_GET['room'];
+
+    $sem = $_SESSION['semester']??getCurrentSemester();
+    $free = getFreeTimes($daynum, $room, $sem);
+
     foreach($free as $f){
         echo "<option value='$f'>$f:00</option>";
     }
-    
-
-
 }
 ?>

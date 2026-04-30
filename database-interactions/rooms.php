@@ -22,23 +22,25 @@ function getRoomCapacity($room){
 
 }
 
-function isRoomFree($day, $time, $room){
-    $stmt = $pdo->prepare("SELECT COUNT(*) AS Count 
-                           FROM Classes 
-                           WHERE Day = :d AND 
-                           Time = :t AND 
-                           RoomNo = :r");
-    $stmt->bindValue(':d', $day);
-    $stmt->bindValue(':t', $time);
-    $stmt->bindValue(':r', $room);
-    $stmt->execute();
+function isRoomBooked($day, $time, $room){
+    global $pdo;
 
-    if ($stmt->rowCount() === 0) {
-        return true;
-    }
-    else{
-        return false;
-    }
+    $stmt = $pdo->prepare("
+        SELECT 1 
+        FROM Classes 
+        WHERE Day = :d 
+        AND Time = :t 
+        AND RoomNo = :r
+        LIMIT 1
+    ");
+
+    $stmt->execute([
+        ':d' => $day,
+        ':t' => $time,
+        ':r' => $room
+    ]);
+
+    return $stmt->fetch() !== false;
 }
 
 

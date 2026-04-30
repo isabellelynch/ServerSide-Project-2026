@@ -6,6 +6,9 @@ require_once(ROOT . "/Schedule/semesters.php");
 $schedule = generateSchedule();
 
 global $days, $times, $semesters;
+
+$sem = $semesters[$_SESSION['semester']];
+
 ?>
 <div id = 'schedule-table-container'>
 <table id = "ScheduleTable">
@@ -19,9 +22,10 @@ global $days, $times, $semesters;
                         <button name = 'next-room' id = 'next-room'>></button>
                     </div>
                     <div>
-                        <?php echo $semesters[$_SESSION['semester']]['name']; ?> Semester
+                        <?php echo $sem['name']; ?> Semester
                         <button name = 'previous-sem'><</button>
                         <button name = 'next-sem'>></button>
+                        <input type = 'hidden' name = 'semester-number' value = "<?php echo $sem['number']; ?>">
                     </div>
                 </form>
             </th>

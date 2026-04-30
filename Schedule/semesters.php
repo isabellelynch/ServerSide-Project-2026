@@ -29,6 +29,21 @@ function getSemesterNameByNumber($number) {
     return null;
 }
 
+function getSemesterNumberByName($name) {
+    global $semesters;
+
+    foreach ($semesters as $semester) {
+
+        if ($semester['name'] == $name) {
+
+            return $semester['number'];
+
+        }
+    }
+    
+    return null;
+}
+
 function getCurrentSemester(){
     $year = date("y");
     $month = date("m");
@@ -68,32 +83,15 @@ function previousSemester(){
 }
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    if(isset($_POST['previous-sem'])){
-        foreach ($semesters as $i => $sem) {
-            if ($i == $_SESSION['semester']) {
-                $index = $i;
-                break;
-            }
-        }
-        if($index == 0){
-            return;
-        }
-        else{
-            $_SESSION['semester'] = $index - 1;
+    if (isset($_POST['previous-sem'])) {
+        if ($_SESSION['semester'] > 0) {
+            $_SESSION['semester']--;
         }
     }
-    if(isset($_POST['next-sem'])){
-        foreach ($semesters as $i => $sem) {
-            if ($i == $_SESSION['semester']) {
-                $index = $i;
-                break;
-            }
-        }
-        if($index == count($semesters) - 1){
-            return;
-        }
-        else{
-            $_SESSION['semester'] = $index + 1;
+
+    if (isset($_POST['next-sem'])) {
+        if ($_SESSION['semester'] < count($semesters) - 1) {
+            $_SESSION['semester']++;
         }
     }
 }

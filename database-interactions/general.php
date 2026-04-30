@@ -83,6 +83,7 @@ function getCurrentPage(){
 function errorHandler($msg){
     $_SESSION['msgtitle'] = "Error";
     $_SESSION['msg'] = $msg;
+    $_SESSION['updating'] = true;
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
@@ -90,6 +91,7 @@ function errorHandler($msg){
 function successMsg($msg){
     $_SESSION['msgtitle'] = "Success";
     $_SESSION['msg'] = $msg;
+    $_SESSION['updating'] = false;
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
