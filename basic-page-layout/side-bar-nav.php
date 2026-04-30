@@ -69,7 +69,10 @@
 
   <div class="sidebar-footer">
     <p>
-      <strong><?php echo $_SESSION['name']; ?></strong><?php echo $_SESSION['email']; ?>
+      <strong>
+        <?php echo $_SESSION['name']??"Admin Member"; ?>
+      </strong>
+      <?php echo $_SESSION['email']??"admin@grindsschool.com"; ?>
     </p>
   </div>
 </aside>

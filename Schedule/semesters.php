@@ -14,7 +14,20 @@ $semesters = [
     ]
 ];
 
+function getSemesterNameByNumber($number) {
+    global $semesters;
 
+    foreach ($semesters as $semester) {
+
+        if ($semester['number'] == $number) {
+
+            return $semester['name'];
+
+        }
+    }
+    
+    return null;
+}
 
 function getCurrentSemester(){
     $year = date("y");

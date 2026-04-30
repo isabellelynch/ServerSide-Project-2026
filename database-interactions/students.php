@@ -16,25 +16,22 @@ function AddStudent($student)
     $stmt->bindValue(':phone', $student['phone']);  
 
     $stmt->execute();
-
-    $student = [];
-    
 }
 
-function PermanentlyRemoveStudent($student){
+function PermanentlyRemoveStudent($id){
     global $pdo;
 
     $stmt = $pdo->prepare("DELETE FROM Students 
                            WHERE StudentID = :id");
 
-    $stmt->bindValue(':id', $student); 
+    $stmt->bindValue(':id', $id); 
 
     $stmt->execute();
 }
 
 function UpdateStudent($student){
     global $pdo;
-    
+
     $stmt = $pdo->prepare("UPDATE Students SET 
                             FirstName = :firstname, 
                             Surname = :surname, 
@@ -49,8 +46,6 @@ function UpdateStudent($student){
     $stmt->bindValue(':id', $student['id']); 
 
     $stmt->execute();
-
-    $student = [];
 }
 
 function doesEmailExist($e){

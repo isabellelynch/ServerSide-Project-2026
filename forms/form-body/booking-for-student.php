@@ -1,5 +1,5 @@
 <?php 
-    require_once(ROOT . "/forms/form-handlers/add-student-from-schedule-click.php"); 
+    require_once(ROOT . "/forms/form-handlers/student-class-booking.php"); 
     global $page;
     $booking = $_SESSION['other-form'][$page]??false;
 ?>

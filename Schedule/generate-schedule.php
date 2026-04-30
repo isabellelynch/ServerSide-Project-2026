@@ -15,8 +15,8 @@ global $days, $times, $semesters;
                 <form id = 'change-room' action = "" method = "POST">
                     <div>
                         Room <?php echo $_SESSION['room']; ?>
-                        <button name = 'previous-room'><</button>
-                        <button name = 'next-room'>></button>
+                        <button name = 'previous-room' id = 'previous-room'><</button>
+                        <button name = 'next-room' id = 'next-room'>></button>
                     </div>
                     <div>
                         <?php echo $semesters[$_SESSION['semester']]['name']; ?> Semester

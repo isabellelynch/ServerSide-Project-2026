@@ -10,6 +10,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['admin-password']) && $_POST['activeForm'] === "new-admin"){
         $_SESSION['header-form'][$page] = true;
         $_SESSION['other-form'][$page] = false;
+        $_SESSION['updating'] = true;
 
         $_SESSION['admin-firstname'] = trim($_POST['firstname']??"");
         $AdminFirstname = $_SESSION['admin-firstname'];
@@ -46,10 +47,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             errorHandler("Password must contain more than 8 digits, one uppercase, one lowercase and a special character");
         }
 
-
         if(isEmailUnique($AdminEmail)){
             addAdminMember($AdminFirstname, $AdminSurname, $AdminEmail, $AdminHash);
-            unset($_SESSION['admin-firstname'], $_SESSION['admin-surname'], $_SESSION['admin-email']);
+            $_SESSION['updating'] = false;
             successMsg("$AdminFirstname $AdminSurname successfully added as an admin member.");
             
         }

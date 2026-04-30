@@ -9,8 +9,7 @@ global $pdo, $semesters, $days, $times;
 function generateSchedule(){
     global $semesters;
     $s = [];
-    //change this to dynamic semester !!
-    $sem = $semesters[1]['number'];
+    $sem = $semesters[$_SESSION['semester']]['number'];
     $result = SelectAllClasses($_SESSION['room'], $sem);
     foreach($result as $row){
         $day = $row['Day'];
@@ -23,7 +22,6 @@ function generateSchedule(){
             'id' => $row['ClassID']
         ];
     }
-
     return $s;
 }
 

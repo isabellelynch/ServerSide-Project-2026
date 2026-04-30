@@ -177,6 +177,18 @@ window.addEventListener("DOMContentLoaded", () => {
         )});
     }
 
+    let prevRoomBtn = document.getElementById("previous-room");
+    if(prevRoomBtn){
+        prevRoomBtn.addEventListener("click", closeForm());
+    }
+    
+    let nextRoomBtn = document.getElementById("previous-room");
+    if(nextRoomBtn){
+        nextRoomBtn.addEventListener("click", closeForm());
+    }
+    
+
+
     let tutorSelect = document.getElementById("FormTutor");
     if(tutorSelect){
         tutorSelect.addEventListener("change", (e) => {

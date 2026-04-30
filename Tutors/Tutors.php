@@ -13,9 +13,7 @@
     <main>
          <?php include_once(ROOT . "/student-tutor-table/generate-table.php"); ?>
     </main>
-    <?php
-      require_once(ROOT . "/forms/generate-form.php");
-      ?>
+
   </body>
   <script src="../JavaScript/grindbookingsys.js"></script>
 </html>

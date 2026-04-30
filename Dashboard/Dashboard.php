@@ -55,6 +55,7 @@
           require_once(ROOT . "/Schedule/generate-schedule.php");
         ?>
     </main>
+
   </body>
 </html>
 

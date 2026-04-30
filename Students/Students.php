@@ -12,7 +12,7 @@
     ?>
     <main>
       <?php  
-        require_once(dirname(__DIR__) . "/student-tutor-table/generate-table.php");
+        require_once(ROOT . "/student-tutor-table/generate-table.php");
       ?>
     </main>
   </body>
