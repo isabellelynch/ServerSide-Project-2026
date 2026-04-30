@@ -12,6 +12,7 @@
     <meta name="description" content="<?php echo $pageDescription; ?>">
     <meta name="author" content="Isabelle Lynch">
     <meta name="keywords" content="<?php echo $pageKeyWords; ?>">
+    
     <link rel="icon" href="grindsbookingsys-favicon.ico">
     <link rel="stylesheet" href="CSS/grindbookingsys.css">
     <script src = "JavaScript/grindbookingsys.js"></script>

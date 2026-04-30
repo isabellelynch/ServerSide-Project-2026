@@ -4,7 +4,7 @@
         require_once($fh);
     }
 ?>
-<div class="modal-overlay <?php echo ($_SESSION['updating'] === true)?'active':''; ?>" id="modalOverlay" >
+<div class="modal-overlay" id="modalOverlay" >
     <div class="modal">
         <div class="modal-head">
             <div>

@@ -1,7 +1,9 @@
 <?php
 require_once("general.php");
 require_once("make-connection.php");
+
 global $pdo;
+
 function GetSubjectNames(){
     $sql = "SELECT Description, SubjectCode 
             FROM Subjects";
@@ -12,8 +14,11 @@ function GetSubjectNames(){
 }
 
 function getSubjectCount(){
-    $sql = "SELECT COUNT(*) AS Count FROM Subjects";
+    $sql = "SELECT COUNT(*) AS Count 
+            FROM Subjects";
+
     $result = QueryDatabase($sql);
+
     while ($row=$result->fetch(PDO::FETCH_ASSOC)){
         return $row['Count'];
     }
@@ -25,9 +30,9 @@ function getTutorSubject($tutorid){
                            FROM Subjects s JOIN Tutors t ON 
                            t.SubjectCode = s.SubjectCode 
                            WHERE t.TutorID = :id");
-    
-    $stmt -> bindValue(":id",$tutorid);
-    $stmt -> execute();
+    $stmt -> execute([
+        ":id" => $tutorid
+    ]);
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 

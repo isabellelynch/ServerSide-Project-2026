@@ -3,25 +3,6 @@
     require_once(dirname(__DIR__) . "/database-interactions/general.php");
 
     $table = getCurrentPage();
-
-    require_once("table-handler.php");
-
-    //link in table to go from active to inactive
-    if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive') 
-    {
-        $id = $_GET['id'];
-        try 
-        {
-            UpdateStatus($table,$id);
-            header("Location: $table.php" );
-            exit();
-        }
-        catch (PDOException $e) 
-        { 
-            $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine(); 
-        }
-    }
-
 ?>
 
 <div class = "content-header">

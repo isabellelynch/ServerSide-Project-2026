@@ -12,10 +12,11 @@
                                 JOIN Subjects s ON t.SubjectCode = s.SubjectCode 
                                 JOIN Rooms r ON r.RoomNo = c.RoomNo 
                                 WHERE c.RoomNo = :room AND c.SemesterNo = :sem");
+        $stmt->execute([
+            ':room' => $room,
+            ':sem' => $semester
+        ]); 
 
-        $stmt->bindValue(':room', $room); 
-        $stmt->bindValue(':sem', $semester);
-        $stmt->execute(); 
         return $stmt -> fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -24,18 +25,14 @@
         $stmt = $pdo -> prepare("SELECT CurrentEnrollment, RoomNo 
                                 FROM Classes 
                                 WHERE ClassID = :id");
-        $stmt->bindValue(':id', $id); 
-        $stmt -> execute();
-        $class = $stmt -> fetch(PDO::FETCH_ASSOC);
+        $stmt -> execute([
+            ':id' => $id
+        ]);
 
+        $class = $stmt -> fetch(PDO::FETCH_ASSOC);
         $current = $class['CurrentEnrollment'];
         $cap = getRoomCapacity($class['RoomNo']);
-        if($current >= $cap){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return ($current >= $cap);
     }
 
     function incrementEnrollment($id){
@@ -43,8 +40,9 @@
         $stmt = $pdo -> prepare("UPDATE Classes 
                                 SET CurrentEnrollment = CurrentEnrollment + 1 
                                 WHERE ClassID = :id");
-        $stmt -> bindValue(":id", $id);
-        $stmt -> execute();
+        $stmt -> execute([
+            ":id" => $id
+        ]);
     }
 
     function getClass($id){
@@ -54,9 +52,9 @@
                                 FROM Classes 
                                 WHERE ClassID = :id");
 
-        $stmt->bindValue(':id', $id);
-
-        $stmt->execute();
+        $stmt->execute([
+            ':id' => $id
+        ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

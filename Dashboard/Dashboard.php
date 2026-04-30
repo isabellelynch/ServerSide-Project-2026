@@ -1,6 +1,4 @@
-<?php
-  require_once("../start-up.php");
-?>
+<?php require_once("../start-up.php");?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,7 +17,6 @@
   </head>
   <body data-page = "index">
     <?php 
-      
       include_once(ROOT . "/database-interactions/statistics.php");
       include_once(ROOT . "/database-interactions/general.php");
     ?>

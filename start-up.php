@@ -18,10 +18,6 @@
         $_SESSION['semester'] = 1;
     }
 
-    if(!isset($_SESSION['updating'][$page])){
-        $_SESSION['updating'] = false;
-    }
-
     $form = match($page){
         "Dashboard" => [ROOT . "/forms/form-body/booking-for-student.php",ROOT . "/forms/form-body/new-admin.php"],
         "Students" => [ROOT . "/forms/form-body/new-or-update.php", ROOT . "/forms/form-body/remove.php"],
@@ -60,9 +56,17 @@
     };
 
     if($page !== "Login"){
+
+        $badge = match(getCurrentPage()){
+            "Students" => GetActive("Students") . " Students",
+            "Tutors" => GetActive("Tutors") . " Tutors",
+            "Subjects" => GetSubjectCount() . " Subjects",
+            default => date("F Y")
+        };
+        
         require_once(ROOT . "/basic-page-layout/header.php"); 
         require_once(ROOT . "/basic-page-layout/side-bar-nav.php");
-        require_once(ROOT . "/forms/generate-form.php");
+        require_once(ROOT . "/forms/generate-form.php"); 
     }
 
     

@@ -8,8 +8,9 @@ function GetSpecificTutorNames($sub){
                              FROM Tutors 
                              WHERE Status = 'A' AND 
                              SubjectCode = :sub");
-    $stmt -> bindValue(":sub", $sub);
-    $stmt -> execute();
+    $stmt -> execute([
+        ":sub" => $sub
+    ]);
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -29,16 +30,15 @@ function AddTutor($tutor)
     global $pdo;
 
     $stmt = $pdo->prepare("INSERT INTO Tutors 
-                    (FirstName, Surname, Email, PhoneNo,Status, RateCode) 
-                    VALUES (:name, :surname, :email, :phone, 'A', :rate)");
-                            
-    $stmt->bindValue(':name', $tutor['name']);
-    $stmt->bindValue(':surname', $tutor['surname']);
-    $stmt->bindValue(':email', $tutor['email']);
-    $stmt->bindValue(':phone', $tutor['phone']);  
-    $stmt->bindValue(':rate', $tutor['rate']);  
-
-    $stmt->execute();
+                         (FirstName, Surname, Email, PhoneNo,Status, RateCode) 
+                         VALUES (:name, :surname, :email, :phone, 'A', :rate)"); 
+    $stmt->execute([
+        ':name' => $tutor['name'],
+        ':surname' => $tutor['surname'],
+        ':email' => $tutor['email'],
+        ':phone' => $tutor['phone'],
+        ':rate' => $tutor['rate']
+    ]);
 }
 
 function PermanentlyRemoveTutor($id){
@@ -47,9 +47,9 @@ function PermanentlyRemoveTutor($id){
     $stmt = $pdo->prepare("DELETE FROM Tutors 
                            WHERE TutorID = :id");
 
-    $stmt->bindValue(':id', $id); 
-
-    $stmt->execute();
+    $stmt->execute([
+        ':id' => $id
+    ]);
 }
 
 function GetTutorRate($r){
@@ -58,9 +58,9 @@ function GetTutorRate($r){
     $stmt = $pdo->prepare("SELECT HourlyRate 
                            FROM TutorRates 
                            WHERE RateCode = :r");
-    $stmt->bindValue(':r', $r); 
-
-    $stmt->execute();
+    $stmt->execute([
+        ':r' => $r
+    ]);
     
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -79,15 +79,15 @@ function GetTutorRates(){
 function ensureTutorTeachesSubject($t, $s){
     global $pdo;
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) AS Count 
+    $stmt = $pdo -> prepare("SELECT COUNT(*) AS Count 
                             FROM TutorSubjects 
                             WHERE TutorID = :tid AND
                             SubjectCode = :scode");
-    
-    $stmt -> bindValue(":tid", $t);
-    $stmt -> bindValue(":scode", $s);
 
-    $stmt->execute();
+    $stmt->execute([
+        ":tid" => $t,
+        ":scode" => $s
+    ]);
     
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -96,9 +96,12 @@ function ensureTutorTeachesSubject($t, $s){
 
 function doesTutorEmailExist($e){
     global $pdo;
-    $stmt = $pdo->prepare("SELECT TutorID FROM Tutors WHERE Email = :email");
-    $stmt->bindValue(':email', $e);
-    $stmt->execute();
+    $stmt = $pdo->prepare("SELECT TutorID 
+                           FROM Tutors 
+                           WHERE Email = :email");
+    $stmt->execute([
+        ':email' => $e
+    ]);
     
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 

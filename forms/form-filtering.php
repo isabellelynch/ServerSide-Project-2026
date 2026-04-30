@@ -4,8 +4,6 @@ require_once("../database-interactions/tutors.php");
 require_once("../include-for-functions/day-mapper.php");
 require_once("../Schedule/schedule-handling.php");
 
-$room = "";
-
 if(isset($_GET['action']) && $_GET['action'] === 'tutorChanged'){
     $id = $_GET['id'];
     $subject = getTutorSubject($id);
@@ -23,7 +21,6 @@ if(isset($_GET['action']) && $_GET['action'] === 'subjectChanged'){
 }
 
 if(isset($_GET['action']) && $_GET['action'] === "roomChanged"){
-    global $room;
     $room = $_GET['id'];
 
     $freeslots = getFreeScheduleSlots($room);

@@ -1,3 +1,6 @@
+/*------------------------------------------------------------------------------------- GRIND BOOKING SYS ------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------ISABELLE LYNCH--------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------GENERAL STYLING USED ACROSS PAGES -------------------------------------------------------------------------------*/
 :root {
   --br-deep:    #2e1505;
   --br-mid:     #5c2d0e;
@@ -21,6 +24,7 @@
     text-decoration: none;
     color: inherit;
 }
+
 body {
     font-family:'Cormorant Garamond',serif;
     background-color: var(--br-cream);
@@ -29,10 +33,13 @@ body {
     width:100VW;
     min-height:100VH;
 }
+
 main{
     width:80%;
     margin-left:20%;
 }
+
+/* ------------------------------------------------------------------------------------SIDE BAR STYLING---------------------------------------------------------------------------------------- */
 aside{
   width:18%;
   background:var(--br-deep);
@@ -42,18 +49,22 @@ aside{
   top:0;left:0;bottom:0;
   z-index:50;
 }
+
 .sidebar-logo{
   padding:1.6rem 1.4rem 1.2rem;
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
+
 .sidebar-logo h1{
   font-size:1.5rem;
   color:var(--br-cream);
   font-weight:700;
 }
+
 .sidebar-logo h1 span{
     color:var(--pk-soft);
 }
+
 .sidebar-logo p{
     font-size:0.72rem;
     color:var(--pk-soft);
@@ -62,10 +73,12 @@ aside{
     letter-spacing:0.06em;
     text-transform:uppercase;
 }
+
 nav{
     flex:1;
     padding:1rem 0;
 }
+
 .nav-section{
     font-size:0.65rem;
     font-weight:700;
@@ -74,6 +87,7 @@ nav{
     text-transform:uppercase;
     padding:0.9rem 1.4rem 0.4rem;
 }
+
 .nav-item{
   display:flex;
   align-items:center;
@@ -86,11 +100,11 @@ nav{
   transition:all .2s;
   border-left:3px solid transparent;
 }
+
 .nav-item:hover{
     color:#fff;
     background:rgba(255,255,255,0.06);
 }
-
 
 .nav-item.active{
     color:#fff;
@@ -98,21 +112,26 @@ nav{
     border-left-color:var(--pk-bold);
     display: block;
 }
+
 .nav-item .icon{
     font-size:1rem;
     width:20px;
     text-align:center;
 }
+
 .sidebar-footer{
   padding:1rem 1.4rem;
   border-top:1px solid rgba(255,255,255,0.08);
   font-size:0.78rem;color:rgba(255,255,255,0.4);
 }
+
 .sidebar-footer strong{
     display:block;
     color:rgba(255,255,255,0.7);
     margin-bottom:2px;
 }
+
+/* ------------------------------------------------------------------------------MAIN HEADER STYLING ------------------------------------------------------------------------------------------*/
 .topbar{
   background-color: #fff;
   padding:0 2rem;
@@ -126,16 +145,19 @@ nav{
   z-index:40;
   border-bottom:1px solid var(--br-cream);
 }
+
 .topbar-title{
     font-size:1.35rem;
     color:var(--br-deep);
     margin-left:18%;
 }
+
 .topbar-right{
     display:flex;
     align-items:center;
     gap:1rem;
 }
+
 .topbar-badge{
   background:var(--pk-pale);
   color:var(--pk-bold);
@@ -144,6 +166,8 @@ nav{
   font-size:0.78rem;
   font-weight:700;
 }
+
+/* -------------------------------------------------------------------------------TOP RIGHT BUTTON--------------------------------------------------------------------------------------------- */
 .btn-primary{
   background:var(--pk-bold);color:#fff;
   border:none;
@@ -153,12 +177,13 @@ nav{
   font-weight:700;
   cursor:pointer;
 }
+
 .btn-primary:hover{
     background:#a83059;
     transform:translateY(-1px);
 }
 
-
+/* -----------------------------------------------------------------------------STATS CARDS ON DASHBOARD PAGE --------------------------------------------------------------------------------*/
 .stats-row{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -166,6 +191,7 @@ nav{
     width:90%;
     margin:1.8rem auto 1.8rem auto;
 }
+
 .stat-card{
   background:#fff;
   border-radius:8px;
@@ -174,9 +200,7 @@ nav{
   border:1px solid var(--br-cream);
   position:relative;
   overflow:hidden;
-
 }
-
 
 .stat-card::after{
   content:'';
@@ -198,10 +222,10 @@ nav{
     color:var(--br-tan);
     margin-bottom:0.5rem;
 }
+
 .stat-value{
     font-size:2rem;
     font-weight:700;
-    
     color:var(--br-deep);
     line-height:1;
 }
@@ -211,6 +235,7 @@ nav{
     margin-top:0.4rem;
 }
 
+/* --------------------------------------------------------------TABLE DISPLAYING THE CLASS SCHEDULE -------------------------------------------------------------------------------------------*/
 
 #schedule-table-container {
     width: 90%;
@@ -311,12 +336,11 @@ nav{
     font-size: 1rem;
     color: var(--pk-bold);
 }
-
-
-
-
-
-
+#change-room{
+    display: flex;
+    justify-content: space-between;
+}
+/* ---------------------------------------------------------------------------------LOGIN PAGE STYLING -----------------------------------------------------------------------------------------*/
 #login-body {
     min-height: 100vh;
     display: flex;
@@ -328,6 +352,7 @@ nav{
     width:100;
     margin:0;
 }
+
 #left {
     width: 30%;
     background: var(--br-deep);
@@ -370,8 +395,6 @@ nav{
     text-align: center;
 }
 
-
-
 #branding h1 {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
@@ -387,7 +410,6 @@ nav{
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
-
 
 #right {
     flex: 1;
@@ -503,10 +525,7 @@ nav{
 
 #note a:hover{ text-decoration: underline; }
 
-/*************************************************************************************
-*************************** ADD BOOKING FORM *****************************************
-*************************************************************************************/
-/* -- MODAL -- */
+/* -------------------------------------------------------------------------------- MAIN FORM AND FORM CONTAINER ------------------------------------------------------------------------------ */
 .modal-overlay{
     position:fixed;
     top:0;
@@ -535,8 +554,6 @@ nav{
     overflow:hidden;
 
 }
-
-
 .modal-head{
   background:linear-gradient(135deg,var(--br-deep),var(--br-mid));
   padding:1.4rem 1.6rem;
@@ -574,7 +591,6 @@ nav{
     padding:1.5rem 1.6rem;
     margin: auto;
 }
-
 .modal-form label{
     display:block;
     margin-bottom:1rem;
@@ -614,7 +630,7 @@ nav{
     padding:0 1.6rem 1.5rem;
 }
 
-/* -- TOAST -- */
+/* ---------------------------------------------------------------------------- TOAST - POP UP ERROR MESSAGE ----------------------------------------------------------------------------------- */
 .toast{
   position:fixed;
   bottom:1.5rem;
@@ -645,11 +661,20 @@ nav{
     opacity:0.7;
 }
 
-#change-room{
-    display: flex;
-    justify-content: space-between;
-}
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* --------------------------------------------------------------------------------CANCEL BUTTON ON FORM ---------------------------------------------------------------------------------------*/
 .btn-ghost{
   background:none;border:1.5px solid var(--br-cream);
   color:var(--br-warm);border-radius:8px;
@@ -659,18 +684,7 @@ nav{
 }
 .btn-ghost:hover{border-color:var(--pk-bold);color:var(--pk-bold);}
 
-
-
-
-
-
-
-
-
-
-
-
-
+/* ----------------------------------------------------------------------STUDENT/TUTOR RECORDS TABLES----------------------------------------------------------------------------------------- */
 .data-table a:link{
     text-decoration:underline;
     color: var(--color-dark-brown);
@@ -682,6 +696,7 @@ nav{
 .data-table a:hover{
     color: var(--color-off-white);
 }
+
 .table-toolbar{
   display:flex;
   align-items:center;
@@ -760,8 +775,6 @@ nav{
   margin-right: 5%;
 }
 
-
-
 .action-btns{
     display:flex;
     gap:0.6rem;
@@ -785,6 +798,7 @@ nav{
     color:var(--pk-bold);
 }
 
+/* -------------------------------------------------------------------------------STUDENT AND TUTOR PAGES STYLING------------------------------------------------------------------------------- */
 .panel{
     background:#fff;
     border-radius:12px;
@@ -810,6 +824,7 @@ nav{
     margin-top:2px;
 }
 
+/*--------------------------------------------------------------------------------- FORM DISPLAYING AND HIDING---------------------------------------------------------------------------------- */
 .showthisform{
     display: block;
 }

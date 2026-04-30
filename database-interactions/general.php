@@ -11,7 +11,7 @@ function QueryDatabase(string $sql)
     {
         return $pdo->query($sql);
     }
-    catch(PDOException $e)
+    catch(Exception $e)
     {
         $output = "Unable to query the database : " . $e->getMessage();
         echo $output;
@@ -30,22 +30,24 @@ function Exists($table,$id)
     global $pdo;
     $tableID = substr($table, 0, -1) . "ID";
     
-    $sql = "SELECT * FROM $table WHERE $tableID = :id";
-    
-    $exists = $pdo->prepare($sql);
+    $stmt = $pdo -> prepare("SELECT * 
+                             FROM $table 
+                             WHERE $tableID = :id");
 
-    $exists->bindValue(':id', $id);
-    $exists->execute();
+    $stmt->execute([
+        ':id' => $id
+    ]);
     
-    if(count($exists->fetch(PDO::FETCH_ASSOC))>0){
-        return true;
-    }
-    return false;
+    return (count($stmt->fetch(PDO::FETCH_ASSOC))>0);
 }
 
 function GetActive($table){
-    $sql = "SELECT COUNT(*) AS Count FROM $table WHERE Status = 'A'";
+    $sql = "SELECT COUNT(*) AS Count 
+            FROM $table 
+            WHERE Status = 'A'";
+
     $result = QueryDatabase($sql);
+
     while ($row=$result->fetch(PDO::FETCH_ASSOC)){
         return $row['Count'];
     }
@@ -66,9 +68,10 @@ function UpdateStatus($table, $id)
                 END
                 WHERE $tableID = :id";
                 
-        $stmt = $pdo->prepare($sql); 
-        $stmt->bindValue(':id', $id); 
-        $stmt->execute(); 
+        $stmt = $pdo -> prepare($sql); 
+        $stmt->execute([
+            ':id' => $id
+        ]); 
     }
     else
     {
@@ -83,7 +86,6 @@ function getCurrentPage(){
 function errorHandler($msg){
     $_SESSION['msgtitle'] = "Error";
     $_SESSION['msg'] = $msg;
-    $_SESSION['updating'] = true;
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
@@ -91,7 +93,6 @@ function errorHandler($msg){
 function successMsg($msg){
     $_SESSION['msgtitle'] = "Success";
     $_SESSION['msg'] = $msg;
-    $_SESSION['updating'] = false;
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }

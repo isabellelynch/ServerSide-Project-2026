@@ -10,12 +10,12 @@ function AddStudent($student)
                     (FirstName, Surname, Email, PhoneNo,Status) 
                     VALUES (:name, :surname, :email, :phone, 'A')");
                             
-    $stmt->bindValue(':name', $student['name']);
-    $stmt->bindValue(':surname', $student['surname']);
-    $stmt->bindValue(':email', $student['email']);
-    $stmt->bindValue(':phone', $student['phone']);  
-
-    $stmt->execute();
+    $stmt->execute([
+        ':name' => $student['name'],
+        ':surname' => $student['surname'],
+        ':email' => $student['email'],
+        ':phone' => $student['phone']
+    ]);
 }
 
 function PermanentlyRemoveStudent($id){
@@ -24,9 +24,9 @@ function PermanentlyRemoveStudent($id){
     $stmt = $pdo->prepare("DELETE FROM Students 
                            WHERE StudentID = :id");
 
-    $stmt->bindValue(':id', $id); 
-
-    $stmt->execute();
+    $stmt->execute([
+        ':id' => $id
+    ]);
 }
 
 function UpdateStudent($student){
@@ -39,20 +39,23 @@ function UpdateStudent($student){
                             PhoneNo = :phone 
                             WHERE StudentID = :id");
 
-    $stmt->bindValue(':firstname', $student['name']);
-    $stmt->bindValue(':surname', $student['surname']);
-    $stmt->bindValue(':email', $student['email']);
-    $stmt->bindValue(':phone', $student['phone']);  
-    $stmt->bindValue(':id', $student['id']); 
-
-    $stmt->execute();
+    $stmt->execute([
+        ':firstname' => $student['name'],
+        ':surname' => $student['surname'],
+        ':email' => $student['email'],
+        ':phone' => $student['phone'],
+        ':id' => $student['id']
+    ]);
 }
 
 function doesEmailExist($e){
     global $pdo;
-    $stmt = $pdo->prepare("SELECT StudentID FROM Students WHERE Email = :email");
-    $stmt->bindValue(':email', $e);
-    $stmt->execute();
+    $stmt = $pdo -> prepare("SELECT StudentID 
+                             FROM Students 
+                             WHERE Email = :email");
+    $stmt->execute([
+        ':email' => $e
+    ]);
     
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 

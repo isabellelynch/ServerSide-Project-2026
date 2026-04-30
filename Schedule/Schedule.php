@@ -13,6 +13,7 @@
     <meta name="keywords" content="<?php echo $pageKeyWords; ?>">
 
     <link rel="stylesheet" href="../CSS/grindbookingsys.css">
+    <link rel="icon" href="../grindsbookingsys-favicon.ico">
     <script src = "../JavaScript/grindbookingsys.js"></script>
 
   </head>
