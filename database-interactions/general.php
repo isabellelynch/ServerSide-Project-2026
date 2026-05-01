@@ -20,36 +20,53 @@ function QueryDatabase(string $sql)
     
 function SelectAll($table)
 {
-    $sql = "SELECT * FROM $table";
-    $result = QueryDatabase($sql);
-    return $result->fetchAll(PDO::FETCH_ASSOC);
+    try{
+        $sql = "SELECT * FROM $table";
+
+        $result = QueryDatabase($sql);
+
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+
+    }catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+    
 }
 
 function Exists($table,$id)
 {
     global $pdo;
-    $tableID = substr($table, 0, -1) . "ID";
-    
-    $stmt = $pdo -> prepare("SELECT * 
-                             FROM $table 
-                             WHERE $tableID = :id");
 
-    $stmt->execute([
-        ':id' => $id
-    ]);
-    
-    return (count($stmt->fetch(PDO::FETCH_ASSOC))>0);
+    $tableID = substr($table, 0, -1) . "ID";
+    try{
+        $stmt = $pdo -> prepare("SELECT * 
+                                FROM $table 
+                                WHERE $tableID = :id");
+
+        $stmt->execute([
+            ':id' => $id
+        ]);
+        
+        return (count($stmt->fetch(PDO::FETCH_ASSOC))>0);
+
+    }catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    } 
 }
 
 function GetActive($table){
-    $sql = "SELECT COUNT(*) AS Count 
-            FROM $table 
-            WHERE Status = 'A'";
+    try{
+        $sql = "SELECT COUNT(*) AS Count 
+                FROM $table 
+                WHERE Status = 'A'";
 
-    $result = QueryDatabase($sql);
+        $result = QueryDatabase($sql);
 
-    while ($row=$result->fetch(PDO::FETCH_ASSOC)){
-        return $row['Count'];
+        while ($row=$result->fetch(PDO::FETCH_ASSOC)){
+            return $row['Count'];
+        }
+    }catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -58,29 +75,36 @@ function UpdateStatus($table, $id)
     global $pdo;
 
     $tableID = substr($table, 0, -1) . "ID";
-
-    if(Exists($table,$id) === true)
-    {
-        $sql = "UPDATE $table 
-                SET Status = CASE 
-                WHEN Status = 'A' THEN 'I' 
-                ELSE 'A'
-                END
-                WHERE $tableID = :id";
-                
-        $stmt = $pdo -> prepare($sql); 
-        $stmt->execute([
-            ':id' => $id
-        ]); 
-    }
-    else
-    {
-        echo "Student could not be found in the database";
+    try{
+        if(Exists($table,$id) === true)
+        {
+            $sql = "UPDATE $table 
+                    SET Status = CASE 
+                    WHEN Status = 'A' THEN 'I' 
+                    ELSE 'A'
+                    END
+                    WHERE $tableID = :id";
+                    
+            $stmt = $pdo -> prepare($sql); 
+            $stmt->execute([
+                ':id' => $id
+            ]); 
+        }
+        else
+        {
+            echo "Student could not be found in the database";
+        }
+    }catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 
 function getCurrentPage(){
-    return str_replace(".php", "", basename($_SERVER['PHP_SELF']));
+    try{
+        return str_replace(".php", "", basename($_SERVER['PHP_SELF']));
+    }catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
 }
 
 function errorHandler($msg){

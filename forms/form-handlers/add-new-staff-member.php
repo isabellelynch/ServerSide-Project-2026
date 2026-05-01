@@ -4,16 +4,16 @@ require_once(ROOT . "/database-interactions/make-connection.php");
 require_once(ROOT . "/database-interactions/general.php");
 
 global $pdo, $page, $firstname, $surname, $email;
-$firstname = isset($_POST['firstname'])?trim($_POST['firstname']):'';
-$surname = isset($_POST['surname'])?trim($_POST['surname']):'';
-$email = isset($_POST['email'])?trim($_POST['email']):'';
+
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && $_POST['activeForm'] === "new-admin"){
         $AdminPassword = trim($_POST['admin-password']??"");
         $confirm = trim($_POST['admin-password-confirm']??"");
         $AdminHash = password_hash($AdminPassword, PASSWORD_DEFAULT);
-
+        $firstname = isset($_POST['firstname'])?trim($_POST['firstname']):'';
+        $surname = isset($_POST['surname'])?trim($_POST['surname']):'';
+        $email = isset($_POST['email'])?trim($_POST['email']):'';
 
         if($firstname === "" || $surname === "" || $email === "" || $AdminPassword === ""){
             errorHandler("All fields must be entered to continue.");
