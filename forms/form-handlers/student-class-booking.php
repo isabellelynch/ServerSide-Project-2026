@@ -7,23 +7,24 @@ global $page;
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && isset($_POST['classid']) && $_POST['activeForm'] === "add"){
-        $_SESSION['other-form'][$page] = true;
-        $_SESSION['header-form'][$page] = false;
-        $_SESSION['updating'] = true;
-        
-        $_SESSION['class'] = $_POST['classid'];
-        $classid = $_SESSION['class'];
-        $email = $_POST['student-email'];
+        $classid = $_POST['classid'] ?? '';
+        $email = trim($_POST['student-email'] ?? '');
+
+        $_SESSION['student-data'] = [
+            'class' => $classid,
+            'email' => $email
+        ];
+
         if($email == ""){
             errorHandler("Please enter an email to add a student.");
         }
         if(!isClassFull($classid)){
             $studentID = doesEmailExist($email);
             if($studentID != false){
-                if(hasStudentBookedClass($studentID, $classid) !== false){
+                if(!hasStudentBookedClass($studentID, $classid)){
                     incrementEnrollment($classid);
                     createBooking($studentID, $classid);
-                    $_SESSION['updating'] = false;
+                    unset($_SESSION['student-data']);
                     successMsg("Student sucessfully added to the class.");
                 }
                 else{

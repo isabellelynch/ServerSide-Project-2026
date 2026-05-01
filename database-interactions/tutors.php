@@ -80,7 +80,7 @@ function ensureTutorTeachesSubject($t, $s){
     global $pdo;
 
     $stmt = $pdo -> prepare("SELECT COUNT(*) AS Count 
-                            FROM TutorSubjects 
+                            FROM Tutors 
                             WHERE TutorID = :tid AND
                             SubjectCode = :scode");
 
@@ -91,7 +91,7 @@ function ensureTutorTeachesSubject($t, $s){
     
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $result['Count'];
+    return $result['Count'] > 0;
 }
 
 function doesTutorEmailExist($e){

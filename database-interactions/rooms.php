@@ -28,7 +28,7 @@ function getRoomCapacity($room){
 
 }
 
-function isRoomBooked($day, $time, $room){
+function isRoomBooked($day, $time, $room, $sem){
     global $pdo;
 
     $stmt = $pdo->prepare("
@@ -36,14 +36,16 @@ function isRoomBooked($day, $time, $room){
         FROM Classes 
         WHERE Day = :d 
         AND Time = :t 
-        AND RoomNo = :r
+        AND RoomNo = :r 
+        AND SemesterNo = :s 
         LIMIT 1
     ");
 
     $stmt->execute([
         ':d' => $day,
         ':t' => $time,
-        ':r' => $room
+        ':r' => $room,
+        ':s' => $sem
     ]);
 
     return $stmt -> fetch() !== false;

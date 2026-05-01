@@ -2,10 +2,13 @@
 require_once(ROOT . "/database-interactions/tutors.php");
 require_once(ROOT . "/database-interactions/classes.php");
 require_once(ROOT . "/database-interactions/rooms.php");
+require_once(ROOT . "/database-interactions/general.php");
+require_once(ROOT . "/Schedule/semesters.php");
+
+global $semesters;
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn']) && $_POST['activeForm'] === "new-class"){
-        var_dump($_POST);
         $tutor = $_POST['FormTutor']??"";
         if($tutor === "") errorHandler("Tutor must be chosen.");
         
@@ -21,22 +24,27 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         $time = $_POST['FormTime']??"";
         if($time === "") errorHandler("Time must be chosen.");
 
-        if(ensureTutorTeachesSubject($tutor, $subject) !== 1) errorHandler("Chosen tutor does not teach chosen subject");
-
-        if(isRoomBooked($day, $time, $room)) errorHandler("The chosen room is not free at the chosen day and time.");
+        if(ensureTutorTeachesSubject($tutor, $subject)) errorHandler("Chosen tutor does not teach chosen subject");
         
-        if(tutorAlreadyBooked($tutor, $day, $time)) errorHandler("The chosen tutor already has a class at that day/time.");
-        
-        $sem = $semesters[$_SESSION['semester']];
+        $sem = $semesters[$_SESSION['semester']]['number'];
 
-        $class = [];
-        $class['tutor'] = $tutor;
-        $class['day'] = $day;
-        $class['time'] = $time;
-        $class['room'] = $room;
-        $class['semester'] = $sem['number'];
+        if(isRoomBooked($day, $time, $room, $sem)) errorHandler("The chosen room is not free at the chosen day and time.");
+
+        if(tutorAlreadyBooked($tutor, $day, $time, $sem)) errorHandler("The chosen tutor already has a class at that day/time.");
+
+        $class = [
+            'tutor' => $tutor,
+            'day' => $day,
+            'time' => $time,
+            'room' => $room,
+            'semester' => $sem
+        ];
+
+        if(doesClassExist($class)) errorHandler("Their is already a class scheduled during this time period.");
 
         addNewClass($class);
+
+        successMsg("Class added successfully");
     }
 }
 

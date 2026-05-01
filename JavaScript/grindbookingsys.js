@@ -77,20 +77,21 @@ window.addEventListener("DOMContentLoaded", () => {
 
         formTitle.innerHTML = title;
         formSubTitle.innerHTML = sub;
+        formSaveBtn.innerHTML = title;
 
         overlay.classList.add('active');
 
         updateScrollState();
     }
 
-    let showAdmin = () => {showForm(newAdminForm, bookclassFormBody, "new-admin", "New Staff Member", "Add a new staff member to the system");};
-    let showNewTutor = () => {showForm(newOrUpdateForm, removeFormBody, "new", "New Tutor", "Add a new Tutor to the system");};
-    let showNewStudent = () => {showForm(newOrUpdateForm, removeFormBody, "new", "New Student", "Add a new Student to the system");};
+    let showAdmin = () => {showForm(newAdminForm, bookclassFormBody, "new-admin", "Add Staff Member", "Add a new staff member to the system");};
+    let showNewTutor = () => {showForm(newOrUpdateForm, removeFormBody, "new", "Add Tutor", "Add a new Tutor to the system");};
+    let showNewStudent = () => {showForm(newOrUpdateForm, removeFormBody, "new", "Add Student", "Add a new Student to the system");};
     let showUpdateTutor = () => {showForm(newOrUpdateForm, removeFormBody, "update", "Update Tutor", "Amend the chosen Tutors details.");};
     let showUpdateStudent = () => {showForm(newOrUpdateForm, removeFormBody, "update", "Update Student", "Amend the chosen Students details.");};
     let showBookingSchedulePage = () => {showForm(bookclassFormBody, newClassFormBody,  "add", "Make Booking", "Book a class for a student");};
-    let showNewClass = () => {showForm(newClassFormBody, bookclassFormBody,  "add", "Make Booking", "Book a class for a student");};
-    let showBookingDashboardPage = () => {showForm(bookclassFormBody, newAdminForm, "add", "Make Booking", "Book a class for a student");};
+    let showNewClass = () => {showForm(newClassFormBody, bookclassFormBody,  "new-class", "Add Class", "Add a class to the schedule.");};
+    let showBookingDashboardPage = () => {showForm(bookclassFormBody, newAdminForm, "add", "Add Booking", "Book a class for a student");};
     let showRemove = () => {showForm(removeFormBody, newOrUpdateForm, "remove", "Remove Tutor", "Remove tutor from the system.");};
     
     //TOP RIGHT BUTTON - DISPLAYS MAIN FORM ON EACH PAGE
@@ -231,16 +232,18 @@ window.addEventListener("DOMContentLoaded", () => {
             filterForm(e.target.value, "subjectChanged", tutorSelect);
         });
     }
-    
+
+    let daySelect = document.getElementById("FormDay");
     let roomSelect = document.getElementById("FormRoom");
     if(roomSelect){
         roomSelect.addEventListener("change", (e) => {
             filterForm(e.target.value, "roomChanged", daySelect);
+            daySelect.selectedIndex = -1;
         });
     }
 
     let timeSelect = document.getElementById("FormTime");
-    let daySelect = document.getElementById("FormDay");
+    
     if(daySelect){
         daySelect.addEventListener("change", (e) => {
             let room = roomSelect.value;
@@ -262,25 +265,71 @@ window.addEventListener("DOMContentLoaded", () => {
         else{
             let active = localStorage.getItem("activeForm");
             if(active === "new-admin"){
+                document.querySelectorAll("form input").forEach(input => {
+                    input.value = "";
+                });
                 showAdmin();
             }
             else if(active === "add" && page === "index"){
+                document.querySelectorAll("form input").forEach(input => {
+                    input.value = "";
+                });
                 showBookingDashboardPage();
             }
             else if(active === "add" && page === "schedule"){
+                document.querySelectorAll("form input").forEach(input => {
+                    input.value = "";
+                });
                 showBookingSchedulePage();
             }
             else if(active === "update" && page === "students"){
+                const saved = localStorage.getItem("editFormData");
+
+                if(!saved) return;
+
+                const thisdata = JSON.parse(saved);
+
+                document.querySelector('[name="update-id"]').value = thisdata.id;
+                document.querySelector('[name="firstname"]').value = thisdata.firstname;
+                document.querySelector('[name="surname"]').value = thisdata.surname;
+                document.querySelector('[name="email"]').value = thisdata.email;
+                document.querySelector('[name="phone"]').value = thisdata.phone;
+
                 showUpdateStudent();
             }
             else if(active === "update" && page === "tutors"){
+                const saved = localStorage.getItem("editFormData");
+
+                if(!saved) return;
+
+                const thisdata = JSON.parse(saved);
+
+                document.querySelector('[name="update-id"]').value = thisdata.id;
+                document.querySelector('[name="firstname"]').value = thisdata.firstname;
+                document.querySelector('[name="surname"]').value = thisdata.surname;
+                document.querySelector('[name="email"]').value = thisdata.email;
+                document.querySelector('[name="phone"]').value = thisdata.phone;
+                document.querySelector('[name="rate"]').value = thisdata.rate;
+
                 showUpdateTutor();
             }
             else if(active === "new" && page === "students"){
+                document.querySelectorAll("form input").forEach(input => {
+                    input.value = "";
+                });
                 showNewStudent();
             }
             else if(active === "new" && page === "tutors"){
+                document.querySelectorAll("form input").forEach(input => {
+                    input.value = "";
+                });
                 showNewTutor();
+            }
+            else if(active === "new-class" && page === "schedule"){
+                document.querySelectorAll("form input").forEach(input => {
+                    input.value = "";
+                });
+                showNewClass();
             }
             overlay.classList.add("active");
         }
@@ -308,21 +357,33 @@ window.addEventListener("DOMContentLoaded", () => {
         let deleteButtons = document.querySelectorAll(".delete-btn");
         
         editButtons.forEach(b => {
-            b.addEventListener("click", (e) => {
+            b.addEventListener("click", () => {
+                const persondata = {
+                    id: b.dataset.id,
+                    firstname: b.dataset.firstname,
+                    surname: b.dataset.surname,
+                    email: b.dataset.email,
+                    phone: b.dataset.phone,
+                    rate: b.dataset.rate,
+                    page: page
+                };
+
+                localStorage.setItem("editFormData", JSON.stringify(persondata));
+
                 document.querySelector('[name="update-id"]').value = b.dataset.id;
                 document.querySelector('[name="firstname"]').value = b.dataset.firstname;
                 document.querySelector('[name="surname"]').value = b.dataset.surname;
                 document.querySelector('[name="email"]').value = b.dataset.email;
                 document.querySelector('[name="phone"]').value = b.dataset.phone;
-                if(page == "tutors"){
-                    document.querySelector('[name="rate"] option').innerHTML = "€" + b.dataset.rate;
-                    showForm(newOrUpdateForm, removeFormBody, "update", "Update Tutor", "Make the necessary changes to tutors details");
-                    formSaveBtn.innerHTML = "Update Tutor";
+
+                if(b.dataset.rate){
+                    document.querySelector('[name="rate"]').value = b.dataset.rate;
                 }
-                if(page === "students"){
-                    showForm(newOrUpdateForm, removeFormBody, "update", "Update Student", "Make the necessary changes to students details");
-                    formSaveBtn.innerHTML = "Update Student";
-                }
+                
+                showForm(newOrUpdateForm, removeFormBody, "update", 
+                    page === "tutors" ? "Update Tutor" : "Update Student",
+                    page === "tutors" ? "Update the chosen Tutors details." : "Update the chosen Students details."
+                );
             });
         });
 

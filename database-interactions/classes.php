@@ -45,6 +45,16 @@
         ]);
     }
 
+    function decrementEnrollment($id){
+        global $pdo;
+        $stmt = $pdo -> prepare("UPDATE Classes 
+                                 SET CurrentEnrollment = CurrentEnrollment - 1 
+                                 WHERE ClassID = :id");
+        $stmt -> execute([
+            ":id" => $id
+        ]);
+    }
+
     function getClass($id){
         global $pdo;
 
@@ -62,7 +72,7 @@
     function hasStudentBookedClass($s, $c){
         global $pdo;
         $stmt = $pdo->prepare("SELECT * 
-                               FROM Student_Classes 
+                               FROM Bookings  
                                WHERE StudentID = :student AND
                                ClassID = :class");
         $stmt->execute([
@@ -89,16 +99,43 @@
         ]);
     }
 
-    function tutorAlreadyBooked($tutor, $day, $time){
+    function doesClassExist($class){
+        global $pdo;
+
+        $stmt = $pdo->prepare("SELECT COUNT(*) AS classCount 
+                               FROM Classes 
+                               WHERE TutorID = :tutor 
+                               AND Day = :day 
+                               AND Time = :time 
+                               AND RoomNo = :room 
+                               AND SemesterNo = :semester");
+
+        $stmt->execute([
+            ':tutor' => $class['tutor'],
+            ':day' => $class['day'],
+            ':time' => $class['time'],
+            ':room' => $class['room'],
+            ':semester' => $class['semester']
+        ]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result['classCount'] > 0;
+    }
+
+    function tutorAlreadyBooked($tutor, $day, $time, $sem){
+        global $pdo;
         $stmt = $pdo->prepare("SELECT * 
                                FROM Classes 
                                WHERE TutorID = :tutorID AND 
                                Day = :day AND 
-                               Time = :time");
+                               Time = :time 
+                               SemesterNo = :sem");
         $stmt->execute([
             ':tutorID' => $tutor,
             ':day' => $day,
-            ':time' => $time
+            ':time' => $time,
+            ':sem' => $sem
         ]);
 
         return $stmt->fetch() !== false;            

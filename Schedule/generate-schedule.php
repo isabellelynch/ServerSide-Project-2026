@@ -1,13 +1,21 @@
 <?php
-require_once(ROOT . "/include-for-functions/day-mapper.php");
-require_once(ROOT . "/Schedule/schedule-handling.php");
-require_once(ROOT . "/Schedule/semesters.php");
 
-$schedule = generateSchedule();
+    if (!isset($_SESSION['room'])) {
+        $_SESSION['room'] = 1;
+    }
+    if (!isset($_SESSION['semester'])) {
+        $_SESSION['semester'] = 1;
+    }
 
-global $days, $times, $semesters;
+    require_once(ROOT . "/include-for-functions/day-mapper.php");
+    require_once(ROOT . "/Schedule/schedule-handling.php");
+    require_once(ROOT . "/Schedule/semesters.php");
 
-$sem = $semesters[$_SESSION['semester']];
+    $schedule = generateSchedule();
+
+    global $days, $times, $semesters;
+
+    $sem = $semesters[$_SESSION['semester']];
 
 ?>
 <div id = 'schedule-table-container'>

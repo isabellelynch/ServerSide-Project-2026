@@ -1,5 +1,6 @@
 <?php 
     global $page, $formHandlers;
+
     foreach($formHandlers as $fh){
         require_once($fh);
     }
@@ -25,14 +26,14 @@
             <button type = "submit" class="btn-primary" 
                     name = "save-btn" id = "save-btn"></button>
         </div>
-        <input type = "hidden" name = "activeForm" id = "activeForm" value = "<?php echo $_POST['activeForm']??''; ?>">
+        <input type = "hidden" name = "activeForm" id = "activeForm" value = "<?php echo htmlspecialchars($_POST['activeForm']??''); ?>">
     </form>
     </div>
 </div>
 <?php if(isset($_SESSION['msg']) && isset($_SESSION['msgtitle'])):?>
 <div  id="toast" class="toast show">
-    <strong id="toastTitle"><?php echo $_SESSION['msgtitle']; ?></strong>
-    <span id="toastBody" class = "toast-msg"><?php echo $_SESSION['msg']; ?></span>
+    <strong id="toastTitle"><?php echo htmlspecialchars($_SESSION['msgtitle']); ?></strong>
+    <span id="toastBody" class = "toast-msg"><?php echo htmlspecialchars($_SESSION['msg']); ?></span>
 </div>
 <?php 
     endif; 
