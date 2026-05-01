@@ -47,49 +47,58 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                 errorHandler(ValidPhoneNumber($phone));
             }
 
-            if($_POST['activeForm'] === "new"){
-                if($table == "Students" && doesEmailExist($email) !== false ||
-                    $table == "Tutors" && doesTutorEmailExist($email) !== false){
-                    errorHandler("$person with the email $email already exists on our system.");
+            try{
+                if($_POST['activeForm'] === "new"){
+                    if($table == "Students" && doesEmailExist($email) !== false ||
+                        $table == "Tutors" && doesTutorEmailExist($email) !== false){
+                        errorHandler("$person with the email $email already exists on our system.");
+                    }
+                    else{
+                        if($person == "Student"){
+                            AddStudent($_SESSION['form-data']);
+                        }
+                        else if($person == "Tutor"){
+                            AddTutor($_SESSION['form-data']);
+                        }
+                        unset($_SESSION['form-data']);
+                        successMsg("$firstname $surname successfully added as a $person.");
+                    }
                 }
-                else{
+
+                if($_POST['activeForm'] === "update"){
+                    $id = trim($_POST['update-id'])??'';
                     if($person == "Student"){
-                        AddStudent($_SESSION['form-data']);
+                        $_SESSION['form-data']['id'] = $id;
+                        UpdateStudent($_SESSION['form-data']);
                     }
                     else if($person == "Tutor"){
-                        AddTutor($_SESSION['form-data']);
+                        $_SESSION['form-data']['rate'] = $rate;
+                        UpdateTutor($_SESSION['form-data']);
                     }
                     unset($_SESSION['form-data']);
-                    successMsg("$firstname $surname successfully added as a $person.");
-                }
+                    successMsg("$firstname $surname has been updated successfully");
+                } 
+            }catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
             }
-
-            if($_POST['activeForm'] === "update"){
-                $id = trim($_POST['update-id'])??'';
-                if($person == "Student"){
-                    $_SESSION['form-data']['id'] = $id;
-                    UpdateStudent($_SESSION['form-data']);
-                }
-                else if($person == "Tutor"){
-                    $_SESSION['form-data']['rate'] = $rate;
-                    UpdateTutor($_SESSION['form-data']);
-                }
-                unset($_SESSION['form-data']);
-                successMsg("$firstname $surname has been updated successfully");
-            }
+            
         }
         else if($_POST['activeForm'] === "delete"){
-            $id = trim($_POST['remove-id'])??'';
-            if($person == "Student"){
-                RemoveStudentFromClasses($id);
-                RemoveStudentBookings($id);
-                PermanentlyRemoveStudent($id);
+            try{
+                $id = trim($_POST['remove-id'])??'';
+                if($person == "Student"){
+                    RemoveStudentFromClasses($id);
+                    RemoveStudentBookings($id);
+                    PermanentlyRemoveStudent($id);
+                }
+                else if($person == "Tutor"){
+                    PermanentlyRemoveTutor($id);
+                }
+                unset($_SESSION['form-data']);
+                successMsg("$person has been removed successfully");
+            }catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
             }
-            else if($person == "Tutor"){
-                PermanentlyRemoveTutor($id);
-            }
-            unset($_SESSION['form-data']);
-            successMsg("$person has been removed successfully");
         }
         
     }

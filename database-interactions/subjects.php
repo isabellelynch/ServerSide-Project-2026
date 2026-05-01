@@ -4,7 +4,7 @@ require_once("make-connection.php");
 
 global $pdo;
 
-function GetSubjectNames(){
+function GetSubjectNames():?array{
     try{
         $sql = "SELECT Description, SubjectCode 
                 FROM Subjects";
@@ -12,28 +12,29 @@ function GetSubjectNames(){
         $result = QueryDatabase($sql);
 
         return $result->fetchAll(PDO::FETCH_ASSOC);
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-    
 }
 
-function getSubjectCount(){
+function getSubjectCount():int{
     try{
         $sql = "SELECT COUNT(*) AS Count 
                 FROM Subjects";
 
         $result = QueryDatabase($sql);
 
-        while ($row=$result->fetch(PDO::FETCH_ASSOC)){
-            return $row['Count'];
-        }
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+
+        return (int) $row['Count'];
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-function getTutorSubject($tutorid){
+function getTutorSubject(int $tutorid):?string{
     global $pdo;
     try{
         $stmt = $pdo->prepare("SELECT Description 
@@ -46,7 +47,11 @@ function getTutorSubject($tutorid){
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result['Description'];
+        if ($result) {
+            return $result['Description'];
+        } else {
+            return null;
+        }
 
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();

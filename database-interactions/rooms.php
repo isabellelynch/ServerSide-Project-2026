@@ -1,22 +1,23 @@
 <?php
 require_once(__DIR__ . "/../database-interactions/general.php");
 
-function RoomCount(){
+function RoomCount():?int{
     try{
         $sql = "SELECT COUNT(*) AS Count 
                 FROM Rooms";
 
         $result = QueryDatabase($sql);
 
-        while ($row=$result->fetch(PDO::FETCH_ASSOC)){
-            return $row['Count'];
-        }
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+
+        return $row['Count'] ?? null;
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-function getRoomCapacity($room){
+function getRoomCapacity(int $room):int{
     global $pdo;
     try{
         $stmt = $pdo -> prepare("SELECT Capacity 
@@ -28,14 +29,14 @@ function getRoomCapacity($room){
 
         if ($stmt->rowCount() === 1) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $row['Capacity'];
+            return (int)$row['Capacity'];
         }
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-function isRoomBooked($day, $time, $room, $sem){
+function isRoomBooked(int $day, int $time, int $room, int $sem):bool{
     global $pdo;
     try{
         $stmt = $pdo->prepare("

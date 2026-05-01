@@ -1,5 +1,5 @@
 <?php
-    require_once(__DIR__ . "/../database-interactions/general.php");
+    require_once(ROOT . "/database-interactions/general.php");
 
     $rev = GetYearlyRevenueDifference();
 
@@ -7,10 +7,10 @@
         $result = "No change on last year.";
     }
     else{
-        $result = ((GetYearlyRevenueDifference() > 0)?"Up ":"Down " ). "$rev on last year.";
+        $result = (($rev > 0) ? "Up " : "Down ") . "$rev on last year.";
     }
 
-    function GetYearlyRevenue(){
+    function GetYearlyRevenue():?int{
         try{
             $sql = "SELECT SUM(tr.HourlyRate) AS Count
                     FROM Bookings b 
@@ -21,17 +21,25 @@
 
             $result = QueryDatabase($sql);
 
-            while ($row=$result->fetch()){
-                return $row['Count'];
+            if ($result) {
+                $row = $result->fetch(PDO::FETCH_ASSOC);
+                return (int)$row['Count']; 
             }
+            
+            return null;
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
-    function GetYearlyRevenueDifference(){
+    function GetYearlyRevenueDifference():?int{
         try{
             $thisYear = GetYearlyRevenue();
+
+            if ($thisYear === null) {
+                return null;
+            }
+
             $sql = "SELECT SUM(tr.HourlyRate) AS Count 
                     FROM Bookings b  
                     JOIN Classes c ON c.ClassID = b.ClassID 
@@ -41,26 +49,35 @@
 
             $result = QueryDatabase($sql);
 
-            while ($row=$result->fetch()){
-                $lastYear = $row['Count'];
+            if ($result) {
+                $row = $result->fetch(PDO::FETCH_ASSOC);
+                $lastYear = $row['Count'] ?? 0;
+            } else {
+                $lastYear = 0;
             }
 
             return $thisYear - $lastYear;
+
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
-    function GetThisYearsBookings(){
+    function GetThisYearsBookings():?int{
         try{
             $sql = "SELECT COUNT(*) AS Count 
                     FROM Bookings 
                     WHERE EXTRACT(YEAR FROM BookingDate) = EXTRACT(YEAR FROM SYSDATE())";
 
             $result = QueryDatabase($sql);
-            while ($row=$result->fetch()){
-                return $row['Count'];
+
+            if ($result) {
+                $row = $result->fetch(PDO::FETCH_ASSOC);
+                return (int)$row['Count'];
             }
+            
+            return null;
+
         }catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }

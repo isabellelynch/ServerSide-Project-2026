@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             errorHandler("Password must contain more than 8 digits, one uppercase, one lowercase and a special character");
         }
 
-        if(isEmailUnique($email)){
+        if(isAdminEmailUnique($email)){
             addAdminMember($firstname, $surname, $email, $AdminHash);
             successMsg("$firstname $surname successfully added as an admin member.");
         }
@@ -46,38 +46,4 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     }
 }
 
-function addAdminMember($firstname, $surname, $email, $password){
-    global $pdo;
-    try{
-        $stmt = $pdo -> prepare("INSERT INTO Admin (Firstname, Surname, Email, Password) 
-                             VALUES (:f, :s, :e, :p)");
-        $stmt -> execute([
-            ":f" => $firstname,
-            ":s" => $surname,
-            ":e" => $email,
-            ":p" => $password
-        ]); 
-    }
-    catch(PDOException $e){
-        $output = "Database server error : " . $e->getMessage();
-        echo $output;
-    }
-}
-
-function isEmailUnique($email){
-    global $pdo;
-    $stmt = $pdo -> prepare("SELECT COUNT(*) AS Count 
-                             FROM Admin 
-                             WHERE Email = :e");
-    $stmt -> execute([
-        ":e" => $email
-    ]); 
-    $result = $stmt -> fetch(PDO::FETCH_ASSOC);
-    if($result['Count'] != 0){
-        return false;
-    }
-    else{
-        return true;
-    }
-}
 ?>

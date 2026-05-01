@@ -1,5 +1,5 @@
 <?php
-function MakeConnection()
+function MakeConnection():PDO
 {
     try
     {

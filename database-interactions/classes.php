@@ -3,7 +3,7 @@
     require_once(__DIR__ . "/../database-interactions/rooms.php");
     global $pdo;
 
-    function SelectAllClasses($room, $semester){
+    function SelectAllClasses(int $room, int $semester):array{
         global $pdo;
         try{
             $stmt = $pdo -> prepare("SELECT c.ClassID, t.FirstName, t.Surname, s.Description, 
@@ -25,7 +25,7 @@
         } 
     }
 
-    function isClassFull($id){
+    function isClassFull(int $id):bool{
         global $pdo;
         try{
             $stmt = $pdo -> prepare("SELECT CurrentEnrollment, RoomNo 
@@ -46,7 +46,7 @@
         }
     }
 
-    function incrementEnrollment($id){
+    function incrementEnrollment(int $id):void{
         global $pdo;
         try{
             $stmt = $pdo -> prepare("UPDATE Classes 
@@ -60,7 +60,7 @@
         }
     }
 
-    function decrementEnrollment($id){
+    function decrementEnrollment(int $id):void{
         global $pdo;
         try{
             $stmt = $pdo -> prepare("UPDATE Classes 
@@ -74,7 +74,7 @@
         }
     }
 
-    function getClass($id){
+    function getClass(int $id):array{
         global $pdo;
         try{
             $stmt = $pdo->prepare("SELECT * 
@@ -92,7 +92,7 @@
         }
     }
 
-    function hasStudentBookedClass($s, $c){
+    function hasStudentBookedClass(int $s, int $c):bool{
         global $pdo;
         try{
             $stmt = $pdo->prepare("SELECT * 
@@ -111,7 +111,7 @@
         }
     }
 
-    function addNewClass($class){
+    function addNewClass(array $class):void{
         global $pdo;
         try{
             $stmt = $pdo->prepare("INSERT INTO Classes 
@@ -130,7 +130,7 @@
         }
     }
 
-    function doesClassExist($class){
+    function doesClassExist(array $class):bool{
         global $pdo;
         try{
             $stmt = $pdo->prepare("SELECT COUNT(*) AS classCount 
@@ -158,14 +158,14 @@
         } 
     }
 
-    function tutorAlreadyBooked($tutor, $day, $time, $sem){
+    function tutorAlreadyBooked(int $tutor, int $day, int $time, int $sem):bool{
         global $pdo;
         try{
             $stmt = $pdo->prepare("SELECT * 
                                 FROM Classes 
                                 WHERE TutorID = :tutorID AND 
                                 Day = :day AND 
-                                Time = :time 
+                                Time = :time AND 
                                 SemesterNo = :sem");
             $stmt->execute([
                 ':tutorID' => $tutor,

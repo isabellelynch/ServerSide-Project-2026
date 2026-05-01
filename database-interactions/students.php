@@ -1,8 +1,8 @@
 <?php
-    require_once(__DIR__ . "/../database-interactions/make-connection.php");
+    require_once(ROOT . "/database-interactions/make-connection.php");
     global $pdo;
 
-function AddStudent($student)
+function AddStudent(array $student):void
 {
     global $pdo;
     try{
@@ -22,7 +22,7 @@ function AddStudent($student)
     
 }
 
-function PermanentlyRemoveStudent($id){
+function PermanentlyRemoveStudent(int $id):void{
     global $pdo;
     try{
         $stmt = $pdo->prepare("DELETE FROM Students 
@@ -36,7 +36,7 @@ function PermanentlyRemoveStudent($id){
     }
 }
 
-function UpdateStudent($student){
+function UpdateStudent(array $student):void{
     global $pdo;
     try{
         $stmt = $pdo->prepare("UPDATE Students SET 
@@ -58,7 +58,7 @@ function UpdateStudent($student){
     }
 }
 
-function doesEmailExist($e){
+function doesEmailExist(string $e):bool{
     global $pdo;
     try{
         $stmt = $pdo -> prepare("SELECT StudentID 
@@ -70,12 +70,8 @@ function doesEmailExist($e){
         
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row) {
-            return $row['StudentID'];
-        } 
-        else {
-            return false;
-        }
+        return $row !== false;
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

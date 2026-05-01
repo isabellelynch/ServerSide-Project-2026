@@ -14,7 +14,11 @@ $semesters = [
     ]
 ];
 
-function getSemesterNameByNumber($number) {
+if (!isset($_SESSION['semester'])) {
+    $_SESSION['semester'] = 1;
+}
+
+function getSemesterNameByNumber(int $number):?string {
     global $semesters;
 
     foreach ($semesters as $semester) {
@@ -29,7 +33,7 @@ function getSemesterNameByNumber($number) {
     return null;
 }
 
-function getSemesterNumberByName($name) {
+function getSemesterNumberByName(string $name):?int {
     global $semesters;
 
     foreach ($semesters as $semester) {
@@ -44,17 +48,14 @@ function getSemesterNumberByName($name) {
     return null;
 }
 
-function getCurrentSemester(){
+function getCurrentSemester():int{
     $year = date("y");
     $month = date("m");
-    $semester = 1;
-    if($month > 6){
-        $semester = 2;
-    }
+    $semester = ($month > 6) ? 2 : 1;
     return $year . $semester;
 }
 
-function nextSemester(){
+function nextSemester():int{
     $current = getCurrentSemester();
     $num = substr($current, -1);
     if($num == 2){
@@ -65,10 +66,10 @@ function nextSemester(){
         $next = substr($current,0,-1) . "2";
     }
 
-    return $next;
+    return (int)$next;
 }
 
-function previousSemester(){
+function previousSemester():int{
     $current = getCurrentSemester();
     $num = substr($current, -1);
     if($num == 2){
@@ -79,7 +80,7 @@ function previousSemester(){
         $prev = (int)substr($current,0,-1) - 1;
         $prev = (string)$prev . "2";
     }
-    return $prev;
+    return (int)$prev;
 }
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){

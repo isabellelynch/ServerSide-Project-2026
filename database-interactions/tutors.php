@@ -2,7 +2,7 @@
 global $pdo;
 require_once("general.php");
 
-function GetSpecificTutorNames($sub){
+function GetSpecificTutorNames(string $sub):?array{
     global $pdo;
     try{
         $stmt = $pdo -> prepare("SELECT TutorID, FirstName, Surname 
@@ -13,13 +13,14 @@ function GetSpecificTutorNames($sub){
             ":sub" => $sub
         ]);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-function GetAllTutorNames(){
+function GetAllTutorNames():?array{
     try{
         $sql = "SELECT TutorID, FirstName, Surname 
                 FROM Tutors 
@@ -27,13 +28,13 @@ function GetAllTutorNames(){
 
         $result = QueryDatabase($sql);
 
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $result->fetchAll(PDO::FETCH_ASSOC) ?: null;
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-function AddTutor($tutor)
+function AddTutor(array $tutor):void
 {
     global $pdo;
     try{
@@ -53,7 +54,7 @@ function AddTutor($tutor)
     
 }
 
-function PermanentlyRemoveTutor($id){
+function PermanentlyRemoveTutor(int $id):void{
     global $pdo;
     try{
         $stmt = $pdo->prepare("DELETE FROM Tutors 
@@ -67,7 +68,7 @@ function PermanentlyRemoveTutor($id){
     }
 }
 
-function GetTutorRate($r){
+function GetTutorRate(string $r):int{
     global $pdo;
     try{
         $stmt = $pdo->prepare("SELECT HourlyRate 
@@ -79,26 +80,28 @@ function GetTutorRate($r){
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result['HourlyRate'];
+        return $result ? (int) $result['HourlyRate'] : null; 
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-function GetTutorRates(){
+function GetTutorRates():?array{
     try{
         $sql = "SELECT RateCode, HourlyRate  
                 FROM TutorRates";
 
         $result = QueryDatabase($sql);
 
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $result->fetchAll(PDO::FETCH_ASSOC) ?: null;
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-function ensureTutorTeachesSubject($t, $s){
+function ensureTutorTeachesSubject(int $t, string $s):bool{
     global $pdo;
     try{
         $stmt = $pdo -> prepare("SELECT COUNT(*) AS Count 
@@ -113,14 +116,15 @@ function ensureTutorTeachesSubject($t, $s){
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result['Count'] > 0;
+        return (int)$result['Count'] > 0;
+
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
     
 }
 
-function doesTutorEmailExist($e){
+function doesTutorEmailExist(string $e):bool{
     global $pdo;
     try{
         $stmt = $pdo->prepare("SELECT TutorID 
@@ -132,12 +136,8 @@ function doesTutorEmailExist($e){
         
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($row) {
-            return $row['TutorID'];
-        } 
-        else {
-            return false;
-        }
+        return $row !== false;
+        
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

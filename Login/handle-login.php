@@ -21,77 +21,25 @@
             }
         }
 
-    function ValidLogin($email, $password){
-        if(doesUserExist($email, $password) && isPasswordCorrect($password, $email)){
+    function ValidLogin(string $email, string $password):bool{
+        $stmt = $pdo->prepare("SELECT FirstName, Surname, Password 
+                               FROM Admin 
+                               WHERE Email = :e");
+
+        $stmt->execute([":e" => $email]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['Password'])) {
             $_SESSION['email'] = $email;
-            $_SESSION['password'] = $password;
-            $_SESSION['name'] = getName($email, $password);
+            $_SESSION['name'] = $user['FirstName'] . " " . $user['Surname'];
             unset($_SESSION['msg'], $_SESSION['msgtitle']);
             return true;
         }
-        else{
-            $_SESSION['msgtitle'] = "Invalid Login attempt";
-            $_SESSION['msg'] = "Incorrect username/password combination, please try again.";
-            return false;
-        }
+
+        $_SESSION['msgtitle'] = "Invalid Login attempt";
+        $_SESSION['msg'] = "Incorrect username/password combination, please try again.";
+        return false;
     }
 
-    function doesUserExist($email, $password){
-        global $pdo;
-        try{
-            $stmt = $pdo -> prepare("SELECT COUNT(*) AS Count 
-                                    FROM Admin 
-                                    WHERE Email = :u");
-            $stmt -> bindValue(":u", $email);
-            $stmt -> execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($result['Count'] === 1){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }catch(Exception $e){
-            echo "Error: " . $e->getMessage();
-        }
-    }
-
-    function getName($email, $password){
-        global $pdo;
-        try{
-            $stmt = $pdo -> prepare("SELECT FirstName, Surname  
-                                    FROM Admin 
-                                    WHERE Email = :e");
-            $stmt -> bindValue(":e", $email);
-            $stmt -> execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $result['FirstName'] . " " . $result['Surname'];
-
-        }catch(Exception $e){
-            echo "Error: " . $e->getMessage();
-        }
-    }
-
-    function isPasswordCorrect($p, $e){
-        global $pdo;
-        try{
-            $stmt = $pdo -> prepare("SELECT Password 
-                                    FROM Admin 
-                                    WHERE Email = :e");
-            $stmt -> bindValue(":e", $e);
-            $stmt -> execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $hash = $result['Password'];
-            if(password_verify($p, $hash)){
-                return true;
-            }
-            else{
-                return false;
-            }
-        }catch(Exception $e){
-            echo "Error: " . $e->getMessage();
-        }
-        
-    }
 ?>

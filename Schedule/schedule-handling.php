@@ -6,7 +6,7 @@ require_once("../database-interactions/make-connection.php");
 global $pdo, $semesters, $days, $times;
 
 
-function generateSchedule(){
+function generateSchedule():array{
     global $semesters;
     $s = [];
     $sem = (isset($_SESSION['semester']))?$semesters[$_SESSION['semester']]['number']:$semesters[1]['number'];
@@ -26,7 +26,7 @@ function generateSchedule(){
 }
 
 
-function getFreeScheduleSlots($room){
+function getFreeScheduleSlots(int $room):array{
     global $times;
     $_SESSION['room'] = $room;
     $schedule = generateSchedule();
@@ -42,7 +42,7 @@ function getFreeScheduleSlots($room){
 }
 
 
-function getFreeTimes($day, $room, $semester){
+function getFreeTimes(int $day, int $room, int $semester):array{
     global $pdo, $times;
 
     $stmt = $pdo->prepare("
@@ -60,7 +60,6 @@ function getFreeTimes($day, $room, $semester){
     ]);
 
     $occupiedTimes = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    var_dump($occupiedTimes);
     $free = [];
 
     foreach ($times as $t) {

@@ -19,8 +19,11 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             errorHandler("Please enter an email to add a student.");
         }
         if(!isClassFull($classid)){
+
             $studentID = doesEmailExist($email);
+
             if($studentID != false){
+
                 if(!hasStudentBookedClass($studentID, $classid)){
                     incrementEnrollment($classid);
                     createBooking($studentID, $classid);
