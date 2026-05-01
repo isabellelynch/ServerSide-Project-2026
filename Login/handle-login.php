@@ -22,24 +22,30 @@
         }
 
     function ValidLogin(string $email, string $password):bool{
-        $stmt = $pdo->prepare("SELECT FirstName, Surname, Password 
-                               FROM Admin 
-                               WHERE Email = :e");
+        global $pdo;
+        try{
+            $stmt = $pdo->prepare("SELECT FirstName, Surname, Password 
+                                   FROM Admin 
+                                   WHERE Email = :e");
 
-        $stmt->execute([":e" => $email]);
+            $stmt->execute([":e" => $email]);
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['Password'])) {
-            $_SESSION['email'] = $email;
-            $_SESSION['name'] = $user['FirstName'] . " " . $user['Surname'];
-            unset($_SESSION['msg'], $_SESSION['msgtitle']);
-            return true;
-        }
+            if ($user && password_verify($password, $user['Password'])) {
+                $_SESSION['email'] = $email;
+                $_SESSION['name'] = $user['FirstName'] . " " . $user['Surname'];
+                unset($_SESSION['msg'], $_SESSION['msgtitle']);
+                return true;
+            }
 
-        $_SESSION['msgtitle'] = "Invalid Login attempt";
-        $_SESSION['msg'] = "Incorrect username/password combination, please try again.";
-        return false;
+            $_SESSION['msgtitle'] = "Invalid Login attempt";
+            $_SESSION['msg'] = "Incorrect username/password combination, please try again.";
+            return false;  
+        }catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        } 
+        
     }
 
 ?>
