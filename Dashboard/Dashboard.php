@@ -1,4 +1,4 @@
-<?php require_once("../start-up.php");?>
+<?php require_once(__DIR__ . "/../start-up.php");?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,6 +16,7 @@
 
   </head>
   <body data-page = "index">
+    <?php require_once(ROOT . "/basic-page-layout/layout.php"); ?>
     <?php 
       include_once(ROOT . "/database-interactions/statistics.php");
       include_once(ROOT . "/database-interactions/general.php");
@@ -28,8 +29,8 @@
 
           $stats = [
               [
-                  'heading' => "This Years Revenue",
-                  'value' => $rev,
+                  'heading' => "This Year's Revenue",
+                  'value' => "€" . number_format($rev),
                   'sub' => $result
               ],
               [

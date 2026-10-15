@@ -1,13 +1,14 @@
 <?php
     require_once(ROOT . "/database-interactions/general.php");
 
-    $rev = GetYearlyRevenueDifference();
+    $rev = GetYearlyRevenue() ?? 0;
+    $difference = GetYearlyRevenueDifference() ?? 0;
 
-    if($rev === 0){
+    if($difference === 0){
         $result = "No change on last year.";
     }
     else{
-        $result = (($rev > 0) ? "Up " : "Down ") . "$rev on last year.";
+        $result = (($difference > 0) ? "Up €" : "Down €") . number_format(abs($difference)) . " on last year.";
     }
 
     function GetYearlyRevenue():?int{
@@ -51,7 +52,7 @@
 
             if ($result) {
                 $row = $result->fetch(PDO::FETCH_ASSOC);
-                $lastYear = $row['Count'] ?? 0;
+                $lastYear = (int)($row['Count'] ?? 0);
             } else {
                 $lastYear = 0;
             }

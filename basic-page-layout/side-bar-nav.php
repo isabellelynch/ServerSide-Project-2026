@@ -55,7 +55,7 @@
             <?php 
               foreach($n['items'] as $ni): 
             ?>
-                <a href = "<?php echo "../" . $ni['link']; ?>" 
+                <a href = "<?php echo BASE . $ni['link']; ?>" 
                    class = "no-link-styling 
                             nav-item 
                             <?php echo (basename($_SERVER['PHP_SELF']) === $ni['file'])?" active":""; ?>">
@@ -70,10 +70,11 @@
   <div class="sidebar-footer">
     <p>
       <strong>
-        <?php echo $_SESSION['name']??"Admin Member"; ?>
+        <?php echo htmlspecialchars($_SESSION['name']??"Admin Member"); ?>
       </strong>
-      <?php echo $_SESSION['email']??"admin@grindsschool.com"; ?>
+      <?php echo htmlspecialchars($_SESSION['email']??"admin@grindsschool.com"); ?>
     </p>
+    <a href = "<?php echo BASE; ?>Login/logout.php" class = "no-link-styling sign-out">Sign out</a>
   </div>
 </aside>
 

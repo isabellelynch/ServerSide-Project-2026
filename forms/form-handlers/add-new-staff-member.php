@@ -7,7 +7,7 @@ global $pdo, $page, $firstname, $surname, $email;
 
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    if(isset($_POST['save-btn']) && $_POST['activeForm'] === "new-admin"){
+    if(isset($_POST['save-btn']) && ($_POST['activeForm'] ?? "") === "new-admin"){
         $AdminPassword = trim($_POST['admin-password']??"");
         $confirm = trim($_POST['admin-password-confirm']??"");
         $AdminHash = password_hash($AdminPassword, PASSWORD_DEFAULT);
@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             errorHandler("Passwords must match to continue.");
         }
         elseif(!ValidatePassword($AdminPassword)){
-            errorHandler("Password must contain more than 8 digits, one uppercase, one lowercase and a special character");
+            errorHandler("Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a number and a special character.");
         }
 
         if(isAdminEmailUnique($email)){

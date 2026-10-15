@@ -1,9 +1,6 @@
 <?php 
-    global $page, $formHandlers;
-
-    foreach($formHandlers as $fh){
-        require_once($fh);
-    }
+    // the form handlers themselves run in start-up.php, before any HTML is output
+    global $page;
 ?>
 <div class="modal-overlay" id="modalOverlay" >
     <div class="modal">
@@ -22,7 +19,7 @@
                 }
              ?>
         <div class="modal-footer">
-            <button class="btn-ghost" id = "cancel-form-btn">Cancel</button>
+            <button type = "button" class="btn-ghost" id = "cancel-form-btn">Cancel</button>
             <button type = "submit" class="btn-primary" 
                     name = "save-btn" id = "save-btn"></button>
         </div>
@@ -38,4 +35,6 @@
 <?php 
     endif; 
     unset($_SESSION['msg'], $_SESSION['msgtitle']);
+    // values kept after a failed save have now been put back into the form, so clear them
+    unset($_SESSION['form-data'], $_SESSION['student-data']);
 ?>

@@ -26,13 +26,13 @@
                 <form id = 'change-room' action = "" method = "POST">
                     <div>
                         Room <?php echo $_SESSION['room']; ?>
-                        <button name = 'previous-room' id = 'previous-room'><</button>
-                        <button name = 'next-room' id = 'next-room'>></button>
+                        <button name = 'previous-room' id = 'previous-room' aria-label = 'Previous room'>&lt;</button>
+                        <button name = 'next-room' id = 'next-room' aria-label = 'Next room'>&gt;</button>
                     </div>
                     <div>
                         <?php echo $sem['name']; ?> Semester
-                        <button name = 'previous-sem'><</button>
-                        <button name = 'next-sem'>></button>
+                        <button name = 'previous-sem' aria-label = 'Previous semester'>&lt;</button>
+                        <button name = 'next-sem' aria-label = 'Next semester'>&gt;</button>
                         <input type = 'hidden' name = 'semester-number' value = "<?php echo $sem['number']; ?>">
                     </div>
                 </form>
@@ -56,9 +56,9 @@
                 $class = $schedule[$d][$time]??null; 
                 if ($class) : ?> 
                     <td class = 'class-slot' data-id = "<?php echo htmlspecialchars($class['id']); ?>">
-                    <p id = "ClassSubject"><strong><?php echo htmlspecialchars($class['class']); ?></strong></p>
+                    <p class = "ClassSubject"><strong><?php echo htmlspecialchars($class['class']); ?></strong></p>
                     <br>
-                    <p id = "ClassTutor"><?php echo htmlspecialchars($class['tutor']); ?></p>
+                    <p class = "ClassTutor"><?php echo htmlspecialchars($class['tutor']); ?></p>
                     <p style = "text-align:right"><?php echo htmlspecialchars($class['enrollment']) . "/" . htmlspecialchars($class['capacity']); ?></p>
                     <br>
                     </td>

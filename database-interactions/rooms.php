@@ -10,7 +10,7 @@ function RoomCount():?int{
 
         $row = $result->fetch(PDO::FETCH_ASSOC);
 
-        return $row['Count'] ?? null;
+        return isset($row['Count']) ? (int)$row['Count'] : null;
 
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
@@ -27,12 +27,11 @@ function getRoomCapacity(int $room):int{
             ':room' => $room
         ]);
 
-        if ($stmt->rowCount() === 1) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            return (int)$row['Capacity'];
-        }
+        $capacity = $stmt->fetchColumn();
+        return ($capacity === false) ? 0 : (int)$capacity;
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
+        return 0;
     }
 }
 

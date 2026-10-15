@@ -1,0 +1,8 @@
+# Visual Studio local settings and cache
+.vs/
+*.suo
+*.user
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -36,6 +36,9 @@
             ]);
 
             $class = $stmt -> fetch(PDO::FETCH_ASSOC);
+            if ($class === false) {
+                return true;   // no such class - treat as unbookable
+            }
             $current = $class['CurrentEnrollment'];
             $cap = getRoomCapacity($class['RoomNo']);
 
@@ -74,7 +77,7 @@
         }
     }
 
-    function getClass(int $id):array{
+    function getClass(int $id):array|false{
         global $pdo;
         try{
             $stmt = $pdo->prepare("SELECT * 

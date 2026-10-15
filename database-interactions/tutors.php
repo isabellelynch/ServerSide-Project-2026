@@ -1,8 +1,8 @@
 <?php
 global $pdo;
-require_once("general.php");
+require_once(__DIR__ . "/general.php");
 
-function GetSpecificTutorNames(string $sub):?array{
+function GetSpecificTutorNames(string $sub):array{
     global $pdo;
     try{
         $stmt = $pdo -> prepare("SELECT TutorID, FirstName, Surname 
@@ -13,10 +13,11 @@ function GetSpecificTutorNames(string $sub):?array{
             ":sub" => $sub
         ]);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: null;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
+        return [];
     }
 }
 
@@ -39,19 +40,69 @@ function AddTutor(array $tutor):void
     global $pdo;
     try{
         $stmt = $pdo->prepare("INSERT INTO Tutors 
-                            (FirstName, Surname, Email, PhoneNo,Status, RateCode) 
-                            VALUES (:name, :surname, :email, :phone, 'A', :rate)"); 
+                            (FirstName, Surname, Email, PhoneNo, Status, RateCode, SubjectCode) 
+                            VALUES (:name, :surname, :email, :phone, 'A', :rate, :subject)"); 
         $stmt->execute([
             ':name' => $tutor['name'],
             ':surname' => $tutor['surname'],
             ':email' => $tutor['email'],
             ':phone' => $tutor['phone'],
-            ':rate' => $tutor['rate']
+            ':rate' => $tutor['rate'],
+            ':subject' => $tutor['subject']
         ]);
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
     
+}
+
+function UpdateTutor(array $tutor):void{
+    global $pdo;
+    try{
+        $stmt = $pdo->prepare("UPDATE Tutors SET 
+                                FirstName = :firstname, 
+                                Surname = :surname, 
+                                Email = :email, 
+                                PhoneNo = :phone,
+                                RateCode = :rate,
+                                SubjectCode = :subject
+                                WHERE TutorID = :id");
+
+        $stmt->execute([
+            ':firstname' => $tutor['name'],
+            ':surname' => $tutor['surname'],
+            ':email' => $tutor['email'],
+            ':phone' => $tutor['phone'],
+            ':rate' => $tutor['rate'],
+            ':subject' => $tutor['subject'],
+            ':id' => $tutor['id']
+        ]);
+    }catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+// a tutor who has classes on the schedule can't be deleted (set them to Inactive instead)
+function tutorHasClasses(int $id):bool{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM Classes WHERE TutorID = :id");
+    $stmt->execute([':id' => $id]);
+    return (int)$stmt->fetchColumn() > 0;
+}
+
+// true if another tutor (not the one being updated) already uses this email
+function isEmailUsedByOtherTutor(string $email, int $id):bool{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM Tutors WHERE Email = :email AND TutorID <> :id");
+    $stmt->execute([':email' => $email, ':id' => $id]);
+    return (int)$stmt->fetchColumn() > 0;
+}
+
+function isValidRateCode(string $code):bool{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM TutorRates WHERE RateCode = :r");
+    $stmt->execute([':r' => $code]);
+    return (int)$stmt->fetchColumn() > 0;
 }
 
 function PermanentlyRemoveTutor(int $id):void{
@@ -68,7 +119,7 @@ function PermanentlyRemoveTutor(int $id):void{
     }
 }
 
-function GetTutorRate(string $r):int{
+function GetTutorRate(string $r):?int{
     global $pdo;
     try{
         $stmt = $pdo->prepare("SELECT HourlyRate 

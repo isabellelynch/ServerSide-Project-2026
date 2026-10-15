@@ -2,6 +2,7 @@
 require_once(ROOT . "/database-interactions/general.php");
 require_once(ROOT . "/database-interactions/students.php");
 require_once(ROOT . "/database-interactions/tutors.php");
+require_once(ROOT . "/database-interactions/subjects.php");
 require_once(ROOT . "/database-interactions/bookings.php");
 require_once(ROOT . "/include-for-functions/Validation.php");
 
@@ -10,11 +11,15 @@ $person = substr($table, 0, -1);
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
     if(isset($_POST['save-btn'])){
-        if($_POST['activeForm'] === "new" || $_POST['activeForm'] === "update"){
-            $firstname = trim($_POST['firstname'])??"";
-            $surname = trim($_POST['surname'])??"";
-            $email = trim($_POST['email'])??"";
-            $phone = trim($_POST['phone'])??"";
+        $activeForm = $_POST['activeForm'] ?? "";
+
+        if($activeForm === "new" || $activeForm === "update"){
+            $firstname = trim($_POST['firstname'] ?? "");
+            $surname = trim($_POST['surname'] ?? "");
+            $email = trim($_POST['email'] ?? "");
+            $phone = trim($_POST['phone'] ?? "");
+            $rate = "";
+            $subject = "";
 
             $_SESSION['form-data'] = [
                 'name' => $firstname,
@@ -24,10 +29,14 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             ];
 
             if($table === "Tutors"){
-                $rate = trim($_POST['rate'])??"";
+                $rate = trim($_POST['rate'] ?? "");
+                $subject = trim($_POST['subject'] ?? "");
                 $_SESSION['form-data']['rate'] = $rate;
+                $_SESSION['form-data']['subject'] = $subject;
             }
-            if($firstname === "" || $surname === "" || $email === "" || $phone === "" || $rate === ""){
+
+            if($firstname === "" || $surname === "" || $email === "" || $phone === "" ||
+               ($table === "Tutors" && ($rate === "" || $subject === ""))){
                 errorHandler("All fields must be entered to continue.");
             }
             elseif(ValidName($firstname, "Firstname") !== "Valid"){
@@ -46,9 +55,15 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                 unset($_SESSION['form-data']['phone']);
                 errorHandler(ValidPhoneNumber($phone));
             }
+            elseif($table === "Tutors" && !isValidRateCode($rate)){
+                errorHandler("Please choose a valid rate.");
+            }
+            elseif($table === "Tutors" && !doesSubjectExist($subject)){
+                errorHandler("Please choose a valid subject.");
+            }
 
             try{
-                if($_POST['activeForm'] === "new"){
+                if($activeForm === "new"){
                     if($table == "Students" && doesEmailExist($email) !== false ||
                         $table == "Tutors" && doesTutorEmailExist($email) !== false){
                         errorHandler("$person with the email $email already exists on our system.");
@@ -65,33 +80,50 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                     }
                 }
 
-                if($_POST['activeForm'] === "update"){
-                    $id = trim($_POST['update-id'])??'';
+                if($activeForm === "update"){
+                    $id = (int)trim($_POST['update-id'] ?? '0');
+                    if($id <= 0 || !Exists($table, $id)){
+                        errorHandler("$person could not be found, please try again.");
+                    }
+
+                    // the new email can't belong to someone else
+                    if($person == "Student" && isEmailUsedByOtherStudent($email, $id) ||
+                       $person == "Tutor" && isEmailUsedByOtherTutor($email, $id)){
+                        errorHandler("Another " . strtolower($person) . " already uses the email $email.");
+                    }
+
+                    $_SESSION['form-data']['id'] = $id;
                     if($person == "Student"){
-                        $_SESSION['form-data']['id'] = $id;
                         UpdateStudent($_SESSION['form-data']);
                     }
                     else if($person == "Tutor"){
-                        $_SESSION['form-data']['rate'] = $rate;
                         UpdateTutor($_SESSION['form-data']);
                     }
                     unset($_SESSION['form-data']);
                     successMsg("$firstname $surname has been updated successfully");
-                } 
+                }
             }catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
-            
+
         }
-        else if($_POST['activeForm'] === "delete"){
+        else if($activeForm === "delete"){
             try{
-                $id = trim($_POST['remove-id'])??'';
+                $id = (int)trim($_POST['remove-id'] ?? '0');
+                if($id <= 0 || !Exists($table, $id)){
+                    errorHandler("$person could not be found, please try again.");
+                }
                 if($person == "Student"){
                     RemoveStudentFromClasses($id);
                     RemoveStudentBookings($id);
                     PermanentlyRemoveStudent($id);
                 }
                 else if($person == "Tutor"){
+                    // deleting a tutor would leave their classes (and bookings) without a tutor
+                    if(tutorHasClasses($id)){
+                        errorHandler("This tutor has classes on the schedule, so they can't be removed. " .
+                                     "Set them to Inactive instead.");
+                    }
                     PermanentlyRemoveTutor($id);
                 }
                 unset($_SESSION['form-data']);
@@ -100,7 +132,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                 echo "Error: " . $e->getMessage();
             }
         }
-        
+
     }
 
 }

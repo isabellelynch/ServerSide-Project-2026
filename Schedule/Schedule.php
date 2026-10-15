@@ -1,5 +1,5 @@
 <?php 
-  require_once("../start-up.php"); 
+  require_once(__DIR__ . "/../start-up.php"); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,11 +18,11 @@
 
   </head>
   <body data-page = "schedule">
+    <?php require_once(ROOT . "/basic-page-layout/layout.php"); ?>
     
     <main>
         <?php
             require_once(ROOT . "/Schedule/generate-schedule.php");
-            require_once(ROOT . "/forms/form-filtering.php"); 
         ?>
     </main>
 

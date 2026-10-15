@@ -1,3 +1,12 @@
+<?php 
+    require_once(ROOT . "/database-interactions/general.php");
+    $table = getCurrentPage();
+    $result = SelectAll($table) ?? [];
+?>
+<div class = "content-header">
+    <h2>Subjects</h2>
+    <p>All subjects offered</p>
+</div>
 <div class = "panel">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
             <div class="table-toolbar">
@@ -13,28 +22,24 @@
                 <tr>
                     <th>Subject Code</th>
                     <th>Description</th>
+                    <th>Tutors</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
 
-    <?php 
-    require_once("../database-interactions/general.php");
-    $table = getCurrentPage();
-    $result = SelectAll($table);
-
-    foreach($result as $row):
-    ?>
+    <?php foreach($result as $row): ?>
         <tr> 
-            <td><?php echo $row["SubjectCode"]; ?></td>
-            <td><?php echo $row["Description"]; ?></td>
+            <td><?php echo htmlspecialchars($row["SubjectCode"]); ?></td>
+            <td><?php echo htmlspecialchars($row["Description"]); ?></td>
+            <td><?php echo subjectTutorCount($row["SubjectCode"]); ?></td>
             <td>
                 <div class = "action-btns">
                     <button class="delete-btn" 
                             type = "button" 
-                            data-code = <?php echo $row["SubjectCode"]; ?>
-                            data-surname = <?php echo $row["Description"]; ?>
-                            >
+                            aria-label = "Remove <?php echo htmlspecialchars($row["Description"]); ?>"
+                            data-id = "<?php echo htmlspecialchars($row["SubjectCode"]); ?>"
+                            data-name = "<?php echo htmlspecialchars($row["Description"]); ?>">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>

@@ -13,6 +13,7 @@
   --pk-soft:    #eeaabb;
   --pk-pale:    #fce8ef;
   --white:      #ffffff;
+  --shadow-sm:  0 1px 3px rgba(46, 21, 5, 0.08);
 }
 
 * {
@@ -129,6 +130,18 @@ nav{
     display:block;
     color:rgba(255,255,255,0.7);
     margin-bottom:2px;
+}
+
+.sign-out{
+    display:inline-block;
+    margin-top:0.6rem;
+    color:rgba(255,255,255,0.7);
+    font-weight:600;
+}
+
+.sign-out:hover{
+    color:#fff;
+    text-decoration:underline;
 }
 
 /* ------------------------------------------------------------------------------MAIN HEADER STYLING ------------------------------------------------------------------------------------------*/
@@ -687,14 +700,14 @@ nav{
 /* ----------------------------------------------------------------------STUDENT/TUTOR RECORDS TABLES----------------------------------------------------------------------------------------- */
 .data-table a:link{
     text-decoration:underline;
-    color: var(--color-dark-brown);
+    color: var(--br-mid);
 }
 
 .data-table a:visited{
-    color:var(--color-dark-brown);
+    color:var(--br-mid);
 }
 .data-table a:hover{
-    color: var(--color-off-white);
+    color: var(--pk-bold);
 }
 
 .table-toolbar{
@@ -830,4 +843,27 @@ nav{
 }
 .dontshow{
     display: none;
+}
+/* ------------------------------------------------------------------------------STATUS BADGES (STUDENT AND TUTOR TABLES)-------------------------------------------------------------------------*/
+.data-table a.status-link{
+    display:inline-block;
+    padding:0.15rem 0.6rem;
+    border-radius:999px;
+    font-size:0.78rem;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.data-table a.status-active{
+    background:var(--pk-pale);
+    color:var(--pk-bold);
+}
+
+.data-table a.status-inactive{
+    background:#eee;
+    color:#666;
+}
+
+.data-table a.status-link:hover{
+    text-decoration:underline;
 }

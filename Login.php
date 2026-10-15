@@ -1,6 +1,6 @@
 <?php 
-  require_once("start-up.php");
-  require_once("Login/handle-login.php"); 
+  require_once(__DIR__ . "/start-up.php");
+  require_once(ROOT . "/Login/handle-login.php"); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +34,7 @@
 
       <div class="field">
         <label for="email">Email address</label>
-        <input type="email" id="email" name = "email" placeholder="admin@grindsschool.ie">
+        <input type="email" id="email" name = "email" placeholder="admin@grindsschool.ie" required autocomplete="username">
       </div>
 
       <div class="field">
@@ -42,7 +42,7 @@
           <label for="password">Password</label>
           <a href="#" class="forgot">Forgot password?</a>
         </div>
-        <input type="password" id="password" name = "password"  placeholder="••••••••">
+        <input type="password" id="password" name = "password"  placeholder="••••••••" required autocomplete="current-password">
       </div>
 
       <button type = "submit" id = "login-btn" name = "login-btn">Sign in</button>
@@ -54,10 +54,14 @@
 
 <?php if(isset($_SESSION['msg']) && isset($_SESSION['msgtitle'])):?>
 <div  id="toast" class="toast show">
-    <strong id="toastTitle"><?php echo $_SESSION['msgtitle']; ?></strong>
-    <span id="toastBody" class = "toast-msg"><?php echo $_SESSION['msg']; ?></span>
+    <strong id="toastTitle"><?php echo htmlspecialchars($_SESSION['msgtitle']); ?></strong>
+    <span id="toastBody" class = "toast-msg"><?php echo htmlspecialchars($_SESSION['msg']); ?></span>
 </div>
-<?php endif; ?>
+<?php 
+  endif; 
+  // show each message once only
+  unset($_SESSION['msg'], $_SESSION['msgtitle']);
+?>
 
 </body>
 </html>

@@ -1,10 +1,10 @@
 <?php 
-  require_once("../start-up.php"); 
+  require_once(__DIR__ . "/../start-up.php"); 
 
   //link in table to go from active to inactive
   if (isset($_GET['action']) && $_GET['action'] === 'SetToInactive') 
   {
-      $id = $_GET['id'];
+      $id = (int)($_GET['id'] ?? 0);
       try 
       {
           UpdateStatus("Students",$id);
@@ -35,6 +35,7 @@
 
   </head>
   <body data-page = "students">
+    <?php require_once(ROOT . "/basic-page-layout/layout.php"); ?>
     
     <main>
       <?php  

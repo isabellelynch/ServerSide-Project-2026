@@ -1,10 +1,10 @@
 <?php
 
-require_once("make-connection.php");
+require_once(__DIR__ . "/make-connection.php");
 
 global $pdo;
 
-function QueryDatabase(string $sql):PDOStatement
+function QueryDatabase(string $sql):?PDOStatement
 {
     global $pdo;
     try
@@ -15,6 +15,7 @@ function QueryDatabase(string $sql):PDOStatement
     {
         $output = "Unable to query the database : " . $e->getMessage();
         echo $output;
+        return null;
     }
 }
     
@@ -101,7 +102,7 @@ function UpdateStatus(string $table, int $id):void
         }
         else
         {
-            echo "Student could not be found in the database";
+            echo substr($table, 0, -1) . " could not be found in the database";
         }
     }catch (PDOException $e) {
         echo "Error: " . $e->getMessage();

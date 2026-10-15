@@ -1,8 +1,8 @@
 <?php 
-require_once("../database-interactions/classes.php");
-require_once("semesters.php");
-require_once("../database-interactions/rooms.php");
-require_once("../database-interactions/make-connection.php");
+require_once(__DIR__ . "/../database-interactions/classes.php");
+require_once(__DIR__ . "/semesters.php");
+require_once(__DIR__ . "/../database-interactions/rooms.php");
+require_once(__DIR__ . "/../database-interactions/make-connection.php");
 global $pdo, $semesters, $days, $times;
 
 
@@ -31,10 +31,11 @@ function getFreeScheduleSlots(int $room):array{
     $_SESSION['room'] = $room;
     $schedule = generateSchedule();
     $freeSlots = [];
-    for($i = 0; $i <= 4; $i ++) {
+    // days are stored as 1 (Monday) to 5 (Friday)
+    for($day = 1; $day <= 5; $day ++) {
         foreach ($times as $time) {
-            if (!isset($schedule[$i][$time])) {
-                $freeSlots[$i][] = $time;
+            if (!isset($schedule[$day][$time])) {
+                $freeSlots[$day][] = $time;
             }
         }
     }

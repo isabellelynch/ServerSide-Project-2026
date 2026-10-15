@@ -1,5 +1,6 @@
 <?php
     require_once(ROOT . "/database-interactions/tutors.php");
+    require_once(ROOT . "/database-interactions/subjects.php");
     require_once(ROOT . "/database-interactions/general.php");
 
     $table = getCurrentPage();
@@ -26,6 +27,7 @@
             <th>Email</th>
             <th>Phone No.</th>
             <?php if($table === "Tutors"): ?>
+                <th>Subject</th>
                 <th>Rate (€)</th>
             <?php endif; ?>
             <th>Status</th>
@@ -36,25 +38,32 @@
 
     <?php 
 
-    $result = SelectAll($table);
+    $result = SelectAll($table) ?? [];
 
     foreach($result as $row):
             $status = ($row["Status"]==='A')?'Active':'Inactive';
-            $currentID = $row[str_replace("s", "ID", $table)];
+            $currentID = $row[substr($table, 0, -1) . "ID"];
+            $e = fn($v) => htmlspecialchars((string)$v);
+            if($table === "Tutors"){
+                $subject = getTutorSubjectDetails($currentID);
+            }
     ?>
         <tr> 
             <td hidden data-id = "<?php echo $currentID; ?>"></td>
             <td class="avatar-chip"> 
-                <div class="avatar-sm"><?php echo substr($row["FirstName"],0,1); ?></div>
-                <?php echo $row["FirstName"] . " " . $row["Surname"]; ?>
+                <div class="avatar-sm"><?php echo $e(mb_substr($row["FirstName"],0,1)); ?></div>
+                <?php echo $e($row["FirstName"] . " " . $row["Surname"]); ?>
             </td>
-            <td><?php echo $row["Email"]; ?></td>
-            <td><?php echo $row["PhoneNo"]; ?></td>
+            <td><?php echo $e($row["Email"]); ?></td>
+            <td><?php echo $e($row["PhoneNo"]); ?></td>
             <?php if($table === "Tutors"): ?>
+                <td><?php echo $e($subject['Description'] ?? '—'); ?></td>
                 <td>€<?php echo GetTutorRate($row["RateCode"]); ?></td>
             <?php endif; ?>
             <td>
-                <a href = "?action=SetToInactive&id=<?php echo $currentID; ?>">
+                <a href = "?action=SetToInactive&id=<?php echo $currentID; ?>"
+                   class = "status-link status-<?php echo strtolower($status); ?>"
+                   title = "Click to set to <?php echo ($status === 'Active') ? 'Inactive' : 'Active'; ?>">
                     <?php echo $status; ?>
                 </a>
             </td>
@@ -62,22 +71,24 @@
                 <div class = "action-btns">
                     <button class="edit-btn" 
                             type = "button"
+                            aria-label = "Edit <?php echo $e($row["FirstName"] . " " . $row["Surname"]); ?>"
                             data-id = "<?php echo $currentID; ?>"
-                            data-firstname = "<?php echo $row["FirstName"]; ?>"
-                            data-surname = "<?php echo $row["Surname"]; ?>"
-                            data-email = "<?php echo $row["Email"]; ?>"
-                            data-phone = "<?php echo $row["PhoneNo"]; ?>"
+                            data-firstname = "<?php echo $e($row["FirstName"]); ?>"
+                            data-surname = "<?php echo $e($row["Surname"]); ?>"
+                            data-email = "<?php echo $e($row["Email"]); ?>"
+                            data-phone = "<?php echo $e($row["PhoneNo"]); ?>"
                             <?php if($table === "Tutors"): ?>
-                                data-rate = <?php echo GetTutorRate($row["RateCode"]);
-                            endif; ?> 
+                                data-rate = "<?php echo $e($row["RateCode"]); ?>"
+                                data-subject = "<?php echo $e($row["SubjectCode"]); ?>"
+                            <?php endif; ?>
                             >
                         <i class="fa-solid fa-pen"></i>
                     </button>
                     <button class="delete-btn" 
                             type = "button" 
+                            aria-label = "Remove <?php echo $e($row["FirstName"] . " " . $row["Surname"]); ?>"
                             data-id = "<?php echo $currentID; ?>"
-                            data-firstname = "<?php echo $row["FirstName"]; ?>"
-                            data-surname = "<?php echo $row["Surname"]; ?>"
+                            data-name = "<?php echo $e($row["FirstName"] . " " . $row["Surname"]); ?>"
                             >
                         <i class="fa-solid fa-trash"></i>
                     </button>

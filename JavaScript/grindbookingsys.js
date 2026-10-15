@@ -54,7 +54,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let removeFormBody = document.getElementById("remove");
     let newOrUpdateForm = document.getElementById("new-or-update-form");
     let newAdminForm = document.getElementById("new-admin-form");
+    let newSubjectForm = document.getElementById("new-subject-form");
     let activeForm = document.getElementById("activeForm");
+    let formBodies = [bookclassFormBody, newClassFormBody, removeFormBody, newOrUpdateForm, newAdminForm, newSubjectForm];
 
     //DYNAMIC FORM ATTRIBUTES - CHANGED ON EACH FORM DISPLAY
     let formTitle = document.getElementById("modalTitle");
@@ -62,15 +64,18 @@ window.addEventListener("DOMContentLoaded", () => {
     let overlay = document.getElementById("modalOverlay");
 
     function showForm(show, hide, active, title, sub){
-        if(show){
-            show.classList.add("showthisform");
-            if(show.classList.contains("dontshow"))show.classList.remove("dontshow");
-        }
-
-        if(hide){
-            hide.classList.add("dontshow");
-            if(hide.classList.contains("showthisform"))hide.classList.remove("showthisform");
-        }
+        // show the chosen form body and hide all the others on this page
+        formBodies.forEach(body => {
+            if(!body) return;
+            if(body === show){
+                body.classList.add("showthisform");
+                body.classList.remove("dontshow");
+            }
+            else{
+                body.classList.add("dontshow");
+                body.classList.remove("showthisform");
+            }
+        });
 
         activeForm.value = active;
         localStorage.setItem("activeForm", active);
@@ -92,7 +97,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let showBookingSchedulePage = () => {showForm(bookclassFormBody, newClassFormBody,  "add", "Make Booking", "Book a class for a student");};
     let showNewClass = () => {showForm(newClassFormBody, bookclassFormBody,  "new-class", "Add Class", "Add a class to the schedule.");};
     let showBookingDashboardPage = () => {showForm(bookclassFormBody, newAdminForm, "add", "Add Booking", "Book a class for a student");};
-    let showRemove = () => {showForm(removeFormBody, newOrUpdateForm, "remove", "Remove Tutor", "Remove tutor from the system.");};
+    let showNewSubject = () => {showForm(newSubjectForm, removeFormBody, "new-subject", "Add Subject", "Add a new subject to the system");};
     
     //TOP RIGHT BUTTON - DISPLAYS MAIN FORM ON EACH PAGE
     if(headerBtn){
@@ -108,6 +113,9 @@ window.addEventListener("DOMContentLoaded", () => {
             }
             if(page === "schedule"){
                 showNewClass();
+            }
+            if(page === "subjects"){
+                showNewSubject();
             }
         });
     }
@@ -130,23 +138,16 @@ window.addEventListener("DOMContentLoaded", () => {
     let form = document.getElementById("common-form");
     function closeForm()
     {
-        if(page === "index"){
-            newAdminForm.className = "";
-            bookclassFormBody.className = "";
-        }
-        if(page === "tutors"){
-            removeFormBody.className = "";
-            newOrUpdateForm.className = "";
-        }
-        if(page === "schedule"){
-            newClassFormBody.className = "";
-            bookclassFormBody.className = "";
-        }
+        formBodies.forEach(body => { if(body) body.className = ""; });
+        if(!overlay) return;
         overlay.classList.remove('active');
-        localStorage.removeItem("keepFormOpen");
         updateScrollState();
-        document.querySelectorAll("form input").forEach(input => {
+        // clear the pop-up form's fields so the next form opens empty
+        document.querySelectorAll("#common-form input").forEach(input => {
             input.value = "";
+        });
+        document.querySelectorAll("#common-form select").forEach(select => {
+            select.selectedIndex = 0;
         });
     }
 
@@ -209,16 +210,6 @@ window.addEventListener("DOMContentLoaded", () => {
         xmlhttp.send();
     }
 
-    let prevRoomBtn = document.getElementById("previous-room");
-    if(prevRoomBtn){
-        prevRoomBtn.addEventListener("click", closeForm());
-    }
-    
-    let nextRoomBtn = document.getElementById("previous-room");
-    if(nextRoomBtn){
-        nextRoomBtn.addEventListener("click", closeForm());
-    }
-    
     let tutorSelect = document.getElementById("FormTutor");
     if(tutorSelect){
         tutorSelect.addEventListener("change", (e) => {
@@ -235,14 +226,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
     let daySelect = document.getElementById("FormDay");
     let roomSelect = document.getElementById("FormRoom");
+    let timeSelect = document.getElementById("FormTime");
     if(roomSelect){
         roomSelect.addEventListener("change", (e) => {
             filterForm(e.target.value, "roomChanged", daySelect);
-            daySelect.selectedIndex = -1;
+            // a new room means the day and time have to be chosen again
+            timeSelect.innerHTML = "<option value='' disabled selected hidden>Select a day first...</option>";
         });
     }
-
-    let timeSelect = document.getElementById("FormTime");
     
     if(daySelect){
         daySelect.addEventListener("change", (e) => {
@@ -263,75 +254,59 @@ window.addEventListener("DOMContentLoaded", () => {
             closeForm();
         }
         else{
+            // the save failed - reopen the same form so the user can correct it.
+            // PHP has already put back the values they typed (apart from the field that was invalid).
             let active = localStorage.getItem("activeForm");
-            if(active === "new-admin"){
-                document.querySelectorAll("form input").forEach(input => {
-                    input.value = "";
-                });
+            let reopened = true;
+
+            if(active === "new-admin" && page === "index"){
                 showAdmin();
             }
             else if(active === "add" && page === "index"){
-                document.querySelectorAll("form input").forEach(input => {
-                    input.value = "";
-                });
                 showBookingDashboardPage();
             }
             else if(active === "add" && page === "schedule"){
-                document.querySelectorAll("form input").forEach(input => {
-                    input.value = "";
-                });
                 showBookingSchedulePage();
             }
-            else if(active === "update" && page === "students"){
+            else if(active === "update" && (page === "students" || page === "tutors")){
                 const saved = localStorage.getItem("editFormData");
-
-                if(!saved) return;
-
-                const thisdata = JSON.parse(saved);
-
-                document.querySelector('[name="update-id"]').value = thisdata.id;
-                document.querySelector('[name="firstname"]').value = thisdata.firstname;
-                document.querySelector('[name="surname"]').value = thisdata.surname;
-                document.querySelector('[name="email"]').value = thisdata.email;
-                document.querySelector('[name="phone"]').value = thisdata.phone;
-
-                showUpdateStudent();
-            }
-            else if(active === "update" && page === "tutors"){
-                const saved = localStorage.getItem("editFormData");
-
-                if(!saved) return;
-
-                const thisdata = JSON.parse(saved);
-
-                document.querySelector('[name="update-id"]').value = thisdata.id;
-                document.querySelector('[name="firstname"]').value = thisdata.firstname;
-                document.querySelector('[name="surname"]').value = thisdata.surname;
-                document.querySelector('[name="email"]').value = thisdata.email;
-                document.querySelector('[name="phone"]').value = thisdata.phone;
-                document.querySelector('[name="rate"]').value = thisdata.rate;
-
-                showUpdateTutor();
+                if(saved){
+                    const thisdata = JSON.parse(saved);
+                    document.querySelector('[name="update-id"]').value = thisdata.id;
+                    // refill any field PHP cleared because it was invalid, using the original value
+                    const fields = {firstname: thisdata.firstname, surname: thisdata.surname,
+                                    email: thisdata.email, phone: thisdata.phone};
+                    for (const [name, value] of Object.entries(fields)){
+                        const input = document.querySelector('[name="' + name + '"]');
+                        if(input && input.value === "") input.value = value ?? "";
+                    }
+                    if(page === "tutors"){
+                        const rate = document.querySelector('[name="rate"]');
+                        const subject = document.querySelector('[name="subject"]');
+                        if(rate && !rate.value) rate.value = thisdata.rate ?? "";
+                        if(subject && !subject.value) subject.value = thisdata.subject ?? "";
+                    }
+                }
+                page === "tutors" ? showUpdateTutor() : showUpdateStudent();
             }
             else if(active === "new" && page === "students"){
-                document.querySelectorAll("form input").forEach(input => {
-                    input.value = "";
-                });
                 showNewStudent();
             }
             else if(active === "new" && page === "tutors"){
-                document.querySelectorAll("form input").forEach(input => {
-                    input.value = "";
-                });
                 showNewTutor();
             }
             else if(active === "new-class" && page === "schedule"){
-                document.querySelectorAll("form input").forEach(input => {
-                    input.value = "";
-                });
                 showNewClass();
             }
-            overlay.classList.add("active");
+            else if(active === "new-subject" && page === "subjects"){
+                showNewSubject();
+            }
+            else{
+                // e.g. a failed delete - just show the message
+                reopened = false;
+            }
+
+            if(reopened) overlay.classList.add("active");
         }
     }
     
@@ -365,6 +340,7 @@ window.addEventListener("DOMContentLoaded", () => {
                     email: b.dataset.email,
                     phone: b.dataset.phone,
                     rate: b.dataset.rate,
+                    subject: b.dataset.subject,
                     page: page
                 };
 
@@ -379,6 +355,9 @@ window.addEventListener("DOMContentLoaded", () => {
                 if(b.dataset.rate){
                     document.querySelector('[name="rate"]').value = b.dataset.rate;
                 }
+                if(b.dataset.subject){
+                    document.querySelector('[name="subject"]').value = b.dataset.subject;
+                }
                 
                 showForm(newOrUpdateForm, removeFormBody, "update", 
                     page === "tutors" ? "Update Tutor" : "Update Student",
@@ -390,8 +369,8 @@ window.addEventListener("DOMContentLoaded", () => {
         deleteButtons.forEach(d => {
             d.addEventListener("click", () => {
                 document.querySelector('[name="remove-id"]').value = d.dataset.id;
-                let name = d.dataset.firstname + " " + d.dataset.surname;
-                if(page == "tutors"){
+                let name = d.dataset.name;
+                if(page === "tutors"){
                     showForm(removeFormBody, newOrUpdateForm, "delete", "Remove Tutor", "Please confirm tutor removal");
                     formSaveBtn.innerHTML = "Remove Tutor";
                 }
@@ -399,7 +378,11 @@ window.addEventListener("DOMContentLoaded", () => {
                     showForm(removeFormBody, newOrUpdateForm, "delete", "Remove Student", "Please confirm student removal");
                     formSaveBtn.innerHTML = "Remove Student";
                 }
-                document.getElementById("remove-msg").innerText = "Are you sure you wish to remove " + name + " from the system ?";
+                if(page === "subjects"){
+                    showForm(removeFormBody, newSubjectForm, "delete", "Remove Subject", "Please confirm subject removal");
+                    formSaveBtn.innerHTML = "Remove Subject";
+                }
+                document.getElementById("remove-msg").innerText = "Are you sure you wish to remove " + name + " from the system?";
             });
             
         });
